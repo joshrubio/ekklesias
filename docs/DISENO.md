@@ -85,3 +85,15 @@ Pendiente en esta pieza: límite de intentos por IP, verificación del correo de
 
 - Sin estado civil. Móvil obligatorio. Idiomas: es, en, de, ar.
 - Home separada del registro: `/` para Ekklesias, `/c/<slug>` para cada iglesia, y el registro vive en `/r/<slug>` (general) y `/m/<código>` (personal).
+
+## Panel de administración: estado actual
+
+Login con Supabase Auth (`/login`, email y contraseña) y sesión renovada por `src/proxy.ts`. Todas las consultas del panel usan el cliente del usuario, así que **las políticas RLS son la barrera real**, no el código de las páginas.
+
+- `/admin`: resumen (miembros activos y permisos concedidos; los líderes no ven los permisos).
+- `/admin/miembros`: lista con búsqueda por nombre, email o móvil y filtro por permiso concedido. Los líderes solo ven a quien aceptó la visibilidad.
+- `/admin/miembros/<id>`: ficha con invitador, a quién ha invitado, tutor e historial completo de consentimientos (solo administradores). Cada consulta de una ficha queda en `access_log`.
+- `/admin/miembros/export`: CSV solo para administradores, con protección contra fórmulas de hoja de cálculo y registro en `access_log`.
+- El panel está solo en español en el MVP (lo usa el equipo de la iglesia). Pendiente de decidir si se traduce.
+
+Datos de demostración locales: `pnpm seed:demo` crea `admin@lifepoint.example` y `lider@lifepoint.example` (contraseña de demo en el propio script, solo funciona contra Supabase local) y cinco miembros ficticios.
