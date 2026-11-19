@@ -1,0 +1,157 @@
+import { PGlite } from '@electric-sql/pglite'
+import { pgcrypto } from '@electric-sql/pglite/contrib/pgcrypto'
+import { readFileSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
+
+const migration = ['0001_init.sql', '0002_register_member.sql']
+  .map(f => readFileSync(fileURLToPath(new URL('../migrations/' + f, import.meta.url)), 'utf8')).join('\n')
+const db = new PGlite({ extensions: { pgcrypto } })
+
+const A = '00000000-0000-0000-0000-0000000000a1'
+const B = '00000000-0000-0000-0000-0000000000b1'
+const C = '00000000-0000-0000-0000-0000000000c1'
+const T1 = '11111111-1111-1111-1111-111111111111'
+const T2 = '22222222-2222-2222-2222-222222222222'
+const M1 = 'bbbbbbbb-0000-0000-0000-000000000001'
+const M2 = 'bbbbbbbb-0000-0000-0000-000000000002'
+const X1 = 'aaaaaaaa-0000-0000-0000-000000000001'
+const X2 = 'aaaaaaaa-0000-0000-0000-000000000002'
+const X3 = 'aaaaaaaa-0000-0000-0000-000000000003'
+
+let fails = 0
+const show = (label, rows) => console.log(label, JSON.stringify(rows))
+const check = (label, cond) => { console.log(cond ? 'OK  ' : 'FAIL', label); if (!cond) fails++ }
+const rejects = async (label, sql) => {
+  try { await db.exec(sql); check(label, false) } catch (e) { check(label + ' -> ' + e.message.slice(0, 70), true) }
+}
+
+await db.exec(`
+create schema auth;
+create table auth.users (id uuid primary key);
+create function auth.uid() returns uuid language sql stable as $$
+  select nullif(current_setting('request.jwt.claim.sub', true), '')::uuid $$;
+create role authenticated nologin;
+create role anon nologin;
+create role service_role nologin;
+alter default privileges in schema public grant execute on functions to authenticated, anon, service_role;`)
+await db.exec(migration)
+await db.exec(`
+grant usage on schema public, auth to authenticated, service_role;
+grant select, insert, update, delete on all tables in schema public to authenticated;
+grant execute on function auth.uid() to authenticated, service_role;
+insert into auth.users values ('${A}'), ('${B}'), ('${C}');
+insert into tenants (id, slug, name, contact_email) values
+ ('${T1}','lifepoint','Lifepoint','a@lp.es'), ('${T2}','otra','Otra','b@otra.es');
+insert into tenant_users values ('${T1}','${A}','admin'), ('${T1}','${B}','leader'), ('${T2}','${C}','admin');
+insert into consent_texts (id, tenant_id, purpose, version, locale, body, is_required) values
+ ('${X1}','${T1}','membership',1,'es','t',true), ('${X2}','${T1}','visibility',1,'es','t',false), ('${X3}','${T1}','comms_email',1,'es','t',false);
+insert into consent_texts (tenant_id, purpose, version, locale, body, is_required) values
+ ('${T1}','membership',1,'ar','t',true);
+insert into members (id, tenant_id, first_name, last_name, email, phone, birth_date, registered_via, discovered_alone, locale) values
+ ('${M1}','${T1}','Ana','Lopez','ana@x.es','+34600000001','1990-01-01','nfc', true, 'es'),
+ ('${M2}','${T1}','Luis','Perez','luis@x.es','+34600000002','1985-05-05','link', true, 'ar');
+insert into consent_events (tenant_id, member_id, purpose, granted, text_id, source, recorded_at) values
+ ('${T1}','${M1}','membership',true,'${X1}','nfc', now() - interval '3 min'),
+ ('${T1}','${M1}','visibility',true,'${X2}','nfc', now() - interval '3 min'),
+ ('${T1}','${M1}','comms_email',true,'${X3}','nfc', now() - interval '3 min'),
+ ('${T1}','${M1}','comms_email',false,'${X3}','preferences', now() - interval '1 min'),
+ ('${T1}','${M2}','membership',true,'${X1}','link', now());`)
+
+const cur = await db.query(`select m.first_name, c.purpose, c.granted from member_consents_current c join members m on m.id=c.member_id order by 1,2`)
+show('estado actual:', cur.rows)
+check('revocacion posterior gana (Ana comms_email=false)', cur.rows.some(r => r.first_name === 'Ana' && r.purpose === 'comms_email' && r.granted === false))
+
+await rejects('consent_events rechaza UPDATE', `update consent_events set granted = true`)
+await rejects('consent_events rechaza DELETE', `delete from consent_events`)
+await rejects('FK impide cruzar tenants en consentimientos',
+  `insert into consent_events (tenant_id, member_id, purpose, granted, text_id, source) values ('${T2}','${M1}','membership',true,'${X1}','link')`)
+await rejects('telefono obligatorio para miembros activos',
+  `insert into members (tenant_id, first_name, last_name, email, birth_date, registered_via) values ('${T1}','Sin','Tel','s@x.es','1990-01-01','link')`)
+await rejects('idioma no soportado se rechaza',
+  `update members set locale='fr' where id='${M1}'`)
+await rejects('no se puede invitar y a la vez "descubri por mi cuenta"',
+  `update members set invited_by='${M2}' where id='${M1}'`)
+
+await db.exec(`set role authenticated; set request.jwt.claim.sub='${B}'`)
+let r = await db.query(`select first_name from members order by 1`)
+show('lider ve:', r.rows)
+check('lider solo ve a Ana (aceptó visibilidad) ', r.rows.length === 1 && r.rows[0].first_name === 'Ana')
+r = await db.query(`select count(*)::int n from consent_events`)
+check('lider no ve consent_events', r.rows[0].n === 0)
+
+await db.exec(`set request.jwt.claim.sub='${A}'`)
+r = await db.query(`select first_name from members order by 1`)
+check('admin Lifepoint ve 2 miembros', r.rows.length === 2)
+
+await db.exec(`set request.jwt.claim.sub='${C}'`)
+r = await db.query(`select count(*)::int n from members`)
+check('admin de otra iglesia ve 0 miembros', r.rows[0].n === 0)
+await rejects('admin de otra iglesia no puede borrar (erase_member)', `select erase_member('${M1}')`)
+
+await db.exec(`set request.jwt.claim.sub='${A}'`)
+await db.exec(`select erase_member('${M1}')`)
+await db.exec(`reset role`)
+r = await db.query(`select first_name, email, status from members where id='${M1}'`)
+show('tras supresión:', r.rows)
+check('miembro anonimizado', r.rows[0].first_name === null && r.rows[0].email === null && r.rows[0].status === 'erased')
+r = await db.query(`select purpose, granted, source from consent_events where member_id='${M1}' order by recorded_at, purpose`)
+check('prueba de consentimiento conservada con revocaciones', r.rows.length >= 6)
+r = await db.query(`select action, entity from access_log`)
+check('supresión registrada en access_log', r.rows.length === 1 && r.rows[0].action === 'erase')
+
+// ---- register_member (0002) ----
+const q = v => v === null || v === undefined ? 'null' : `'${String(v).replace(/'/g, "''")}'`
+let emailSeq = 0
+const reg = (o = {}) => {
+  const d = { tenant: T1, inviter: null, invText: null, alone: true, first: 'Eva', last: 'Ruiz',
+    email: `eva${++emailSeq}@x.es`, phone: '+34600111222', birth: '1992-02-02', address: null, baptized: null,
+    locale: 'es', source: 'link', guardian: null,
+    consents: [{ purpose: 'membership', granted: true }, { purpose: 'comms_email', granted: false }], ...o }
+  return `select register_member(${q(d.tenant)}::uuid, ${q(d.inviter)}, ${q(d.invText)}, ${d.alone}, ${q(d.first)}, ${q(d.last)}, ${q(d.email)}, ${q(d.phone)}, ${q(d.birth)}::date, ${q(d.address)}, ${d.baptized === null ? 'null' : d.baptized}, ${q(d.locale)}, ${q(d.source)}::registration_source, ${d.guardian ? q(JSON.stringify(d.guardian)) + '::jsonb' : 'null::jsonb'}, ${q(JSON.stringify(d.consents))}::jsonb, 'UA', 'hash') as code`
+}
+const regCode = async o => (await db.query(reg(o))).rows[0].code
+const kid = new Date(Date.now() - 10 * 365.25 * 864e5).toISOString().slice(0, 10)
+
+const code1 = await regCode()
+check('alta de adulto devuelve invite_code', /^[0-9a-f]{12}$/.test(code1))
+r = await db.query(`select count(*)::int n from consent_events e join members m on m.id=e.member_id where m.invite_code='${code1}'`)
+check('un evento por casilla mostrada (2, incluida la rechazada)', r.rows[0].n === 2)
+
+await rejects('sin consentimiento obligatorio', reg({ email: 'fail@x.es', consents: [{ purpose: 'comms_email', granted: true }] }))
+await rejects('consentimiento obligatorio rechazado', reg({ email: 'fail@x.es', consents: [{ purpose: 'membership', granted: false }] }))
+await rejects('fecha de nacimiento futura', reg({ email: 'fail@x.es', birth: '2999-01-01' }))
+await rejects('menor de 14 sin tutor', reg({ email: 'fail@x.es', birth: kid }))
+r = await db.query(`select count(*)::int n from members where email = 'fail@x.es'`)
+check('los fallos no dejan datos a medias (atomicidad)', r.rows[0].n === 0)
+
+const kidCode = await regCode({ email: 'kid@x.es', birth: kid, guardian: { full_name: 'Madre', email: 'm@x.es', relationship: 'madre' } })
+r = await db.query(`select (select count(*)::int from guardians g join members m on m.id=g.member_id where m.invite_code='${kidCode}') g,
+  (select bool_and(given_by_guardian) from consent_events e join members m on m.id=e.member_id where m.invite_code='${kidCode}') flag`)
+check('menor: tutor guardado y eventos marcados como dados por tutor', r.rows[0].g === 1 && r.rows[0].flag === true)
+
+const inv = (await db.query(`select invite_code from members where id='${M2}'`)).rows[0].invite_code
+const invitedCode = await regCode({ inviter: inv, alone: false, email: 'inv@x.es' })
+r = await db.query(`select invited_by from members where invite_code='${invitedCode}'`)
+check('invitador enlazado por código', r.rows[0].invited_by === M2)
+await rejects('código de invitador inválido', reg({ email: 'bad@x.es', inviter: 'zzzzzzzzzzzz', alone: false }))
+await rejects('invitador y "descubrí por mi cuenta" a la vez', reg({ email: 'bad@x.es', inviter: inv, alone: true }))
+await rejects('email duplicado en la misma iglesia', reg({ email: 'inv@x.es' }))
+const txtCode = await regCode({ email: 'txt@x.es', alone: false, invText: 'María, de la iglesia' })
+r = await db.query(`select invited_by_text from members where invite_code='${txtCode}'`)
+check('invitador en texto libre guardado', r.rows[0].invited_by_text === 'María, de la iglesia')
+
+const arCode = await regCode({ email: 'ar@x.es', locale: 'ar', consents: [{ purpose: 'membership', granted: true }, { purpose: 'visibility', granted: false }] })
+r = await db.query(`select e.purpose, t.locale from consent_events e join consent_texts t on t.id=e.text_id join members m on m.id=e.member_id where m.invite_code='${arCode}' order by 1`)
+check('texto en idioma del miembro, con respaldo en es', JSON.stringify(r.rows) === JSON.stringify([{ purpose: 'membership', locale: 'ar' }, { purpose: 'visibility', locale: 'es' }]))
+
+await db.exec(`set role authenticated`)
+await rejects('authenticated no puede ejecutar register_member', reg({ email: 'p@x.es' }))
+await db.exec(`reset role`)
+await db.exec(`set role anon`)
+await rejects('anon no puede ejecutar register_member', reg({ email: 'p2@x.es' }))
+await db.exec(`reset role; set role service_role`)
+check('service_role sí puede', /^[0-9a-f]{12}$/.test(await regCode({ email: 'svc@x.es' })))
+await db.exec(`reset role`)
+
+console.log(fails === 0 ? '\nTODO OK' : `\n${fails} FALLOS`)
+process.exit(fails === 0 ? 0 : 1)

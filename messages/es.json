@@ -1,0 +1,110 @@
+{
+  "meta": {
+    "title": "Ekklesias",
+    "description": "Registra a los miembros de tu iglesia con un toque, respetando su privacidad."
+  },
+  "common": {
+    "language": "Idioma"
+  },
+  "home": {
+    "tagline": "Registra a los miembros de tu iglesia con un toque, respetando su privacidad.",
+    "features": {
+      "tap": {
+        "title": "Un toque o un QR",
+        "body": "Acerca el móvil a la tarjeta y se abre el formulario. Sin instalar nada."
+      },
+      "consent": {
+        "title": "Consentimientos claros",
+        "body": "Cada permiso es una casilla independiente, guardada con fecha, versión y origen."
+      },
+      "tenants": {
+        "title": "Una plataforma, muchas iglesias",
+        "body": "Cada iglesia tiene sus datos, su marca y su equipo, completamente separados."
+      }
+    },
+    "demo": "Ver la iglesia de demostración",
+    "footer": "Versión de demostración. Datos ficticios."
+  },
+  "church": {
+    "welcome": "Te damos la bienvenida a {name}",
+    "intro": "Registrarte nos ayuda a mantenernos en contacto. Tú decides qué datos compartes y cómo te escribimos.",
+    "register": "Regístrate",
+    "privacy": "Política de privacidad",
+    "rights": "Tus derechos sobre tus datos"
+  },
+  "register": {
+    "title": "Regístrate en {name}",
+    "invitedBy": "{inviter} te ha invitado a unirte.",
+    "requiredNote": "Los campos que no indican «opcional» son obligatorios.",
+    "optional": "opcional",
+    "sections": {
+      "data": "Tus datos",
+      "how": "¿Cómo nos conociste?",
+      "guardian": "Tu padre, madre o tutor",
+      "permissions": "Tus permisos"
+    },
+    "fields": {
+      "firstName": "Nombre",
+      "lastName": "Apellidos",
+      "email": "Correo electrónico",
+      "phone": "Móvil",
+      "phoneHint": "Con prefijo si no es de España, por ejemplo +49…",
+      "birthDate": "Fecha de nacimiento",
+      "birthHint": "La usamos solo para saber si necesitamos el permiso de un tutor.",
+      "address": "Dirección",
+      "baptized": "¿Estás bautizado/a?",
+      "baptizedUnknown": "Prefiero no decirlo",
+      "yes": "Sí",
+      "no": "No",
+      "howDiscovered": "Lo descubrí por mi cuenta",
+      "howInvited": "Me invitó alguien",
+      "invitedByName": "¿Quién te invitó?",
+      "invitedByHint": "Escribe su nombre, nos ayuda a saludarle.",
+      "guardianName": "Nombre y apellidos",
+      "guardianEmail": "Correo electrónico",
+      "guardianRelationship": "Relación (madre, padre, tutor legal…)"
+    },
+    "guardian": {
+      "notice": "Como tienes menos de 14 años, necesitamos el consentimiento de tu padre, madre o tutor.",
+      "confirm": "Soy su padre, madre o tutor legal y doy mi consentimiento en su nombre."
+    },
+    "permissions": {
+      "intro": "Marca solo lo que quieras. Ninguna casilla viene marcada de antemano y puedes cambiar de opinión cuando quieras.",
+      "required": "Necesario para registrarte",
+      "comms": "Comunicaciones",
+      "others": "Otros permisos",
+      "privacyLink": "Leer la política de privacidad",
+      "specialCategory": "Dato de categoría especial (art. 9 RGPD)"
+    },
+    "submit": "Enviar registro",
+    "submitting": "Enviando…",
+    "errors": {
+      "form": "Revisa los campos marcados.",
+      "required": "Este campo es obligatorio.",
+      "email": "Escribe un correo válido.",
+      "phone": "Escribe un móvil válido, con prefijo si no es de España.",
+      "birthDate": "Indica una fecha de nacimiento válida.",
+      "consent": "Necesitamos que aceptes esto para poder registrarte.",
+      "guardian": "Completa los datos de tu padre, madre o tutor y marca su consentimiento.",
+      "server": "No hemos podido completar el registro. Inténtalo de nuevo en unos minutos."
+    }
+  },
+  "thanks": {
+    "title": "¡Gracias por registrarte!",
+    "body": "Hemos guardado tu registro.",
+    "inviteTitle": "Tu enlace personal",
+    "inviteBody": "Compártelo con quien quieras invitar. Cuando alguien se registre con él, sabremos que lo invitaste tú.",
+    "copy": "Copiar enlace",
+    "copied": "Enlace copiado",
+    "genericBody": "Hemos recibido tu registro."
+  },
+  "legal": {
+    "draft": "Borrador en preparación. Este texto aún no es la versión definitiva y está pendiente de revisión legal.",
+    "privacyTitle": "Política de privacidad",
+    "rightsTitle": "Tus derechos sobre tus datos",
+    "rightsBody": "Puedes pedir acceso, rectificación, supresión, portabilidad u oposición sobre tus datos, y retirar tus consentimientos. Escríbenos y te responderemos en el plazo de un mes.",
+    "controller": "Responsable del tratamiento",
+    "contact": "Contacto: {email}",
+    "back": "Volver"
+  }
+}

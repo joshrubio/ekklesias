@@ -1,0 +1,110 @@
+{
+  "meta": {
+    "title": "Ekklesias",
+    "description": "Erfasse die Mitglieder deiner Gemeinde mit einem Fingertipp und respektiere ihre Privatsphäre."
+  },
+  "common": {
+    "language": "Sprache"
+  },
+  "home": {
+    "tagline": "Erfasse die Mitglieder deiner Gemeinde mit einem Fingertipp und respektiere ihre Privatsphäre.",
+    "features": {
+      "tap": {
+        "title": "Ein Fingertipp oder ein QR-Code",
+        "body": "Handy an die Karte halten, und das Formular öffnet sich. Keine Installation nötig."
+      },
+      "consent": {
+        "title": "Klare Einwilligungen",
+        "body": "Jede Einwilligung ist ein eigenes Kästchen, gespeichert mit Datum, Version und Herkunft."
+      },
+      "tenants": {
+        "title": "Eine Plattform, viele Gemeinden",
+        "body": "Jede Gemeinde hat eigene Daten, eigenes Branding und ein eigenes Team, strikt getrennt."
+      }
+    },
+    "demo": "Demo-Gemeinde ansehen",
+    "footer": "Demoversion. Fiktive Daten."
+  },
+  "church": {
+    "welcome": "Willkommen bei {name}",
+    "intro": "Mit deiner Registrierung bleiben wir in Kontakt. Du entscheidest, was du teilst und wie wir dich erreichen.",
+    "register": "Registrieren",
+    "privacy": "Datenschutzerklärung",
+    "rights": "Deine Datenschutzrechte"
+  },
+  "register": {
+    "title": "Registriere dich bei {name}",
+    "invitedBy": "{inviter} hat dich eingeladen.",
+    "requiredNote": "Felder ohne den Hinweis „optional“ sind Pflichtfelder.",
+    "optional": "optional",
+    "sections": {
+      "data": "Deine Angaben",
+      "how": "Wie hast du uns gefunden?",
+      "guardian": "Deine Eltern oder dein Vormund",
+      "permissions": "Deine Einwilligungen"
+    },
+    "fields": {
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "email": "E-Mail",
+      "phone": "Handynummer",
+      "phoneHint": "Mit Landesvorwahl, wenn nicht Spanien, zum Beispiel +49…",
+      "birthDate": "Geburtsdatum",
+      "birthHint": "Wir brauchen es nur, um zu wissen, ob die Erlaubnis eines Erziehungsberechtigten nötig ist.",
+      "address": "Adresse",
+      "baptized": "Bist du getauft?",
+      "baptizedUnknown": "Möchte ich nicht sagen",
+      "yes": "Ja",
+      "no": "Nein",
+      "howDiscovered": "Ich habe selbst von euch erfahren",
+      "howInvited": "Jemand hat mich eingeladen",
+      "invitedByName": "Wer hat dich eingeladen?",
+      "invitedByHint": "Schreibe den Namen, so können wir ihn grüßen.",
+      "guardianName": "Vor- und Nachname",
+      "guardianEmail": "E-Mail",
+      "guardianRelationship": "Beziehung (Mutter, Vater, Vormund …)"
+    },
+    "guardian": {
+      "notice": "Da du jünger als 14 bist, brauchen wir die Einwilligung deiner Eltern oder deines Vormunds.",
+      "confirm": "Ich bin Elternteil oder gesetzlicher Vormund und willige in seinem Namen ein."
+    },
+    "permissions": {
+      "intro": "Kreuze nur an, was du möchtest. Kein Kästchen ist vorab angekreuzt, und du kannst deine Meinung jederzeit ändern.",
+      "required": "Für die Registrierung nötig",
+      "comms": "Mitteilungen",
+      "others": "Weitere Einwilligungen",
+      "privacyLink": "Datenschutzerklärung lesen",
+      "specialCategory": "Besondere Kategorie von Daten (Art. 9 DSGVO)"
+    },
+    "submit": "Registrierung senden",
+    "submitting": "Wird gesendet …",
+    "errors": {
+      "form": "Bitte prüfe die markierten Felder.",
+      "required": "Dieses Feld ist erforderlich.",
+      "email": "Gib eine gültige E-Mail-Adresse ein.",
+      "phone": "Gib eine gültige Handynummer ein, mit Landesvorwahl, wenn nicht Spanien.",
+      "birthDate": "Gib ein gültiges Geburtsdatum ein.",
+      "consent": "Dem müssen wir zustimmen können, um dich zu registrieren.",
+      "guardian": "Fülle die Angaben deiner Eltern oder deines Vormunds aus und bestätige die Einwilligung.",
+      "server": "Die Registrierung konnte nicht abgeschlossen werden. Bitte versuche es in einigen Minuten erneut."
+    }
+  },
+  "thanks": {
+    "title": "Danke für deine Registrierung!",
+    "body": "Deine Registrierung wurde gespeichert.",
+    "inviteTitle": "Dein persönlicher Link",
+    "inviteBody": "Teile ihn mit allen, die du einladen möchtest. Wenn sich jemand damit registriert, wissen wir, dass du eingeladen hast.",
+    "copy": "Link kopieren",
+    "copied": "Link kopiert",
+    "genericBody": "Wir haben deine Registrierung erhalten."
+  },
+  "legal": {
+    "draft": "Entwurf in Arbeit. Dieser Text ist noch nicht die endgültige Fassung und wartet auf die rechtliche Prüfung.",
+    "privacyTitle": "Datenschutzerklärung",
+    "rightsTitle": "Deine Datenschutzrechte",
+    "rightsBody": "Du kannst Auskunft, Berichtigung, Löschung, Datenübertragbarkeit oder Widerspruch zu deinen Daten verlangen und deine Einwilligungen widerrufen. Schreibe uns, wir antworten innerhalb eines Monats.",
+    "controller": "Verantwortlicher",
+    "contact": "Kontakt: {email}",
+    "back": "Zurück"
+  }
+}

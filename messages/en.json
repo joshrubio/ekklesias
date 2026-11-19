@@ -1,0 +1,110 @@
+{
+  "meta": {
+    "title": "Ekklesias",
+    "description": "Register your church members with a tap, respecting their privacy."
+  },
+  "common": {
+    "language": "Language"
+  },
+  "home": {
+    "tagline": "Register your church members with a tap, respecting their privacy.",
+    "features": {
+      "tap": {
+        "title": "One tap or a QR code",
+        "body": "Hold the phone to the card and the form opens. Nothing to install."
+      },
+      "consent": {
+        "title": "Clear consents",
+        "body": "Each permission is its own checkbox, recorded with date, version and source."
+      },
+      "tenants": {
+        "title": "One platform, many churches",
+        "body": "Each church has its own data, branding and team, fully separated."
+      }
+    },
+    "demo": "View the demo church",
+    "footer": "Demo version. Fictional data."
+  },
+  "church": {
+    "welcome": "Welcome to {name}",
+    "intro": "Registering helps us stay in touch. You decide what you share and how we contact you.",
+    "register": "Register",
+    "privacy": "Privacy policy",
+    "rights": "Your data rights"
+  },
+  "register": {
+    "title": "Register at {name}",
+    "invitedBy": "{inviter} has invited you to join.",
+    "requiredNote": "Fields not marked “optional” are required.",
+    "optional": "optional",
+    "sections": {
+      "data": "Your details",
+      "how": "How did you find us?",
+      "guardian": "Your parent or guardian",
+      "permissions": "Your permissions"
+    },
+    "fields": {
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email",
+      "phone": "Mobile",
+      "phoneHint": "Include the country code if it is not Spain, for example +49…",
+      "birthDate": "Date of birth",
+      "birthHint": "We only use it to know whether we need a guardian’s permission.",
+      "address": "Address",
+      "baptized": "Are you baptised?",
+      "baptizedUnknown": "Prefer not to say",
+      "yes": "Yes",
+      "no": "No",
+      "howDiscovered": "I found out by myself",
+      "howInvited": "Someone invited me",
+      "invitedByName": "Who invited you?",
+      "invitedByHint": "Write their name, it helps us say hello.",
+      "guardianName": "Full name",
+      "guardianEmail": "Email",
+      "guardianRelationship": "Relationship (mother, father, legal guardian…)"
+    },
+    "guardian": {
+      "notice": "As you are under 14, we need the consent of your parent or guardian.",
+      "confirm": "I am their parent or legal guardian and I give consent on their behalf."
+    },
+    "permissions": {
+      "intro": "Tick only what you want. No box is ticked in advance and you can change your mind at any time.",
+      "required": "Needed to register",
+      "comms": "Communications",
+      "others": "Other permissions",
+      "privacyLink": "Read the privacy policy",
+      "specialCategory": "Special category data (Art. 9 GDPR)"
+    },
+    "submit": "Send registration",
+    "submitting": "Sending…",
+    "errors": {
+      "form": "Please check the highlighted fields.",
+      "required": "This field is required.",
+      "email": "Enter a valid email address.",
+      "phone": "Enter a valid mobile number, with the country code if it is not Spain.",
+      "birthDate": "Enter a valid date of birth.",
+      "consent": "We need you to accept this in order to register you.",
+      "guardian": "Fill in your parent or guardian’s details and tick their consent.",
+      "server": "We could not complete the registration. Please try again in a few minutes."
+    }
+  },
+  "thanks": {
+    "title": "Thank you for registering!",
+    "body": "Your registration has been saved.",
+    "inviteTitle": "Your personal link",
+    "inviteBody": "Share it with anyone you want to invite. When someone registers with it, we will know you invited them.",
+    "copy": "Copy link",
+    "copied": "Link copied",
+    "genericBody": "We have received your registration."
+  },
+  "legal": {
+    "draft": "Draft in progress. This text is not the final version yet and is pending legal review.",
+    "privacyTitle": "Privacy policy",
+    "rightsTitle": "Your data rights",
+    "rightsBody": "You can ask for access, rectification, erasure, portability or objection regarding your data, and withdraw your consents. Write to us and we will reply within one month.",
+    "controller": "Data controller",
+    "contact": "Contact: {email}",
+    "back": "Back"
+  }
+}
