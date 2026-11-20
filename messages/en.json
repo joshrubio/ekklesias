@@ -101,10 +101,61 @@
   "legal": {
     "draft": "Draft in progress. This text is not the final version yet and is pending legal review.",
     "privacyTitle": "Privacy policy",
-    "rightsTitle": "Your data rights",
-    "rightsBody": "You can ask for access, rectification, erasure, portability or objection regarding your data, and withdraw your consents. Write to us and we will reply within one month.",
     "controller": "Data controller",
     "contact": "Contact: {email}",
     "back": "Back"
+  },
+  "preferences": {
+    "title": "Hello, {name}",
+    "intro": "Here you can change your permissions at {church} whenever you like. Only the changes you make are saved.",
+    "save": "Save changes",
+    "saving": "Saving…",
+    "saved": "Changes saved.",
+    "error": "We could not save your changes. Please try again.",
+    "invalidTitle": "Invalid link",
+    "invalidBody": "This link has expired or is not correct. Ask your church for a new one.",
+    "withdrawNote": "To withdraw your permission to keep your data as a member, or to ask us to delete your data, use",
+    "rightsLink": "your data rights.",
+    "purposes": {
+      "comms_email": "Email",
+      "comms_whatsapp": "WhatsApp",
+      "comms_sms": "SMS",
+      "visibility": "Visibility",
+      "images": "Photos"
+    }
+  },
+  "unsubscribe": {
+    "title": "Unsubscribe from messages",
+    "body": "We will stop sending you messages by email, WhatsApp and SMS. You will remain registered as a member.",
+    "confirm": "Confirm unsubscribe",
+    "doneTitle": "Done, you are unsubscribed",
+    "doneBody": "You will not receive any more messages. You can turn them back on whenever you like from your preferences link.",
+    "invalidTitle": "Invalid link",
+    "invalidBody": "This link has expired or is not correct. Ask your church for a new one."
+  },
+  "rights": {
+    "title": "Your rights over your data",
+    "intro": "You can ask {church} for access, rectification, erasure, portability or objection regarding your data. We will answer within one month.",
+    "email": "Email you registered with",
+    "emailHint": "We only use it to answer your request.",
+    "type": "What do you want to ask for?",
+    "types": {
+      "access": "Access: know what data you hold about me",
+      "rectification": "Rectification: correct my data",
+      "erasure": "Erasure: delete my data",
+      "portability": "Portability: receive my data in a file",
+      "objection": "Objection: stop processing my data"
+    },
+    "notes": "Comments",
+    "optional": "optional",
+    "submit": "Send request",
+    "sending": "Sending…",
+    "errors": {
+      "email": "Enter a valid email.",
+      "type": "Choose what you want to ask for.",
+      "server": "We could not send your request. Please try again."
+    },
+    "sentTitle": "Request received",
+    "sentBody": "If that email matches a registration, the church will reply within one month."
   }
 }

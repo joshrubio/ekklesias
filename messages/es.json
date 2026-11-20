@@ -101,10 +101,61 @@
   "legal": {
     "draft": "Borrador en preparación. Este texto aún no es la versión definitiva y está pendiente de revisión legal.",
     "privacyTitle": "Política de privacidad",
-    "rightsTitle": "Tus derechos sobre tus datos",
-    "rightsBody": "Puedes pedir acceso, rectificación, supresión, portabilidad u oposición sobre tus datos, y retirar tus consentimientos. Escríbenos y te responderemos en el plazo de un mes.",
     "controller": "Responsable del tratamiento",
     "contact": "Contacto: {email}",
     "back": "Volver"
+  },
+  "preferences": {
+    "title": "Hola, {name}",
+    "intro": "Aquí puedes cambiar tus permisos en {church} cuando quieras. Solo se guardan los cambios que hagas.",
+    "save": "Guardar cambios",
+    "saving": "Guardando…",
+    "saved": "Cambios guardados.",
+    "error": "No hemos podido guardar los cambios. Inténtalo de nuevo.",
+    "invalidTitle": "Enlace no válido",
+    "invalidBody": "Este enlace ha caducado o no es correcto. Pide uno nuevo a tu iglesia.",
+    "withdrawNote": "Para retirar tu permiso de guardar datos como miembro o pedir que borremos tus datos, usa",
+    "rightsLink": "tus derechos sobre tus datos.",
+    "purposes": {
+      "comms_email": "Email",
+      "comms_whatsapp": "WhatsApp",
+      "comms_sms": "SMS",
+      "visibility": "Visibilidad",
+      "images": "Fotos"
+    }
+  },
+  "unsubscribe": {
+    "title": "Darte de baja de las comunicaciones",
+    "body": "Dejaremos de enviarte mensajes por email, WhatsApp y SMS. Seguirás registrado como miembro.",
+    "confirm": "Confirmar la baja",
+    "doneTitle": "Listo, te hemos dado de baja",
+    "doneBody": "No recibirás más comunicaciones. Puedes volver a activarlas cuando quieras desde tu enlace de preferencias.",
+    "invalidTitle": "Enlace no válido",
+    "invalidBody": "Este enlace ha caducado o no es correcto. Pide uno nuevo a tu iglesia."
+  },
+  "rights": {
+    "title": "Tus derechos sobre tus datos",
+    "intro": "Puedes pedir a {church} acceso, rectificación, supresión, portabilidad u oposición sobre tus datos. Te responderemos en el plazo de un mes.",
+    "email": "Email con el que te registraste",
+    "emailHint": "Solo lo usamos para responder a tu solicitud.",
+    "type": "¿Qué quieres pedir?",
+    "types": {
+      "access": "Acceso: saber qué datos tenéis de mí",
+      "rectification": "Rectificación: corregir mis datos",
+      "erasure": "Supresión: borrar mis datos",
+      "portability": "Portabilidad: recibir mis datos en un archivo",
+      "objection": "Oposición: que no se traten mis datos"
+    },
+    "notes": "Comentarios",
+    "optional": "opcional",
+    "submit": "Enviar solicitud",
+    "sending": "Enviando…",
+    "errors": {
+      "email": "Escribe un correo válido.",
+      "type": "Elige qué quieres pedir.",
+      "server": "No hemos podido enviar la solicitud. Inténtalo de nuevo."
+    },
+    "sentTitle": "Solicitud recibida",
+    "sentBody": "Si ese email corresponde a un registro, la iglesia te responderá en el plazo de un mes."
   }
 }

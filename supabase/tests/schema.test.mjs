@@ -3,7 +3,7 @@ import { pgcrypto } from '@electric-sql/pglite/contrib/pgcrypto'
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 
-const migration = ['0001_init.sql', '0002_register_member.sql']
+const migration = ['0001_init.sql', '0002_register_member.sql', '0003_preferences_rights.sql']
   .map(f => readFileSync(fileURLToPath(new URL('../migrations/' + f, import.meta.url)), 'utf8')).join('\n')
 const db = new PGlite({ extensions: { pgcrypto } })
 
@@ -152,6 +152,70 @@ await rejects('anon no puede ejecutar register_member', reg({ email: 'p2@x.es' }
 await db.exec(`reset role; set role service_role`)
 check('service_role sí puede', /^[0-9a-f]{12}$/.test(await regCode({ email: 'svc@x.es' })))
 await db.exec(`reset role`)
+
+// --- Preferencias, baja y derechos (0003) ---
+await db.exec(`reset role; select set_config('request.jwt.claim.sub', '', false)`)
+const pmCode = await regCode({ email: 'pref@x.es' })
+const PM = (await db.query(`select id from members where invite_code='${pmCode}'`)).rows[0].id
+const tok = async (m, kind = 'preferences', hours = 168) =>
+  (await db.query(`select create_preference_token('${m}', '${kind}', ${hours}) t`)).rows[0].t
+const cur2 = async (m, p) =>
+  (await db.query(`select granted from member_consents_current where member_id='${m}' and purpose='${p}'`)).rows[0]?.granted
+
+const pref = await tok(PM)
+r = await db.query(`select count(*)::int n from preference_tokens where token_hash = '${pref}'`)
+check('el token en claro no se guarda (solo su hash)', r.rows[0].n === 0 && pref.length >= 64)
+r = await db.query(`select get_preferences('${pref}') p`)
+check('get_preferences devuelve nombre y estado actual', r.rows[0].p.first_name === 'Eva' && r.rows[0].p.consents.comms_email === false)
+r = await db.query(`select get_preferences('token-falso') p`)
+check('get_preferences con token falso -> null', r.rows[0].p === null)
+
+const apply = (t, list) => `select apply_preferences('${t}', '${JSON.stringify(list)}'::jsonb, 'UA', 'h') n`
+r = await db.query(apply(pref, [{ purpose: 'comms_email', granted: true }, { purpose: 'visibility', granted: true }]))
+check('apply_preferences registra solo los cambios reales (2)', r.rows[0].n === 2)
+check('estado actual refleja los cambios', (await cur2(PM, 'comms_email')) === true && (await cur2(PM, 'visibility')) === true)
+r = await db.query(apply(pref, [{ purpose: 'comms_email', granted: true }, { purpose: 'visibility', granted: true }]))
+check('repetir lo mismo no crea eventos nuevos', r.rows[0].n === 0)
+r = await db.query(`select count(*)::int n from consent_events where member_id='${PM}' and purpose='comms_email'`)
+check('el cambio se añade al historial con origen preferences (2 eventos en total)', r.rows[0].n === 2)
+await rejects('no se puede tocar membership desde preferencias', apply(pref, [{ purpose: 'membership', granted: false }]))
+await rejects('finalidad desconocida', apply(pref, [{ purpose: 'nada', granted: true }]))
+await rejects('token falso en apply_preferences', apply('x', []))
+
+const old = await tok(PM, 'preferences', 1)
+await db.exec(`update preference_tokens set expires_at = now() - interval '1 minute' where token_hash = token_hash('${old}')`)
+r = await db.query(`select get_preferences('${old}') p`)
+check('token caducado -> null', r.rows[0].p === null)
+await rejects('token caducado en apply_preferences', apply(old, []))
+
+const unsub = await tok(PM, 'unsubscribe')
+r = await db.query(`select get_preferences('${unsub}') p`)
+check('un token de baja no abre las preferencias', r.rows[0].p === null)
+await rejects('un token de preferencias no sirve para la baja', `select unsubscribe_member('${pref}', 'UA', 'h')`)
+await db.query(`select unsubscribe_member('${unsub}', 'UA', 'h')`)
+check('la baja retira las comunicaciones', (await cur2(PM, 'comms_email')) === false)
+check('la baja no toca visibilidad ni membresía', (await cur2(PM, 'membership')) === true && (await cur2(PM, 'visibility')) === true)
+await db.query(`select unsubscribe_member('${unsub}', 'UA', 'h')`)
+check('la baja es idempotente (segundo clic sin error)', true)
+
+r = await db.query(`select create_rights_request('${T1}', 'PREF@x.es', 'access', 'quiero mis datos') id`)
+r = await db.query(`select member_id, requester_email, status, due_at > now() + interval '27 days' as plazo from rights_requests where id='${r.rows[0].id}'`)
+check('solicitud de miembro conocido: vinculada, en minúsculas, plazo de un mes', r.rows[0].member_id === PM && r.rows[0].requester_email === 'pref@x.es' && r.rows[0].status === 'received' && r.rows[0].plazo)
+r = await db.query(`select create_rights_request('${T1}', 'desconocido@x.es', 'erasure', null) id`)
+r = await db.query(`select member_id from rights_requests where id='${r.rows[0].id}'`)
+check('solicitud de email desconocido: se guarda sin miembro', r.rows[0].member_id === null)
+await rejects('email no válido en la solicitud', `select create_rights_request('${T1}', 'no-es-email', 'access', null)`)
+
+await db.exec(`set role authenticated`)
+await rejects('authenticated no ejecuta apply_preferences', apply(pref, []))
+await rejects('authenticated no ejecuta create_rights_request', `select create_rights_request('${T1}', 'a@x.es', 'access', null)`)
+await db.exec(`set request.jwt.claim.sub='${B}'`)
+await rejects('un líder no genera enlaces de preferencias', `select create_preference_token('${PM}')`)
+await db.exec(`set request.jwt.claim.sub='${C}'`)
+await rejects('un admin de otra iglesia no genera enlaces', `select create_preference_token('${PM}')`)
+await db.exec(`set request.jwt.claim.sub='${A}'`)
+check('el admin de la iglesia sí genera enlaces', (await tok(PM)).length >= 64)
+await db.exec(`reset role; select set_config('request.jwt.claim.sub', '', false)`)
 
 console.log(fails === 0 ? '\nTODO OK' : `\n${fails} FALLOS`)
 process.exit(fails === 0 ? 0 : 1)

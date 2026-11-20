@@ -97,3 +97,14 @@ Login con Supabase Auth (`/login`, email y contraseña) y sesión renovada por `
 - El panel está solo en español en el MVP (lo usa el equipo de la iglesia). Pendiente de decidir si se traduce.
 
 Datos de demostración locales: `pnpm seed:demo` crea `admin@lifepoint.example` y `lider@lifepoint.example` (contraseña de demo en el propio script, solo funciona contra Supabase local) y cinco miembros ficticios.
+
+## Preferencias, baja y derechos: estado actual
+
+Migración `0003_preferences_rights.sql`. Todas las funciones públicas solo las ejecuta la clave de servicio; la app las llama desde el servidor.
+
+- **Enlace de preferencias** (`/preferencias/<token>`): un administrador lo genera desde la ficha (válido 7 días) y se lo envía a la persona. Permite cambiar email, WhatsApp, SMS, visibilidad y fotos, con el texto legal vigente en su idioma. Solo se registran los cambios reales y quedan con origen `preferences`. No permite tocar la membresía ni la política de privacidad: eso se hace pidiendo la supresión.
+- **Baja** (`/baja/<token>`): al abrir el enlace solo se muestra un botón de confirmar (así los escáneres de enlaces del correo no dan de baja a nadie). Al confirmar retira todos los canales y es idempotente.
+- **Tokens:** 244 bits aleatorios, solo se guarda su SHA-256, caducan y distinguen tipo (`preferences` o `unsubscribe`).
+- **Derechos** (`/derechos/<slug>`): formulario público con campo trampa. La respuesta es la misma exista o no el email. Las solicitudes llegan a `/admin/solicitudes` con plazo de un mes y aviso de vencimiento. Desde la solicitud se descarga un JSON con los datos de la persona (acceso y portabilidad) y la supresión se hace desde la ficha (con confirmación). Todo queda en `access_log`.
+
+Pendiente: envío real de estos enlaces por email (fase 2, hoy se copian a mano), límite de intentos por IP, verificación de identidad más allá de comparar el email.

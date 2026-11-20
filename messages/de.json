@@ -101,10 +101,61 @@
   "legal": {
     "draft": "Entwurf in Arbeit. Dieser Text ist noch nicht die endgültige Fassung und wartet auf die rechtliche Prüfung.",
     "privacyTitle": "Datenschutzerklärung",
-    "rightsTitle": "Deine Datenschutzrechte",
-    "rightsBody": "Du kannst Auskunft, Berichtigung, Löschung, Datenübertragbarkeit oder Widerspruch zu deinen Daten verlangen und deine Einwilligungen widerrufen. Schreibe uns, wir antworten innerhalb eines Monats.",
     "controller": "Verantwortlicher",
     "contact": "Kontakt: {email}",
     "back": "Zurück"
+  },
+  "preferences": {
+    "title": "Hallo, {name}",
+    "intro": "Hier kannst du deine Einwilligungen bei {church} jederzeit ändern. Es werden nur die Änderungen gespeichert, die du vornimmst.",
+    "save": "Änderungen speichern",
+    "saving": "Wird gespeichert …",
+    "saved": "Änderungen gespeichert.",
+    "error": "Die Änderungen konnten nicht gespeichert werden. Bitte versuche es erneut.",
+    "invalidTitle": "Ungültiger Link",
+    "invalidBody": "Dieser Link ist abgelaufen oder nicht korrekt. Bitte deine Gemeinde um einen neuen.",
+    "withdrawNote": "Um deine Einwilligung zur Speicherung deiner Daten als Mitglied zu widerrufen oder um die Löschung deiner Daten zu verlangen, nutze",
+    "rightsLink": "deine Rechte an deinen Daten.",
+    "purposes": {
+      "comms_email": "E-Mail",
+      "comms_whatsapp": "WhatsApp",
+      "comms_sms": "SMS",
+      "visibility": "Sichtbarkeit",
+      "images": "Fotos"
+    }
+  },
+  "unsubscribe": {
+    "title": "Von Nachrichten abmelden",
+    "body": "Wir senden dir keine Nachrichten mehr per E-Mail, WhatsApp und SMS. Du bleibst als Mitglied registriert.",
+    "confirm": "Abmeldung bestätigen",
+    "doneTitle": "Fertig, du bist abgemeldet",
+    "doneBody": "Du erhältst keine Nachrichten mehr. Du kannst sie jederzeit über deinen Einstellungs-Link wieder aktivieren.",
+    "invalidTitle": "Ungültiger Link",
+    "invalidBody": "Dieser Link ist abgelaufen oder nicht korrekt. Bitte deine Gemeinde um einen neuen."
+  },
+  "rights": {
+    "title": "Deine Rechte an deinen Daten",
+    "intro": "Du kannst bei {church} Auskunft, Berichtigung, Löschung, Datenübertragbarkeit oder Widerspruch zu deinen Daten verlangen. Wir antworten innerhalb eines Monats.",
+    "email": "E-Mail, mit der du dich registriert hast",
+    "emailHint": "Wir verwenden sie nur, um auf deine Anfrage zu antworten.",
+    "type": "Was möchtest du verlangen?",
+    "types": {
+      "access": "Auskunft: welche Daten ihr über mich habt",
+      "rectification": "Berichtigung: meine Daten korrigieren",
+      "erasure": "Löschung: meine Daten löschen",
+      "portability": "Übertragbarkeit: meine Daten als Datei erhalten",
+      "objection": "Widerspruch: meine Daten nicht mehr verarbeiten"
+    },
+    "notes": "Anmerkungen",
+    "optional": "optional",
+    "submit": "Anfrage senden",
+    "sending": "Wird gesendet …",
+    "errors": {
+      "email": "Gib eine gültige E-Mail-Adresse ein.",
+      "type": "Wähle aus, was du verlangen möchtest.",
+      "server": "Die Anfrage konnte nicht gesendet werden. Bitte versuche es erneut."
+    },
+    "sentTitle": "Anfrage erhalten",
+    "sentBody": "Wenn diese E-Mail zu einer Registrierung gehört, antwortet die Gemeinde innerhalb eines Monats."
   }
 }

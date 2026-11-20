@@ -33,3 +33,13 @@ export function parseSource(value: string | string[] | undefined): RegistrationS
     ? (first as RegistrationSource)
     : "link";
 }
+
+export const TOKEN_RE = /^[0-9a-f]{64}$/;
+
+export const optionalPurposes = [
+  "comms_email",
+  "comms_whatsapp",
+  "comms_sms",
+  "visibility",
+  "images",
+] as const;

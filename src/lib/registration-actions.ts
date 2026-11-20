@@ -1,11 +1,11 @@
 "use server";
 
-import { createHash } from "node:crypto";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { getLocale } from "next-intl/server";
 import { z } from "zod";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { hashIp } from "@/lib/request-meta";
 import { getConsentTexts, getTenantBySlug } from "@/lib/tenants";
 import {
   parseSource,
@@ -53,12 +53,6 @@ const schema = z.object({
   birthDate: z.string().refine((v) => parseBirthDate(v) !== null, "birthDate"),
   address: z.string().trim().max(200, "required"),
 });
-
-function hashIp(ip: string): string {
-  const salt =
-    process.env.IP_HASH_SALT ?? process.env.SUPABASE_SECRET_KEY ?? "";
-  return createHash("sha256").update(salt + ip).digest("hex");
-}
 
 export async function registerAction(
   _previous: RegisterState,

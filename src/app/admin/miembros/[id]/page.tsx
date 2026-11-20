@@ -4,6 +4,7 @@ import { getAdminSession } from "@/lib/admin-session";
 import { createUserClient } from "@/lib/supabase/server";
 import { ageFrom, memberColumns, purposeLabels, type MemberRow } from "@/lib/admin-members";
 import type { FormPurpose } from "@/lib/consents";
+import { MemberAdminTools } from "@/components/member-admin-tools";
 
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
 
@@ -128,6 +129,10 @@ export default async function MemberPage({
           <p className="text-muted">Todavía a nadie.</p>
         )}
       </section>
+
+      {isAdmin && m.status === "active" ? (
+        <MemberAdminTools memberId={m.id} name={name} />
+      ) : null}
 
       {isAdmin ? (
         <section className="flex flex-col gap-2">
