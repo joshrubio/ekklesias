@@ -52,12 +52,14 @@ const demo = [
 ];
 
 let n = 0;
-for (const [first, last, email, phone, birth, baptized, granted] of demo) {
-  const { error } = await db.rpc("register_member", {
+const codes = {};
+
+async function register([first, last, email, phone, birth, baptized, granted], inviterCode = null, guardian = null) {
+  const { data, error } = await db.rpc("register_member", {
     p_tenant: tenant.id,
-    p_inviter_code: null,
+    p_inviter_code: inviterCode,
     p_invited_by_text: null,
-    p_discovered_alone: true,
+    p_discovered_alone: !inviterCode,
     p_first_name: first,
     p_last_name: last,
     p_email: email,
@@ -66,14 +68,30 @@ for (const [first, last, email, phone, birth, baptized, granted] of demo) {
     p_address: null,
     p_baptized: baptized,
     p_locale: "es",
-    p_source: n % 2 ? "qr" : "nfc",
-    p_guardian: null,
+    p_source: inviterCode ? "nfc" : n % 2 ? "qr" : "nfc",
+    p_guardian: guardian,
     p_consents: all(granted),
     p_user_agent: "seed-demo",
     p_ip_hash: "seed",
   });
   if (error && error.code !== "23505") throw error;
   n++;
+  if (error) {
+    const { data: row } = await db.from("members").select("invite_code").eq("tenant_id", tenant.id).ilike("email", email).eq("status", "active").maybeSingle();
+    return row?.invite_code;
+  }
+  return data;
+}
+
+for (const m of demo) codes[m[0]] = await register(m);
+
+if (codes["Lucía"]) {
+  await register(["Pablo", "Gil", "pablo@demo.example", "+34611000006", "1999-02-14", false, ["comms_email"]], codes["Lucía"]);
+  await register(
+    ["Nora", "Gil", "nora@demo.example", "+34611000007", new Date(Date.now() - 9 * 365.25 * 864e5).toISOString().slice(0, 10), null, []],
+    codes["Lucía"],
+    { full_name: "Marta Gil", email: "marta@demo.example", relationship: "madre" },
+  );
 }
 
 console.log("Listo. Panel: /login · admin@lifepoint.example o lider@lifepoint.example · contraseña:", PASSWORD);
