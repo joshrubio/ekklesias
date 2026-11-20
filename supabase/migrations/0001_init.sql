@@ -76,7 +76,7 @@ create table members (
   address text,
   baptized boolean,
   locale text not null default 'es' check (locale in ('es', 'en', 'de', 'ar')),
-  invite_code text not null unique default encode(gen_random_bytes(6), 'hex'),
+  invite_code text not null unique default substr(replace(gen_random_uuid()::text, '-', ''), 1, 12),
   invited_by uuid references members (id) on delete set null,
   discovered_alone boolean not null default false,
   registered_via registration_source not null,
