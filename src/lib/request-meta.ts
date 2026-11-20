@@ -1,6 +1,7 @@
 import "server-only";
 import { createHash } from "node:crypto";
 import { headers } from "next/headers";
+import { clientIpFromHeader } from "@/lib/client-ip";
 
 export function hashIp(ip: string): string {
   const salt =
@@ -8,8 +9,16 @@ export function hashIp(ip: string): string {
   return createHash("sha256").update(salt + ip).digest("hex");
 }
 
+export async function getClientIp(): Promise<string> {
+  const hops = Number(process.env.TRUSTED_PROXY_HOPS ?? "1");
+  const h = await headers();
+  return clientIpFromHeader(h.get("x-forwarded-for"), Number.isFinite(hops) ? hops : 1);
+}
+
 export async function getRequestMeta() {
   const h = await headers();
-  const ip = (h.get("x-forwarded-for") ?? "").split(",")[0].trim() || "unknown";
-  return { userAgent: h.get("user-agent") ?? "", ipHash: hashIp(ip) };
+  return {
+    userAgent: h.get("user-agent") ?? "",
+    ipHash: hashIp(await getClientIp()),
+  };
 }

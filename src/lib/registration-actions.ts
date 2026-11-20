@@ -1,11 +1,10 @@
 "use server";
 
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { getLocale } from "next-intl/server";
 import { z } from "zod";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { hashIp } from "@/lib/request-meta";
+import { getRequestMeta } from "@/lib/request-meta";
 import { allowByIp } from "@/lib/rate-limit";
 import { getConsentTexts, getTenantBySlug } from "@/lib/tenants";
 import {
@@ -144,8 +143,7 @@ export async function registerAction(
   const baptizedRaw = text("baptized");
   const baptized = baptizedRaw === "yes" ? true : baptizedRaw === "no" ? false : null;
 
-  const h = await headers();
-  const ip = (h.get("x-forwarded-for") ?? "").split(",")[0].trim() || "unknown";
+  const meta = await getRequestMeta();
 
   const data = parsed.data!;
   const { data: code, error } = await createAdminClient().rpc("register_member", {
@@ -164,8 +162,8 @@ export async function registerAction(
     p_source: source,
     p_guardian: guardian,
     p_consents: consents,
-    p_user_agent: h.get("user-agent") ?? "",
-    p_ip_hash: hashIp(ip),
+    p_user_agent: meta.userAgent,
+    p_ip_hash: meta.ipHash,
   });
 
   if (error) {

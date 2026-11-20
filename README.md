@@ -35,6 +35,7 @@ cp .env.example .env.local
 - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`: la clave `Publishable` que imprime `supabase start`.
 - `SUPABASE_SECRET_KEY`: la clave `Secret`. Solo se usa en el servidor, nunca en el navegador.
 - `IP_HASH_SALT`: una cadena aleatoria larga (sirve para guardar un hash de la IP en lugar de la IP).
+- `TRUSTED_PROXY_HOPS`: cuántos proxies de confianza hay delante de la app (1 en Vercel). Condiciona de qué IP se fía el límite de intentos.
 
 Carga el esquema, los textos legales de borrador y los datos de demostración, y arranca la app:
 
@@ -73,6 +74,7 @@ Para repetir la demo desde cero: `pnpm demo:reset`.
 | `pnpm dev` | Arranca la app en desarrollo |
 | `pnpm build` | Compila para producción |
 | `pnpm test:db` | Prueba el esquema en un Postgres en memoria (no necesita Docker) |
+| `pnpm test:unit` | Pruebas de funciones puras (extracción de la IP) |
 | `pnpm db:reset` | Recrea la base local con las migraciones y el seed |
 | `pnpm seed:demo` | Crea los usuarios del panel y los miembros ficticios |
 | `pnpm demo:reset` | `db:reset` y `seed:demo` |

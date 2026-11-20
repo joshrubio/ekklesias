@@ -10,7 +10,8 @@
     "test:db": "node supabase/tests/schema.test.mjs",
     "seed:demo": "node --env-file=.env.local scripts/seed-demo.mjs",
     "db:reset": "npx supabase db reset",
-    "demo:reset": "pnpm db:reset && pnpm seed:demo"
+    "demo:reset": "pnpm db:reset && pnpm seed:demo",
+    "test:unit": "node --test src/lib/client-ip.test.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",

@@ -3,7 +3,7 @@ import { pgcrypto } from '@electric-sql/pglite/contrib/pgcrypto'
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 
-const migration = ['0001_init.sql', '0002_register_member.sql', '0003_preferences_rights.sql', '0004_last_admin_guard.sql', '0005_rate_limit.sql']
+const migration = ['0001_init.sql', '0002_register_member.sql', '0003_preferences_rights.sql', '0004_last_admin_guard.sql', '0005_rate_limit.sql', '0006_rate_limit_sliding.sql']
   .map(f => readFileSync(fileURLToPath(new URL('../migrations/' + f, import.meta.url)), 'utf8')).join('\n')
 const db = new PGlite({ extensions: { pgcrypto } })
 
@@ -257,6 +257,21 @@ await rejects('anon no ejecuta check_rate_limit', `select check_rate_limit('x', 
 await db.exec(`reset role; set role service_role`)
 check('service_role sí ejecuta check_rate_limit', (await rl('t:svc')) === true)
 await db.exec(`reset role`)
+
+// --- Ventana deslizante (0006), con fechas fijas ---
+const at = async (k, t, lim = 10, win = 60) =>
+  (await db.query(`select check_rate_limit('${k}', ${lim}, ${win}, '${t}'::timestamptz) ok`)).rows[0].ok
+const base = '2030-01-01T00:00:'
+let okCount = 0
+for (let i = 0; i < 12; i++) if (await at('s:burst', base + '59Z')) okCount++
+check('se permiten exactamente 10 y se rechazan los demás (12 intentos)', okCount === 10)
+check('justo tras cambiar de ventana NO se reabre el cupo entero (sin ráfaga doble)', (await at('s:burst', '2030-01-01T00:01:01Z')) === false)
+let more = 0
+while (await at('s:burst', '2030-01-01T00:01:31Z') && more < 20) more++
+check('a mitad de ventana se recupera solo parte del cupo (' + more + ')', more >= 4 && more <= 6)
+check('pasadas dos ventanas el cupo está libre', (await at('s:burst', '2030-01-01T00:03:00Z')) === true)
+const rej1 = await db.query(`select hits from rate_limits where key='s:burst' and window_start='2030-01-01T00:00:00Z'`)
+check('los intentos rechazados no suman al contador', rej1.rows[0].hits === 10)
 
 console.log(fails === 0 ? '\nTODO OK' : `\n${fails} FALLOS`)
 process.exit(fails === 0 ? 0 : 1)

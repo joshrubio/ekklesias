@@ -2,7 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { createUserClient } from "@/lib/supabase/server";
-import { allowByIp, allowBySubject } from "@/lib/rate-limit";
+import { allowLogin } from "@/lib/rate-limit";
 
 export type LoginState = { error?: string };
 
@@ -15,7 +15,7 @@ export async function loginAction(
   if (!email || !password) return { error: "Escribe tu email y tu contraseña." };
 
   const tooMany = "Demasiados intentos. Espera unos minutos y vuelve a probar.";
-  if (!(await allowByIp("loginIp")) || !(await allowBySubject("loginEmail", email))) {
+  if (!(await allowLogin(email))) {
     return { error: tooMany };
   }
 

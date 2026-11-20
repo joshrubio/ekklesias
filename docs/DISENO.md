@@ -132,17 +132,25 @@ Pendiente: obligar a cambiar la contraseña temporal en el primer acceso, segund
 
 ## Límite de intentos: estado actual
 
-Migración `0005_rate_limit.sql`. Contador por ventana fija dentro de Postgres (sin Redis ni servicios de Vercel, para mantener la portabilidad). La clave es la acción más un **hash salado** de la IP (o del email en el login); nunca se guarda una IP ni un email en claro. Cada intento cuenta, también los rechazados.
+Migraciones `0005_rate_limit.sql` y `0006_rate_limit_sliding.sql`. Contador dentro de Postgres (sin Redis ni servicios de Vercel, para mantener la portabilidad). Las claves son la acción más un **hash salado** de la IP o del email; nunca se guarda una IP ni un email en claro.
+
+Cómo funciona:
+- **Ventana deslizante aproximada:** la ventana anterior pesa en proporción al tiempo que falta para que expire. No hay ráfaga doble en el borde de la ventana.
+- **Los intentos rechazados no suman:** el bloqueo se levanta solo al deslizarse la ventana.
+- **Sin carreras:** la fila de la clave se bloquea durante la comprobación. Comprobado en Postgres real: 40 peticiones simultáneas con límite 10 dejan pasar exactamente 10.
+- **IP fiable:** se toma la entrada de `x-forwarded-for` que añade nuestro proxy (`TRUSTED_PROXY_HOPS`, por defecto 1), no la primera, que escribe el cliente. Con 0 se ignora la cabecera.
 
 | Acción | Límite |
 |---|---|
-| Registro | 40 por hora y conexión (un acto con wifi compartida no debe bloquear a la gente) |
-| Solicitud de derechos | 5 por hora y conexión |
+| Registro | 40 por hora y conexión, y tope global de 400 por hora |
+| Solicitud de derechos | 5 por hora y conexión, y tope global de 60 por hora |
 | Preferencias y baja | 20 por hora y conexión cada una |
-| Login | 10 por 15 min y conexión, y 5 por 15 min y email |
+| Login | 20 por 15 min y conexión; 5 por 15 min por pareja conexión+email; 50 por hora por email |
 
-Decisiones y límites conocidos:
-- Si el contador falla, la petición se permite (disponible antes que cerrado por un fallo ajeno).
-- El límite por email en el login permite que alguien bloquee 15 minutos a un administrador concreto a base de intentos. Es el precio de frenar la fuerza bruta; Supabase aplica además sus propios límites.
-- La IP sale de `x-forwarded-for`: es fiable detrás del proxy del hosting, pero se puede falsear si la app se expone sin proxy. Hay que tenerlo en cuenta al elegir hosting.
-- Los límites están en `src/lib/rate-limit.ts` y se ajustan allí.
+Decisiones:
+- **Login sin bloqueo por terceros:** el límite fino es por pareja conexión+email, así que alguien desde otra conexión no puede bloquear a un administrador. El tope por email es alto a propósito: frena ataques repartidos sin ser un interruptor fácil.
+- **Topes globales** en registro y derechos: frenan una inundación de altas basura desde muchas IP. El coste es que un ataque enorme puede bloquear los altas legítimas durante un rato; se prefiere a llenar la base de datos de basura.
+- **Si el contador falla:** el login se bloquea (sin freno no hay seguridad) y el resto se deja pasar (disponible antes que cerrado por un fallo ajeno).
+- Los límites están en `src/lib/rate-limit.ts`. Pruebas: `pnpm test:db` (ventana con fechas fijas) y `pnpm test:unit` (extracción de la IP).
+
+Limitaciones: una red con IP compartida (un acto con wifi) comparte conexión; por eso el registro permite 40 por hora. Un atacante con muchas IP puede repartir intentos; los topes globales lo acotan, no lo eliminan.
