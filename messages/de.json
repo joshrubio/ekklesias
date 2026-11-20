@@ -97,7 +97,9 @@
     "inviteBody": "Teile ihn mit allen, die du einladen möchtest. Wenn sich jemand damit registriert, wissen wir, dass du eingeladen hast.",
     "copy": "Link kopieren",
     "copied": "Link kopiert",
-    "genericBody": "Wir haben deine Registrierung erhalten."
+    "genericBody": "Wir haben deine Registrierung erhalten.",
+    "guardianSent": "Wir haben eine E-Mail an dein Elternteil oder deinen Vormund geschickt, damit die Registrierung bestätigt wird. Bis dahin sind deine Einwilligungen nicht aktiv.",
+    "guardianFailed": "Wir konnten die E-Mail an deinen Vormund nicht senden. Sag der Gemeinde Bescheid, damit sie erneut gesendet wird. Bis dahin sind deine Einwilligungen nicht aktiv."
   },
   "legal": {
     "draft": "Entwurf in Arbeit. Dieser Text ist noch nicht die endgültige Fassung und wartet auf die rechtliche Prüfung.",
@@ -162,5 +164,31 @@
     },
     "sentTitle": "Anfrage erhalten",
     "sentBody": "Wenn diese E-Mail zu einer Registrierung gehört, antwortet die Gemeinde innerhalb eines Monats."
+  },
+  "emails": {
+    "guardian": {
+      "subject": "{church}: Bestätige die Registrierung von {minor}",
+      "greeting": "Hallo {guardian},",
+      "body": "{minor} wurde bei {church} registriert und du wurdest als Elternteil oder gesetzlicher Vertreter angegeben. Da {minor} unter 14 Jahre alt ist, brauchen wir deine Bestätigung. Bis dahin werden die Daten nur gespeichert und nicht anderweitig verwendet.",
+      "action": "Bestätige oder lehne die Registrierung über diesen Link ab:",
+      "button": "Registrierung prüfen",
+      "expires": "Der Link läuft in {days} Tagen ab und kann nur einmal verwendet werden.",
+      "ignore": "Wenn du diese Registrierung nicht kennst, kannst du sie über den Link ablehnen oder diese E-Mail ignorieren.",
+      "controller": "{church} ist für die Datenverarbeitung verantwortlich. Kontakt: {contact}"
+    }
+  },
+  "guardianPage": {
+    "title": "Bestätigung durch die Erziehungsberechtigten",
+    "ask": "{church} hat die Registrierung von {minor} erhalten, das unter 14 Jahre alt ist. Als {relationship} wurde {guardian} angegeben. Erlaubst du diese Registrierung?",
+    "data": "Gespeichert werden Kontaktdaten und Einwilligungen. Du kannst sie jederzeit ändern oder löschen lassen.",
+    "confirm": "Ja, ich bin erziehungsberechtigt und erlaube es",
+    "reject": "Ich erlaube es nicht",
+    "confirmedTitle": "Registrierung bestätigt",
+    "confirmedBody": "Danke. Die Einwilligungen von {minor} sind jetzt aktiv.",
+    "rejectedTitle": "Registrierung abgelehnt",
+    "rejectedBody": "Danke für die Rückmeldung. Die Gemeinde prüft die Registrierung und verwendet diese Daten nicht.",
+    "invalidTitle": "Ungültiger Link",
+    "invalidBody": "Dieser Link ist abgelaufen oder wurde schon verwendet. Bitte die Gemeinde um einen neuen.",
+    "tooMany": "Zu viele Versuche. Bitte warte eine Weile und öffne den Link erneut."
   }
 }

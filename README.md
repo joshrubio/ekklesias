@@ -35,6 +35,7 @@ cp .env.example .env.local
 - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`: la clave `Publishable` que imprime `supabase start`.
 - `SUPABASE_SECRET_KEY`: la clave `Secret`. Solo se usa en el servidor, nunca en el navegador.
 - `IP_HASH_SALT`: una cadena aleatoria larga (sirve para guardar un hash de la IP en lugar de la IP).
+- `SMTP_URL` y `MAIL_FROM`: el correo sale por SMTP. En local lo recoge Mailpit (`smtp://127.0.0.1:54325`, se lee en http://127.0.0.1:54324); en producción, el SMTP de tu proveedor (por ejemplo Resend). `SITE_URL` fija la URL pública de los enlaces.
 - `TRUSTED_PROXY_HOPS`: cuántos proxies de confianza hay delante de la app (1 en Vercel). Condiciona de qué IP se fía el límite de intentos.
 
 Carga el esquema, los textos legales de borrador y los datos de demostración, y arranca la app:
@@ -54,7 +55,7 @@ Usuarios del panel (solo en local): `admin@lifepoint.example` y `lider@lifepoint
 
 1. **Home de la plataforma** (`/`) y **home de la iglesia** (`/c/lifepoint`). Cambia el idioma con el selector y enseña el árabe en RTL.
 2. **Registro general** (`/r/lifepoint?s=qr`): rellena el formulario. Fíjate en que ninguna casilla viene marcada, en que las dos obligatorias explican el motivo y en que se pregunta cómo conoció la iglesia.
-3. **Menor de 14 años**: pon una fecha de nacimiento reciente y aparece la sección del tutor.
+3. **Menor de 14 años**: pon una fecha de nacimiento reciente y aparece la sección del tutor. Al enviar, el tutor recibe un email (ábrelo en Mailpit, http://127.0.0.1:54324) con un enlace de un solo uso. Hasta que confirme, el menor sale como "tutor sin confirmar" en el panel y sin permisos efectivos; al confirmar se activan. Desde la ficha, un administrador también puede reenviar el email o confirmar en persona.
 4. **Gracias**: al terminar se ve su enlace personal. Ábrelo en otra pestaña (`/m/<código>?s=nfc`): saluda con "X te ha invitado" y no vuelve a preguntar quién le invitó.
 5. **Email repetido**: registra otra vez el mismo email. La página es idéntica y no revela que ya existía.
 6. **Panel** (`/login` con el administrador): resumen, lista, búsqueda y filtro por permiso. Abre una ficha: quién la invitó, a quién ha invitado y el historial de consentimientos, con la versión del texto aceptado.
@@ -101,7 +102,7 @@ Para repetir la demo desde cero: `pnpm demo:reset`.
 ## Antes de usar datos reales
 
 1. Revisión legal de los siete textos en los cuatro idiomas y de la política de privacidad (la pertenencia a una iglesia es dato de categoría especial, art. 9 RGPD).
-2. Verificación del email del tutor (el límite de intentos ya está).
+2. Dominio verificado y proveedor de correo contratado (SPF/DKIM) para que los emails a tutores lleguen.
 3. Copias de seguridad propias y cifradas, y alojamiento en la UE.
 4. Dominio propio registrado (las URLs grabadas en tarjetas NFC no deben cambiar nunca).
 5. Plazo de conservación del hash de IP y del agente de usuario.

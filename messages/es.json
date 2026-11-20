@@ -97,7 +97,9 @@
     "inviteBody": "Compártelo con quien quieras invitar. Cuando alguien se registre con él, sabremos que lo invitaste tú.",
     "copy": "Copiar enlace",
     "copied": "Enlace copiado",
-    "genericBody": "Hemos recibido tu registro."
+    "genericBody": "Hemos recibido tu registro.",
+    "guardianSent": "Hemos enviado un email a tu madre, padre o tutor para que confirme tu registro. Hasta entonces tus permisos no estarán activos.",
+    "guardianFailed": "No hemos podido enviar el email a tu tutor. Avisa a la iglesia para que lo reenvíe. Hasta entonces tus permisos no estarán activos."
   },
   "legal": {
     "draft": "Borrador en preparación. Este texto aún no es la versión definitiva y está pendiente de revisión legal.",
@@ -162,5 +164,31 @@
     },
     "sentTitle": "Solicitud recibida",
     "sentBody": "Si ese email corresponde a un registro, la iglesia te responderá en el plazo de un mes."
+  },
+  "emails": {
+    "guardian": {
+      "subject": "{church}: confirma el registro de {minor}",
+      "greeting": "Hola {guardian},",
+      "body": "Se ha registrado a {minor} en {church} y se te ha indicado como su madre, padre o tutor legal. Como {minor} tiene menos de 14 años, necesitamos que confirmes que estás de acuerdo. Hasta entonces sus datos solo se guardan y no se usan para nada más.",
+      "action": "Confirma o rechaza el registro en este enlace:",
+      "button": "Revisar el registro",
+      "expires": "El enlace caduca en {days} días y solo se puede usar una vez.",
+      "ignore": "Si no conoces este registro, puedes rechazarlo en el enlace o ignorar este correo.",
+      "controller": "{church} es el responsable del tratamiento de los datos. Contacto: {contact}"
+    }
+  },
+  "guardianPage": {
+    "title": "Confirmación del tutor",
+    "ask": "{church} ha recibido el registro de {minor}, que tiene menos de 14 años. Nos indicaron a {guardian} como su {relationship}. ¿Autorizas este registro?",
+    "data": "Se guardan sus datos de contacto y sus permisos, y puedes cambiarlos o pedir que se borren cuando quieras.",
+    "confirm": "Sí, soy su tutor y lo autorizo",
+    "reject": "No lo autorizo",
+    "confirmedTitle": "Registro confirmado",
+    "confirmedBody": "Gracias. Los permisos de {minor} ya están activos.",
+    "rejectedTitle": "Registro rechazado",
+    "rejectedBody": "Gracias por avisarnos. La iglesia revisará el registro y no usará estos datos.",
+    "invalidTitle": "Enlace no válido",
+    "invalidBody": "Este enlace ha caducado o ya se usó. Pide a la iglesia que te envíe uno nuevo.",
+    "tooMany": "Demasiados intentos. Espera un rato y vuelve a abrir el enlace."
   }
 }

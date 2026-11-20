@@ -6,6 +6,7 @@ import { z } from "zod";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getRequestMeta } from "@/lib/request-meta";
 import { allowByIp } from "@/lib/rate-limit";
+import { sendGuardianEmail } from "@/lib/guardian-mail";
 import { getConsentTexts, getTenantBySlug } from "@/lib/tenants";
 import {
   parseSource,
@@ -176,6 +177,16 @@ export async function registerAction(
     }
     console.error("register_member failed:", error.code, error.message);
     return { values, formError: "server" };
+  }
+
+  if (guardian) {
+    const { data: member } = await createAdminClient()
+      .from("members")
+      .select("id")
+      .eq("invite_code", code as string)
+      .maybeSingle();
+    const sent = member ? await sendGuardianEmail(member.id) : false;
+    redirect(`/gracias/${code as string}?tutor=${sent ? "sent" : "failed"}`);
   }
 
   redirect(`/gracias/${code as string}`);

@@ -50,7 +50,11 @@ export async function listMembers(opts: {
   tenantId: string;
   q: string;
   purpose: FormPurpose | null;
-}): Promise<{ members: MemberRow[]; granted: Map<string, Set<string>> }> {
+}): Promise<{
+  members: MemberRow[];
+  granted: Map<string, Set<string>>;
+  pendingGuardian: Set<string>;
+}> {
   const supabase = await createUserClient();
 
   let query = supabase
@@ -68,10 +72,17 @@ export async function listMembers(opts: {
   }
 
   const { data: consents } = await supabase
-    .from("member_consents_current")
+    .from("member_consents_effective")
     .select("member_id, purpose, granted")
     .eq("tenant_id", opts.tenantId)
     .eq("granted", true);
+
+  const { data: pending } = await supabase
+    .from("guardians")
+    .select("member_id")
+    .eq("tenant_id", opts.tenantId)
+    .is("confirmed_at", null);
+  const pendingGuardian = new Set((pending ?? []).map((p) => p.member_id as string));
 
   const granted = new Map<string, Set<string>>();
   for (const c of consents ?? []) {
@@ -84,13 +95,13 @@ export async function listMembers(opts: {
     const ids = [...granted.entries()]
       .filter(([, set]) => set.has(opts.purpose!))
       .map(([id]) => id);
-    if (ids.length === 0) return { members: [], granted };
+    if (ids.length === 0) return { members: [], granted, pendingGuardian };
     query = query.in("id", ids);
   }
 
   const { data, error } = await query;
   if (error) throw new Error(`No se pudo leer la lista de miembros: ${error.message}`);
-  return { members: (data ?? []) as MemberRow[], granted };
+  return { members: (data ?? []) as MemberRow[], granted, pendingGuardian };
 }
 
 export function ageFrom(birthDate: string | null): number | null {

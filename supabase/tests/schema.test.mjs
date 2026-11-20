@@ -3,7 +3,7 @@ import { pgcrypto } from '@electric-sql/pglite/contrib/pgcrypto'
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 
-const migration = ['0001_init.sql', '0002_register_member.sql', '0003_preferences_rights.sql', '0004_last_admin_guard.sql', '0005_rate_limit.sql', '0006_rate_limit_sliding.sql']
+const migration = ['0001_init.sql', '0002_register_member.sql', '0003_preferences_rights.sql', '0004_last_admin_guard.sql', '0005_rate_limit.sql', '0006_rate_limit_sliding.sql', '0007_guardian_confirmation.sql']
   .map(f => readFileSync(fileURLToPath(new URL('../migrations/' + f, import.meta.url)), 'utf8')).join('\n')
 const db = new PGlite({ extensions: { pgcrypto } })
 
@@ -272,6 +272,62 @@ check('a mitad de ventana se recupera solo parte del cupo (' + more + ')', more 
 check('pasadas dos ventanas el cupo está libre', (await at('s:burst', '2030-01-01T00:03:00Z')) === true)
 const rej1 = await db.query(`select hits from rate_limits where key='s:burst' and window_start='2030-01-01T00:00:00Z'`)
 check('los intentos rechazados no suman al contador', rej1.rows[0].hits === 10)
+
+// --- Confirmación del tutor (0007) ---
+const gCode = await regCode({ email: 'kid2@x.es', birth: kid, guardian: { full_name: 'Padre Dos', email: 'p2@x.es', relationship: 'padre' },
+  consents: [{ purpose: 'membership', granted: true }, { purpose: 'visibility', granted: true }, { purpose: 'comms_email', granted: true }] })
+const G = (await db.query(`select id from members where invite_code='${gCode}'`)).rows[0].id
+const eff = async () => (await db.query(`select purpose from member_consents_effective where member_id='${G}' order by 1`)).rows.map(r => r.purpose)
+const leaderSees = async () => {
+  await db.exec(`set role authenticated; set request.jwt.claim.sub='${B}'`)
+  const n = (await db.query(`select count(*)::int n from members where id='${G}'`)).rows[0].n
+  await db.exec(`reset role; select set_config('request.jwt.claim.sub', '', false)`)
+  return n === 1
+}
+check('menor sin tutor confirmado: ningún permiso es efectivo', (await eff()).length === 0)
+check('el historial sí conserva lo que se dijo (3 eventos)', (await db.query(`select count(*)::int n from consent_events where member_id='${G}'`)).rows[0].n === 3)
+check('un líder no ve al menor aunque aceptara la visibilidad', (await leaderSees()) === false)
+
+const gt1 = (await db.query(`select create_guardian_token('${G}') t`)).rows[0].t
+check('el token del tutor no se guarda en claro', (await db.query(`select count(*)::int n from preference_tokens where token_hash='${gt1}'`)).rows[0].n === 0)
+r = await db.query(`select get_guardian_request('${gt1}') g`)
+check('get_guardian_request da menor, iglesia, tutor y estado pending', r.rows[0].g.minor_first_name === 'Eva' && r.rows[0].g.guardian_name === 'Padre Dos' && r.rows[0].g.status === 'pending')
+check('un token de preferencias no abre la confirmación', (await db.query(`select get_guardian_request('${await tok(PM)}') g`)).rows[0].g === null)
+const gt2 = (await db.query(`select create_guardian_token('${G}') t`)).rows[0].t
+check('renovar el enlace invalida el anterior', (await db.query(`select get_guardian_request('${gt1}') g`)).rows[0].g === null)
+await rejects('confirmar con el token anulado', `select confirm_guardian('${gt1}')`)
+await rejects('confirmar con token falso', `select confirm_guardian('falso')`)
+await db.query(`select confirm_guardian('${gt2}')`)
+check('tras confirmar, el estado es confirmed', (await db.query(`select get_guardian_request('${gt2}') g`)).rows[0].g.status === 'confirmed')
+const effAfter = [...(await eff())].sort(); check('tras confirmar, los permisos pasan a ser efectivos', JSON.stringify(effAfter) === JSON.stringify(['comms_email', 'membership', 'visibility']))
+check('tras confirmar, el líder ya lo ve', (await leaderSees()) === true)
+check('queda registrada la vía (email)', (await db.query(`select confirmed_via v from guardians where member_id='${G}'`)).rows[0].v === 'email')
+await rejects('el token no se puede reutilizar', `select confirm_guardian('${gt2}')`)
+await rejects('no hay tutor pendiente tras confirmar', `select create_guardian_token('${G}')`)
+
+const gCode2 = await regCode({ email: 'kid3@x.es', birth: kid, guardian: { full_name: 'Madre Tres', email: 'p3@x.es', relationship: 'madre' } })
+const G2 = (await db.query(`select id from members where invite_code='${gCode2}'`)).rows[0].id
+const gt3 = (await db.query(`select create_guardian_token('${G2}') t`)).rows[0].t
+await db.query(`select reject_guardian('${gt3}')`)
+r = await db.query(`select get_guardian_request('${gt3}') g`)
+check('rechazar deja el estado rejected y el menor sin permisos efectivos', r.rows[0].g.status === 'rejected' && (await db.query(`select count(*)::int n from member_consents_effective where member_id='${G2}'`)).rows[0].n === 0)
+await rejects('no se puede confirmar con un token ya usado al rechazar', `select confirm_guardian('${gt3}')`)
+
+const gCode3 = await regCode({ email: 'kid4@x.es', birth: kid, guardian: { full_name: 'Padre Cuatro', email: 'p4@x.es', relationship: 'padre' } })
+const G3 = (await db.query(`select id from members where invite_code='${gCode3}'`)).rows[0].id
+await db.exec(`set role authenticated; set request.jwt.claim.sub='${B}'`)
+await rejects('un líder no confirma en persona', `select confirm_guardian_admin('${G3}')`)
+await db.exec(`set request.jwt.claim.sub='${C}'`)
+await rejects('un admin de otra iglesia no confirma', `select confirm_guardian_admin('${G3}')`)
+await db.exec(`set request.jwt.claim.sub='${A}'`)
+await db.query(`select confirm_guardian_admin('${G3}')`)
+await db.exec(`reset role; select set_config('request.jwt.claim.sub', '', false)`)
+r = await db.query(`select confirmed_via, confirmed_by from guardians where member_id='${G3}'`)
+check('el admin confirma en persona y queda quién y la vía', r.rows[0].confirmed_via === 'admin' && r.rows[0].confirmed_by === A)
+await db.exec(`set role authenticated`)
+await rejects('authenticated no ejecuta confirm_guardian', `select confirm_guardian('x')`)
+await rejects('authenticated no ejecuta get_guardian_request', `select get_guardian_request('x')`)
+await db.exec(`reset role`)
 
 console.log(fails === 0 ? '\nTODO OK' : `\n${fails} FALLOS`)
 process.exit(fails === 0 ? 0 : 1)

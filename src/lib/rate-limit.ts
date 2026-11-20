@@ -11,6 +11,7 @@ export const limits = {
   rightsGlobal: { limit: 60, windowSeconds: 3600 },
   preferences: { limit: 20, windowSeconds: 3600 },
   unsubscribe: { limit: 20, windowSeconds: 3600 },
+  guardian: { limit: 20, windowSeconds: 3600 },
   loginIp: { limit: 20, windowSeconds: 900 },
   loginPair: { limit: 5, windowSeconds: 900 },
   loginEmail: { limit: 50, windowSeconds: 3600 },
@@ -42,7 +43,7 @@ const globalRule: Partial<Record<string, RuleName>> = {
 };
 
 /** Límite por conexión y, si la acción lo tiene, tope global contra inundaciones distribuidas. */
-export async function allowByIp(rule: "register" | "rights" | "preferences" | "unsubscribe") {
+export async function allowByIp(rule: "register" | "rights" | "preferences" | "unsubscribe" | "guardian") {
   const { ipHash } = await getRequestMeta();
   if (!(await allowed(`${rule}:${ipHash}`, rule, false))) return false;
   const global = globalRule[rule];

@@ -97,7 +97,9 @@
     "inviteBody": "Share it with anyone you want to invite. When someone registers with it, we will know you invited them.",
     "copy": "Copy link",
     "copied": "Link copied",
-    "genericBody": "We have received your registration."
+    "genericBody": "We have received your registration.",
+    "guardianSent": "We have sent an email to your parent or guardian so they can confirm your registration. Until then your permissions will not be active.",
+    "guardianFailed": "We could not send the email to your guardian. Tell the church so they can resend it. Until then your permissions will not be active."
   },
   "legal": {
     "draft": "Draft in progress. This text is not the final version yet and is pending legal review.",
@@ -162,5 +164,31 @@
     },
     "sentTitle": "Request received",
     "sentBody": "If that email matches a registration, the church will reply within one month."
+  },
+  "emails": {
+    "guardian": {
+      "subject": "{church}: confirm the registration of {minor}",
+      "greeting": "Hello {guardian},",
+      "body": "{minor} has been registered at {church} and you were named as their parent or legal guardian. Because {minor} is under 14, we need you to confirm that you agree. Until then their data is only stored and not used for anything else.",
+      "action": "Confirm or reject the registration at this link:",
+      "button": "Review the registration",
+      "expires": "The link expires in {days} days and can only be used once.",
+      "ignore": "If you do not recognise this registration, you can reject it at the link or ignore this email.",
+      "controller": "{church} is the data controller. Contact: {contact}"
+    }
+  },
+  "guardianPage": {
+    "title": "Guardian confirmation",
+    "ask": "{church} received a registration for {minor}, who is under 14. {guardian} was named as their {relationship}. Do you authorise this registration?",
+    "data": "We store their contact details and permissions, and you can change them or ask for them to be deleted at any time.",
+    "confirm": "Yes, I am their guardian and I authorise it",
+    "reject": "I do not authorise it",
+    "confirmedTitle": "Registration confirmed",
+    "confirmedBody": "Thank you. The permissions of {minor} are now active.",
+    "rejectedTitle": "Registration rejected",
+    "rejectedBody": "Thank you for letting us know. The church will review the registration and will not use this data.",
+    "invalidTitle": "Invalid link",
+    "invalidBody": "This link has expired or was already used. Ask the church to send you a new one.",
+    "tooMany": "Too many attempts. Please wait a while and open the link again."
   }
 }

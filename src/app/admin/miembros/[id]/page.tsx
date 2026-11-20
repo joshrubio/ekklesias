@@ -5,6 +5,7 @@ import { createUserClient } from "@/lib/supabase/server";
 import { ageFrom, memberColumns, purposeLabels, type MemberRow } from "@/lib/admin-members";
 import type { FormPurpose } from "@/lib/consents";
 import { MemberAdminTools } from "@/components/member-admin-tools";
+import { confirmGuardianInPersonAction, resendGuardianEmailAction } from "@/app/admin/actions";
 
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
 
@@ -19,8 +20,11 @@ function Row({ label, value }: { label: string; value: React.ReactNode }) {
 
 export default async function MemberPage({
   params,
+  searchParams,
 }: PageProps<"/admin/miembros/[id]">) {
   const { id } = await params;
+  const sp = await searchParams;
+  const mail = Array.isArray(sp.mail) ? sp.mail[0] : sp.mail;
   if (!uuid.test(id)) notFound();
 
   const session = await getAdminSession();
@@ -39,7 +43,7 @@ export default async function MemberPage({
 
   const [guardian, inviter, invited, events] = await Promise.all([
     isAdmin
-      ? supabase.from("guardians").select("full_name, email, relationship").eq("member_id", id).maybeSingle()
+      ? supabase.from("guardians").select("full_name, email, relationship, confirmed_at, confirmed_via, rejected_at").eq("member_id", id).maybeSingle()
       : Promise.resolve({ data: null }),
     m.invited_by
       ? supabase.from("members").select("id, first_name, last_name").eq("id", m.invited_by).maybeSingle()
@@ -104,12 +108,50 @@ export default async function MemberPage({
       </dl>
 
       {guardian.data ? (
-        <section className="flex flex-col gap-1">
+        <section className="flex flex-col gap-2">
           <h2 className="text-lg font-medium">Tutor</h2>
           <p>
             {guardian.data.full_name} ({guardian.data.relationship}) ·{" "}
             {guardian.data.email}
           </p>
+          {guardian.data.confirmed_at ? (
+            <p className="text-sm text-green-800 dark:text-green-300">
+              Confirmado el {new Date(guardian.data.confirmed_at).toLocaleString("es-ES")} (
+              {guardian.data.confirmed_via === "email" ? "por email" : "en persona"}).
+            </p>
+          ) : (
+            <div className="flex flex-col gap-2 rounded-md bg-amber-50 p-3 text-sm text-amber-900 dark:bg-amber-950 dark:text-amber-200">
+              <p>
+                {guardian.data.rejected_at
+                  ? "El tutor ha rechazado el registro. Revísalo y, si procede, suprime al miembro."
+                  : "Tutor sin confirmar: los permisos del menor no son efectivos y los líderes no lo ven."}
+              </p>
+              {mail === "sent" ? <p role="status">Email enviado al tutor.</p> : null}
+              {mail === "failed" ? (
+                <p role="alert">No se pudo enviar el email. Comprueba la configuración de correo.</p>
+              ) : null}
+              {mail === "error" ? <p role="alert">No se pudo confirmar.</p> : null}
+              {isAdmin ? (
+                <div className="flex flex-wrap gap-2">
+                  <form action={resendGuardianEmailAction.bind(null, id)}>
+                    <button type="submit" className="rounded-md border border-amber-700 px-3 py-2 font-medium">
+                      Reenviar email al tutor
+                    </button>
+                  </form>
+                  <form action={confirmGuardianInPersonAction.bind(null, id)}>
+                    <button type="submit" className="rounded-md bg-amber-800 px-3 py-2 font-medium text-white">
+                      Confirmar en persona
+                    </button>
+                  </form>
+                </div>
+              ) : null}
+            </div>
+          )}
+          {mail === "confirmed" ? (
+            <p role="status" className="text-sm font-medium text-green-700 dark:text-green-400">
+              Tutor confirmado en persona.
+            </p>
+          ) : null}
         </section>
       ) : null}
 

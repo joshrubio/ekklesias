@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { getAdminSession } from "@/lib/admin-session";
 import { createUserClient } from "@/lib/supabase/server";
+import { sendGuardianEmail } from "@/lib/guardian-mail";
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
 
@@ -77,4 +78,33 @@ export async function updateRequestAction(requestId: string, formData: FormData)
 
   revalidatePath("/admin/solicitudes");
   redirect("/admin/solicitudes");
+}
+
+export async function resendGuardianEmailAction(memberId: string) {
+  const session = await requireAdmin();
+  if (!UUID.test(memberId)) throw new Error("Miembro no válido");
+
+  const supabase = await createUserClient();
+  const { data: member } = await supabase
+    .from("members")
+    .select("id")
+    .eq("id", memberId)
+    .eq("tenant_id", session.tenant.id)
+    .maybeSingle();
+  if (!member) throw new Error("Miembro no encontrado");
+
+  const sent = await sendGuardianEmail(memberId);
+  redirect(`/admin/miembros/${memberId}?mail=${sent ? "sent" : "failed"}`);
+}
+
+export async function confirmGuardianInPersonAction(memberId: string) {
+  await requireAdmin();
+  if (!UUID.test(memberId)) throw new Error("Miembro no válido");
+
+  const supabase = await createUserClient();
+  const { error } = await supabase.rpc("confirm_guardian_admin", { p_member: memberId });
+  if (error) redirect(`/admin/miembros/${memberId}?mail=error`);
+
+  revalidatePath("/admin", "layout");
+  redirect(`/admin/miembros/${memberId}?mail=confirmed`);
 }

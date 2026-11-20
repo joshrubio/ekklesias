@@ -17,7 +17,7 @@ export default async function MembersPage({
   const q = cleanSearch(sp.q);
   const purpose = parsePurpose(sp.consent);
 
-  const { members, granted } = await listMembers({
+  const { members, granted, pendingGuardian } = await listMembers({
     tenantId: session.tenant.id,
     q,
     purpose,
@@ -116,7 +116,7 @@ export default async function MembersPage({
                       </Link>
                       {age !== null && age < 14 ? (
                         <span className="ms-2 rounded bg-amber-100 px-1.5 py-0.5 text-xs text-amber-900">
-                          menor
+                          {pendingGuardian.has(m.id) ? "tutor sin confirmar" : "menor"}
                         </span>
                       ) : null}
                     </td>

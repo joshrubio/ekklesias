@@ -154,3 +154,22 @@ Decisiones:
 - Los límites están en `src/lib/rate-limit.ts`. Pruebas: `pnpm test:db` (ventana con fechas fijas) y `pnpm test:unit` (extracción de la IP).
 
 Limitaciones: una red con IP compartida (un acto con wifi) comparte conexión; por eso el registro permite 40 por hora. Un atacante con muchas IP puede repartir intentos; los topes globales lo acotan, no lo eliminan.
+
+## Confirmación del tutor por email: estado actual
+
+Migración `0007_guardian_confirmation.sql`. Es el estándar: al registrar a un menor de 14 años se envía un email al tutor con un enlace de un solo uso (caduca a los 14 días).
+
+- **Mientras no confirma:** los permisos del menor no son efectivos (vista `member_consents_effective`; el historial sigue guardando lo que se dijo), no cuenta en los permisos concedidos ni en los filtros del panel, y los líderes no lo ven. La lista del panel lo marca como "tutor sin confirmar".
+- **Página del tutor** (`/tutor/confirmar/<token>`): muestra quién es el menor, qué iglesia y qué relación se indicó. Abrir el enlace no cambia nada: hay que pulsar "Sí, soy su tutor y lo autorizo" o "No lo autorizo". Al rechazar, el registro queda marcado para que un administrador lo revise y, si procede, lo suprima.
+- **Email en el idioma del menor** (es, en, de, ar con RTL), con versión de texto y HTML.
+- **Reenviar y confirmar en persona:** desde la ficha, un administrador puede reenviar el email (anula el enlace anterior) o confirmar en persona; queda registrado quién y cuándo, y la vía (`email` o `admin`).
+- **Si el email falla** al registrar, el alta se guarda igual, el menor ve un aviso para que lo diga en la iglesia y el administrador puede reenviarlo.
+- Los enlaces van limitados por intentos y se guardan solo como hash, como los de preferencias.
+
+### Correo: SMTP sin atarse a un proveedor
+
+`src/lib/mailer.ts` envía por SMTP con `nodemailer`. En local lo recoge Mailpit (interfaz en http://127.0.0.1:54324, SMTP en el puerto 54325, ya expuesto en `supabase/config.toml`). En producción sirve cualquier servicio con SMTP: **Resend** (`smtps://resend:API_KEY@smtp.resend.com:465`), Brevo, etc. Cambiar de proveedor es cambiar la variable `SMTP_URL`.
+
+Antes de enviar a gente real hace falta un **dominio propio verificado** (SPF y DKIM) en el proveedor, y firmar con él su contrato de encargado del tratamiento (elegir región UE si existe). Los límites y precios de cada plan hay que revisarlos al contratar.
+
+Pendiente: recordatorio automático si el tutor no responde, y aviso en el panel de los rechazos (hoy se ven en la ficha y en la lista).

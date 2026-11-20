@@ -15,7 +15,7 @@ export default async function AdminHome() {
     .eq("status", "active");
 
   const { data: consents } = await supabase
-    .from("member_consents_current")
+    .from("member_consents_effective")
     .select("purpose")
     .eq("tenant_id", session.tenant.id)
     .eq("granted", true);
