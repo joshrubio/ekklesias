@@ -108,3 +108,11 @@ Migración `0003_preferences_rights.sql`. Todas las funciones públicas solo las
 - **Derechos** (`/derechos/<slug>`): formulario público con campo trampa. La respuesta es la misma exista o no el email. Las solicitudes llegan a `/admin/solicitudes` con plazo de un mes y aviso de vencimiento. Desde la solicitud se descarga un JSON con los datos de la persona (acceso y portabilidad) y la supresión se hace desde la ficha (con confirmación). Todo queda en `access_log`.
 
 Pendiente: envío real de estos enlaces por email (fase 2, hoy se copian a mano), límite de intentos por IP, verificación de identidad más allá de comparar el email.
+
+## Ajustes del panel: estado actual
+
+`/admin/ajustes` (solo administradores):
+- **La iglesia:** nombre, email de contacto (sale en las páginas legales) y color de marca, con validación en el servidor.
+- **Textos legales:** se elige permiso e idioma y se publica una **versión nueva** (nunca se edita una existente). Cada idioma lleva su propia numeración. Las personas ya registradas siguen apuntando a la versión exacta que aceptaron; la nueva se muestra solo a quien se registre o cambie sus permisos después. No se publica un texto idéntico al vigente. Cada publicación queda en `access_log`.
+
+Pendiente: gestión de usuarios y roles del panel (hoy se crean con `pnpm seed:demo` o a mano en Supabase), y decidir si hay que pedir de nuevo el consentimiento a los miembros actuales cuando un texto cambia de forma sustancial (criterio para la revisión legal).
