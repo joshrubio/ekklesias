@@ -99,7 +99,7 @@ Para repetir la demo desde cero: `pnpm demo:reset`.
 ## Antes de usar datos reales
 
 1. Revisión legal de los siete textos en los cuatro idiomas y de la política de privacidad (la pertenencia a una iglesia es dato de categoría especial, art. 9 RGPD).
-2. Límite de intentos por IP y verificación del email del tutor.
+2. Verificación del email del tutor (el límite de intentos ya está).
 3. Copias de seguridad propias y cifradas, y alojamiento en la UE.
 4. Dominio propio registrado (las URLs grabadas en tarjetas NFC no deben cambiar nunca).
 5. Plazo de conservación del hash de IP y del agente de usuario.

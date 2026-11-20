@@ -6,6 +6,7 @@ import { getLocale } from "next-intl/server";
 import { z } from "zod";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { hashIp } from "@/lib/request-meta";
+import { allowByIp } from "@/lib/rate-limit";
 import { getConsentTexts, getTenantBySlug } from "@/lib/tenants";
 import {
   parseSource,
@@ -66,6 +67,8 @@ export async function registerAction(
   for (const [key, value] of formData.entries()) {
     if (typeof value === "string" && key !== "website") values[key] = value;
   }
+
+  if (!(await allowByIp("register"))) return { values, formError: "rateLimit" };
 
   const tenant = await getTenantBySlug(text("tenantSlug"));
   if (!tenant) return { values, formError: "server" };

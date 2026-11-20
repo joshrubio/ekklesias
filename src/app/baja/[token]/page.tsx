@@ -12,6 +12,15 @@ export default async function UnsubscribePage({
   const { error } = await searchParams;
   const t = await getTranslations("unsubscribe");
 
+  if (error === "limite") {
+    return (
+      <main className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-4 px-6 py-12">
+        <h1 className="text-2xl font-semibold tracking-tight">{t("tooManyTitle")}</h1>
+        <p className="text-muted">{t("tooManyBody")}</p>
+      </main>
+    );
+  }
+
   if (!TOKEN_RE.test(token) || error) {
     return (
       <main className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-4 px-6 py-12">

@@ -49,6 +49,11 @@ export function PreferencesForm({
           {t("saved")}
         </p>
       )}
+      {state.status === "limited" && (
+        <p role="alert" className="text-sm text-red-700 dark:text-red-400">
+          {t("rateLimit")}
+        </p>
+      )}
       {state.status === "error" && (
         <p role="alert" className="text-sm text-red-700 dark:text-red-400">
           {t("error")}

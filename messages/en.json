@@ -86,7 +86,8 @@
       "birthDate": "Enter a valid date of birth.",
       "consent": "We need you to accept this in order to register you.",
       "guardian": "Fill in your parent or guardian’s details and tick their consent.",
-      "server": "We could not complete the registration. Please try again in a few minutes."
+      "server": "We could not complete the registration. Please try again in a few minutes.",
+      "rateLimit": "Too many forms were sent from this connection. Please wait a while and try again."
     }
   },
   "thanks": {
@@ -122,7 +123,8 @@
       "comms_sms": "SMS",
       "visibility": "Visibility",
       "images": "Photos"
-    }
+    },
+    "rateLimit": "Too many attempts. Please wait a while and try again."
   },
   "unsubscribe": {
     "title": "Unsubscribe from messages",
@@ -131,7 +133,9 @@
     "doneTitle": "Done, you are unsubscribed",
     "doneBody": "You will not receive any more messages. You can turn them back on whenever you like from your preferences link.",
     "invalidTitle": "Invalid link",
-    "invalidBody": "This link has expired or is not correct. Ask your church for a new one."
+    "invalidBody": "This link has expired or is not correct. Ask your church for a new one.",
+    "tooManyTitle": "Too many attempts",
+    "tooManyBody": "Wait a few minutes and open the link again."
   },
   "rights": {
     "title": "Your rights over your data",
@@ -153,7 +157,8 @@
     "errors": {
       "email": "Enter a valid email.",
       "type": "Choose what you want to ask for.",
-      "server": "We could not send your request. Please try again."
+      "server": "We could not send your request. Please try again.",
+      "rate": "Too many requests were sent. Please wait a while and try again."
     },
     "sentTitle": "Request received",
     "sentBody": "If that email matches a registration, the church will reply within one month."

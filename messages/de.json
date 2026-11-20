@@ -86,7 +86,8 @@
       "birthDate": "Gib ein gültiges Geburtsdatum ein.",
       "consent": "Dem müssen wir zustimmen können, um dich zu registrieren.",
       "guardian": "Fülle die Angaben deiner Eltern oder deines Vormunds aus und bestätige die Einwilligung.",
-      "server": "Die Registrierung konnte nicht abgeschlossen werden. Bitte versuche es in einigen Minuten erneut."
+      "server": "Die Registrierung konnte nicht abgeschlossen werden. Bitte versuche es in einigen Minuten erneut.",
+      "rateLimit": "Von dieser Verbindung wurden zu viele Formulare gesendet. Bitte warte eine Weile und versuche es erneut."
     }
   },
   "thanks": {
@@ -122,7 +123,8 @@
       "comms_sms": "SMS",
       "visibility": "Sichtbarkeit",
       "images": "Fotos"
-    }
+    },
+    "rateLimit": "Zu viele Versuche. Bitte warte eine Weile und versuche es erneut."
   },
   "unsubscribe": {
     "title": "Von Nachrichten abmelden",
@@ -131,7 +133,9 @@
     "doneTitle": "Fertig, du bist abgemeldet",
     "doneBody": "Du erhältst keine Nachrichten mehr. Du kannst sie jederzeit über deinen Einstellungs-Link wieder aktivieren.",
     "invalidTitle": "Ungültiger Link",
-    "invalidBody": "Dieser Link ist abgelaufen oder nicht korrekt. Bitte deine Gemeinde um einen neuen."
+    "invalidBody": "Dieser Link ist abgelaufen oder nicht korrekt. Bitte deine Gemeinde um einen neuen.",
+    "tooManyTitle": "Zu viele Versuche",
+    "tooManyBody": "Warte ein paar Minuten und öffne den Link erneut."
   },
   "rights": {
     "title": "Deine Rechte an deinen Daten",
@@ -153,7 +157,8 @@
     "errors": {
       "email": "Gib eine gültige E-Mail-Adresse ein.",
       "type": "Wähle aus, was du verlangen möchtest.",
-      "server": "Die Anfrage konnte nicht gesendet werden. Bitte versuche es erneut."
+      "server": "Die Anfrage konnte nicht gesendet werden. Bitte versuche es erneut.",
+      "rate": "Es wurden zu viele Anfragen gesendet. Bitte warte eine Weile und versuche es erneut."
     },
     "sentTitle": "Anfrage erhalten",
     "sentBody": "Wenn diese E-Mail zu einer Registrierung gehört, antwortet die Gemeinde innerhalb eines Monats."

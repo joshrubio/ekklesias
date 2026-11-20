@@ -3,10 +3,11 @@
 import { redirect } from "next/navigation";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getRequestMeta } from "@/lib/request-meta";
+import { allowByIp } from "@/lib/rate-limit";
 import { getTenantBySlug } from "@/lib/tenants";
 import { TOKEN_RE, optionalPurposes } from "@/lib/consents";
 
-export type PreferencesState = { status?: "saved" | "error" };
+export type PreferencesState = { status?: "saved" | "error" | "limited" };
 
 export async function savePreferencesAction(
   token: string,
@@ -14,6 +15,7 @@ export async function savePreferencesAction(
   formData: FormData,
 ): Promise<PreferencesState> {
   if (!TOKEN_RE.test(token)) return { status: "error" };
+  if (!(await allowByIp("preferences"))) return { status: "limited" };
 
   const shown = String(formData.get("shown") ?? "").split(",");
   const consents = optionalPurposes
@@ -35,6 +37,7 @@ export async function savePreferencesAction(
 
 export async function unsubscribeAction(token: string) {
   if (!TOKEN_RE.test(token)) redirect("/baja/invalido");
+  if (!(await allowByIp("unsubscribe"))) redirect(`/baja/${token}?error=limite`);
   const meta = await getRequestMeta();
   const { error } = await createAdminClient().rpc("unsubscribe_member", {
     p_token: token,
@@ -52,7 +55,7 @@ const rightsTypes = [
   "objection",
 ] as const;
 
-export type RightsState = { error?: "email" | "type" | "server" };
+export type RightsState = { error?: "email" | "type" | "server" | "rate" };
 
 export async function rightsRequestAction(
   slug: string,
@@ -60,6 +63,8 @@ export async function rightsRequestAction(
   formData: FormData,
 ): Promise<RightsState> {
   if (String(formData.get("website") ?? "") !== "") redirect(`/derechos/${slug}/enviado`);
+
+  if (!(await allowByIp("rights"))) return { error: "rate" };
 
   const email = String(formData.get("email") ?? "").trim().slice(0, 200);
   const type = String(formData.get("type") ?? "");

@@ -86,7 +86,8 @@
       "birthDate": "Indica una fecha de nacimiento válida.",
       "consent": "Necesitamos que aceptes esto para poder registrarte.",
       "guardian": "Completa los datos de tu padre, madre o tutor y marca su consentimiento.",
-      "server": "No hemos podido completar el registro. Inténtalo de nuevo en unos minutos."
+      "server": "No hemos podido completar el registro. Inténtalo de nuevo en unos minutos.",
+      "rateLimit": "Has enviado demasiados formularios desde esta conexión. Espera un rato y vuelve a intentarlo."
     }
   },
   "thanks": {
@@ -122,7 +123,8 @@
       "comms_sms": "SMS",
       "visibility": "Visibilidad",
       "images": "Fotos"
-    }
+    },
+    "rateLimit": "Demasiados intentos. Espera un rato y vuelve a intentarlo."
   },
   "unsubscribe": {
     "title": "Darte de baja de las comunicaciones",
@@ -131,7 +133,9 @@
     "doneTitle": "Listo, te hemos dado de baja",
     "doneBody": "No recibirás más comunicaciones. Puedes volver a activarlas cuando quieras desde tu enlace de preferencias.",
     "invalidTitle": "Enlace no válido",
-    "invalidBody": "Este enlace ha caducado o no es correcto. Pide uno nuevo a tu iglesia."
+    "invalidBody": "Este enlace ha caducado o no es correcto. Pide uno nuevo a tu iglesia.",
+    "tooManyTitle": "Demasiados intentos",
+    "tooManyBody": "Espera unos minutos y vuelve a abrir el enlace."
   },
   "rights": {
     "title": "Tus derechos sobre tus datos",
@@ -153,7 +157,8 @@
     "errors": {
       "email": "Escribe un correo válido.",
       "type": "Elige qué quieres pedir.",
-      "server": "No hemos podido enviar la solicitud. Inténtalo de nuevo."
+      "server": "No hemos podido enviar la solicitud. Inténtalo de nuevo.",
+      "rate": "Has enviado demasiadas solicitudes. Espera un rato y vuelve a intentarlo."
     },
     "sentTitle": "Solicitud recibida",
     "sentBody": "Si ese email corresponde a un registro, la iglesia te responderá en el plazo de un mes."

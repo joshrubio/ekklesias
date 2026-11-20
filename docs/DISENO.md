@@ -72,7 +72,7 @@ Decisiones de privacidad en el registro:
 - Se guarda un hash de la IP (con sal) y el agente de usuario como prueba del consentimiento. Conviene que la revisión legal confirme que es proporcionado y fije un plazo de conservación.
 - Cookie de idioma (`NEXT_LOCALE`): preferencia de la interfaz, sin seguimiento.
 
-Pendiente en esta pieza: límite de intentos por IP, verificación del correo del tutor, y los textos legales (casillas y política de privacidad) en versión definitiva tras la revisión legal. Las páginas `/privacidad/<slug>` y `/derechos/<slug>` son por ahora un borrador mínimo.
+Pendiente en esta pieza: verificación del correo del tutor y los textos legales (casillas y política de privacidad) en versión definitiva tras la revisión legal. Las páginas `/privacidad/<slug>` y `/derechos/<slug>` son por ahora un borrador mínimo.
 
 ## Idiomas: español, inglés, alemán y árabe
 
@@ -129,3 +129,20 @@ Migración `0004_last_admin_guard.sql` y páginas `/admin/usuarios` (administrad
 - Todas las acciones quedan en `access_log`.
 
 Pendiente: obligar a cambiar la contraseña temporal en el primer acceso, segundo factor (2FA) para administradores, y recuperación de contraseña por email.
+
+## Límite de intentos: estado actual
+
+Migración `0005_rate_limit.sql`. Contador por ventana fija dentro de Postgres (sin Redis ni servicios de Vercel, para mantener la portabilidad). La clave es la acción más un **hash salado** de la IP (o del email en el login); nunca se guarda una IP ni un email en claro. Cada intento cuenta, también los rechazados.
+
+| Acción | Límite |
+|---|---|
+| Registro | 40 por hora y conexión (un acto con wifi compartida no debe bloquear a la gente) |
+| Solicitud de derechos | 5 por hora y conexión |
+| Preferencias y baja | 20 por hora y conexión cada una |
+| Login | 10 por 15 min y conexión, y 5 por 15 min y email |
+
+Decisiones y límites conocidos:
+- Si el contador falla, la petición se permite (disponible antes que cerrado por un fallo ajeno).
+- El límite por email en el login permite que alguien bloquee 15 minutos a un administrador concreto a base de intentos. Es el precio de frenar la fuerza bruta; Supabase aplica además sus propios límites.
+- La IP sale de `x-forwarded-for`: es fiable detrás del proxy del hosting, pero se puede falsear si la app se expone sin proxy. Hay que tenerlo en cuenta al elegir hosting.
+- Los límites están en `src/lib/rate-limit.ts` y se ajustan allí.

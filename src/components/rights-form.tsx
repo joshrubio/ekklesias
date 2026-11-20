@@ -54,6 +54,9 @@ export function RightsForm({ slug }: { slug: string }) {
         </label>
         <textarea id="notes" name="notes" rows={3} maxLength={2000} className={inputClass} />
       </div>
+      {state.error === "rate" && (
+        <p role="alert" className="text-sm text-red-700 dark:text-red-400">{t("errors.rate")}</p>
+      )}
       {state.error === "server" && (
         <p role="alert" className="text-sm text-red-700 dark:text-red-400">{t("errors.server")}</p>
       )}

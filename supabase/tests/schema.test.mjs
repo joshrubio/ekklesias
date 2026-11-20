@@ -3,7 +3,7 @@ import { pgcrypto } from '@electric-sql/pglite/contrib/pgcrypto'
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 
-const migration = ['0001_init.sql', '0002_register_member.sql', '0003_preferences_rights.sql', '0004_last_admin_guard.sql']
+const migration = ['0001_init.sql', '0002_register_member.sql', '0003_preferences_rights.sql', '0004_last_admin_guard.sql', '0005_rate_limit.sql']
   .map(f => readFileSync(fileURLToPath(new URL('../migrations/' + f, import.meta.url)), 'utf8')).join('\n')
 const db = new PGlite({ extensions: { pgcrypto } })
 
@@ -234,6 +234,29 @@ check('un líder solo ve su propia fila de tenant_users', (await db.query(`selec
 await db.exec(`set request.jwt.claim.sub='${A}'`)
 check('un admin ve todas las filas de su iglesia', (await db.query(`select count(*)::int n from tenant_users`)).rows[0].n >= 2)
 await db.exec(`reset role; select set_config('request.jwt.claim.sub', '', false)`)
+
+// --- Límite de intentos (0005) ---
+const rl = async (k, lim = 3, win = 3600) => (await db.query(`select check_rate_limit('${k}', ${lim}, ${win}) ok`)).rows[0].ok
+const first = [await rl('t:a'), await rl('t:a'), await rl('t:a')]
+check('los intentos dentro del límite se permiten', first.every(Boolean))
+check('el intento siguiente se rechaza', (await rl('t:a')) === false)
+check('seguir intentando sigue rechazado', (await rl('t:a')) === false)
+check('otra clave tiene su propio contador', (await rl('t:b')) === true)
+await db.query(`select check_rate_limit('t:w', 1, 1)`)
+check('dentro de la ventana el segundo intento se rechaza', (await rl('t:w', 1, 1)) === false)
+await new Promise(r => setTimeout(r, 2100))
+check('al pasar la ventana el contador empieza de nuevo', (await rl('t:w', 1, 1)) === true)
+await rejects('límite no válido', `select check_rate_limit('x', 0, 60)`)
+await rejects('ventana no válida', `select check_rate_limit('x', 5, 0)`)
+await rejects('clave vacía', `select check_rate_limit('', 5, 60)`)
+await db.exec(`set role authenticated`)
+await rejects('authenticated no ejecuta check_rate_limit', `select check_rate_limit('x', 5, 60)`)
+check('authenticated no ve filas de rate_limits (RLS sin políticas)', (await db.query(`select count(*)::int n from rate_limits`)).rows[0].n === 0)
+await db.exec(`reset role; set role anon`)
+await rejects('anon no ejecuta check_rate_limit', `select check_rate_limit('x', 5, 60)`)
+await db.exec(`reset role; set role service_role`)
+check('service_role sí ejecuta check_rate_limit', (await rl('t:svc')) === true)
+await db.exec(`reset role`)
 
 console.log(fails === 0 ? '\nTODO OK' : `\n${fails} FALLOS`)
 process.exit(fails === 0 ? 0 : 1)
