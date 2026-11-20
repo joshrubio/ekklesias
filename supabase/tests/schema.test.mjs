@@ -3,7 +3,7 @@ import { pgcrypto } from '@electric-sql/pglite/contrib/pgcrypto'
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 
-const migration = ['0001_init.sql', '0002_register_member.sql', '0003_preferences_rights.sql']
+const migration = ['0001_init.sql', '0002_register_member.sql', '0003_preferences_rights.sql', '0004_last_admin_guard.sql']
   .map(f => readFileSync(fileURLToPath(new URL('../migrations/' + f, import.meta.url)), 'utf8')).join('\n')
 const db = new PGlite({ extensions: { pgcrypto } })
 
@@ -215,6 +215,24 @@ await db.exec(`set request.jwt.claim.sub='${C}'`)
 await rejects('un admin de otra iglesia no genera enlaces', `select create_preference_token('${PM}')`)
 await db.exec(`set request.jwt.claim.sub='${A}'`)
 check('el admin de la iglesia sí genera enlaces', (await tok(PM)).length >= 64)
+await db.exec(`reset role; select set_config('request.jwt.claim.sub', '', false)`)
+
+// --- Último administrador (0004) ---
+await db.exec(`reset role; select set_config('request.jwt.claim.sub', '', false)`)
+await rejects('no se puede degradar al único admin', `update tenant_users set role='leader' where tenant_id='${T1}' and user_id='${A}'`)
+await rejects('no se puede borrar al único admin', `delete from tenant_users where tenant_id='${T1}' and user_id='${A}'`)
+await db.exec(`insert into auth.users values ('dddddddd-0000-0000-0000-000000000001'); insert into tenant_users values ('${T1}','dddddddd-0000-0000-0000-000000000001','admin')`)
+await db.exec(`update tenant_users set role='leader' where tenant_id='${T1}' and user_id='${A}'`)
+check('con otro admin sí se puede degradar a uno', true)
+await rejects('ahora el otro es el único admin', `delete from tenant_users where tenant_id='${T1}' and user_id='dddddddd-0000-0000-0000-000000000001'`)
+await db.exec(`update tenant_users set role='admin' where tenant_id='${T1}' and user_id='${A}'`)
+await db.exec(`delete from tenant_users where tenant_id='${T1}' and user_id='dddddddd-0000-0000-0000-000000000001'`)
+check('un líder se puede borrar sin restricciones', (await db.query(`select count(*)::int n from tenant_users where tenant_id='${T1}' and role='leader'`)).rows[0].n === 1)
+
+await db.exec(`set role authenticated; set request.jwt.claim.sub='${B}'`)
+check('un líder solo ve su propia fila de tenant_users', (await db.query(`select count(*)::int n from tenant_users`)).rows[0].n === 1)
+await db.exec(`set request.jwt.claim.sub='${A}'`)
+check('un admin ve todas las filas de su iglesia', (await db.query(`select count(*)::int n from tenant_users`)).rows[0].n >= 2)
 await db.exec(`reset role; select set_config('request.jwt.claim.sub', '', false)`)
 
 console.log(fails === 0 ? '\nTODO OK' : `\n${fails} FALLOS`)

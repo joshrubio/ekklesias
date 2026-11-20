@@ -31,6 +31,14 @@ export default async function AdminLayout({ children }: LayoutProps<"/admin">) {
               Ajustes
             </Link>
           ) : null}
+          {session.role === "admin" ? (
+            <Link href="/admin/usuarios" className="underline-offset-4 hover:underline">
+              Usuarios
+            </Link>
+          ) : null}
+          <Link href="/admin/cuenta" className="underline-offset-4 hover:underline">
+            Mi cuenta
+          </Link>
         </nav>
         <form action={logoutAction} className="flex items-center gap-3 text-sm text-muted">
           <span>

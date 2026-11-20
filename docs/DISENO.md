@@ -116,3 +116,16 @@ Pendiente: envío real de estos enlaces por email (fase 2, hoy se copian a mano)
 - **Textos legales:** se elige permiso e idioma y se publica una **versión nueva** (nunca se edita una existente). Cada idioma lleva su propia numeración. Las personas ya registradas siguen apuntando a la versión exacta que aceptaron; la nueva se muestra solo a quien se registre o cambie sus permisos después. No se publica un texto idéntico al vigente. Cada publicación queda en `access_log`.
 
 Pendiente: gestión de usuarios y roles del panel (hoy se crean con `pnpm seed:demo` o a mano en Supabase), y decidir si hay que pedir de nuevo el consentimiento a los miembros actuales cuando un texto cambia de forma sustancial (criterio para la revisión legal).
+
+## Usuarios del panel: estado actual
+
+Migración `0004_last_admin_guard.sql` y páginas `/admin/usuarios` (administradores) y `/admin/cuenta` (todos).
+
+- **Crear usuario:** el administrador indica email y rol (administrador o líder). Se crea la cuenta con una contraseña temporal aleatoria que se muestra **una sola vez**, para entregarla por un canal seguro. No hay envío de emails todavía (fase 2); cuando exista, se sustituirá por una invitación por email.
+- **Roles, restablecer contraseña y quitar:** un administrador no puede cambiarse el rol ni quitarse a sí mismo. Quitar a alguien borra también su cuenta.
+- **Siempre queda un administrador:** lo garantiza un trigger en la base de datos, no solo la app.
+- **Privacidad entre usuarios:** un líder solo ve su propia fila de `tenant_users`; el listado completo es de administradores.
+- **Mi cuenta:** cambio de contraseña (mínimo 12 caracteres).
+- Todas las acciones quedan en `access_log`.
+
+Pendiente: obligar a cambiar la contraseña temporal en el primer acceso, segundo factor (2FA) para administradores, y recuperación de contraseña por email.

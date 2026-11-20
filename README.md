@@ -12,7 +12,7 @@ Cada persona se registra desde su móvil con un enlace personal (tarjeta NFC o Q
 - **Enlace personal**: cada miembro recibe uno para invitar a otros, y el alta guarda quién invitó a quién.
 - **Preferencias y baja** (`/preferencias/<token>`, `/baja/<token>`): el miembro cambia o retira permisos sin contraseña, con enlaces de caducidad corta.
 - **Derechos RGPD** (`/derechos/<iglesia>`): formulario público y bandeja en el panel con plazo de un mes, descarga de datos en JSON y supresión (anonimización).
-- **Panel** (`/login`, `/admin`): lista con búsqueda y filtro por permiso, ficha con historial completo de consentimientos, exportación CSV, ajustes de la iglesia y textos legales versionados. Los administradores lo ven todo; los líderes solo ven a quien aceptó ser visible.
+- **Panel** (`/login`, `/admin`): lista con búsqueda y filtro por permiso, ficha con historial completo de consentimientos, exportación CSV, ajustes de la iglesia, textos legales versionados y gestión de usuarios y roles. Los administradores lo ven todo; los líderes solo ven a quien aceptó ser visible.
 
 ## Requisitos
 
