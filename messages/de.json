@@ -196,22 +196,22 @@
     "hero": {
       "eyebrow": "Mitgliederverwaltung für Gemeinden",
       "title": "Mit einem Tipp anmelden. Mit jedem in Verbindung bleiben.",
-      "body": "NFC-Karten und QR-Codes zum Beitreten in einer Minute, Nachrichten an alle, die zugestimmt haben, und ein Admin-Bereich, der jeden Eintrag unter Kontrolle hält.",
-      "cta": "Demo-Gemeinde ansehen",
+      "body": "Jeder stellt sich in einer Minute am Handy vor und entscheidet, was er teilt. Dein Team weiß, wer gekommen ist, wer ihn eingeladen hat und wie es ihn begleiten kann.",
+      "cta": "Demo ansehen",
       "secondary": "So funktioniert es",
-      "note": "Die Demo verwendet erfundene Daten."
+      "note": "Erfundene Daten. Melde dich an, wie es ein Besucher täte."
     },
     "steps": {
       "eyebrow": "So funktioniert es",
-      "title": "Von einem Tipp zu einem Gespräch",
+      "title": "Vom ersten Kontakt zum ersten Hallo",
       "items": [
         {
-          "title": "Ein Tipp und sie sind dabei",
-          "body": "Jeder bekommt eine NFC-Karte oder einen QR-Code. Das Formular öffnet sich ohne Installation und ohne Konto."
+          "title": "Sie halten an oder scannen",
+          "body": "Ein Tipp auf die Karte oder ein Scan des Codes, und das Formular öffnet sich auf ihrem Handy."
         },
         {
-          "title": "Sie stellen sich auf ihre Weise vor",
-          "body": "Name, Handynummer und wenig mehr. Jede Einwilligung (E-Mail, WhatsApp, Fotos, Sichtbarkeit) ist ein eigenes Kästchen und nie vorab angekreuzt."
+          "title": "Sie stellen sich vor",
+          "body": "Name, Handynummer und wenig mehr. Sie wählen einzeln, welche Einwilligungen sie geben."
         },
         {
           "title": "Dein Team macht den nächsten Schritt",
@@ -226,7 +226,7 @@
       "items": [
         {
           "title": "Jede Einladung zählt",
-          "body": "Jedes Mitglied hat einen persönlichen Link. Du siehst, wer wen eingeladen hat und wem du danken kannst."
+          "body": "Jedes Mitglied hat einen persönlichen Link, um andere einzuladen. Du siehst, wer wen eingeladen hat und wem du danken kannst."
         },
         {
           "title": "Ein Willkommen zur rechten Zeit",
@@ -244,7 +244,7 @@
       "items": [
         {
           "title": "Du entscheidest",
-          "body": "Ändere deine Einwilligungen oder melde dich mit einem persönlichen Link ab, wann du willst, ohne jemanden anzurufen."
+          "body": "Ändere deine Einwilligungen oder melde dich ab, wann du willst, ohne jemanden anzurufen."
         },
         {
           "title": "Deine Rechte, ein Klick entfernt",
@@ -252,17 +252,17 @@
         },
         {
           "title": "Kein Kleingedrucktes",
-          "body": "Wir speichern, welchen Text du wann akzeptiert hast, damit du jederzeit nachprüfen kannst, wozu du Ja gesagt hast."
+          "body": "Kein Kästchen ist vorab angekreuzt. Und wir speichern, welchen Text du wann akzeptiert hast, damit du nachprüfen kannst, wozu du Ja gesagt hast."
         }
       ]
     },
     "trust": {
       "title": "Nähe, mit Respekt.",
-      "body": "Die Zugehörigkeit zu einer Gemeinde ist eine sensible Information, deshalb gehen wir sorgfältig damit um. Jede Gemeinde ist für ihre Daten verantwortlich, und Ekklesias verwahrt sie in ihrem Auftrag, von Anfang an auf DSGVO und das spanische LOPDGDD ausgelegt, mit Daten auf Servern in der Europäischen Union.",
+      "body": "Die Zugehörigkeit zu einer Gemeinde ist eine sensible Information, und wir behandeln sie so: Jede Einwilligung wird einzeln mit Datum und Version gespeichert, und die Gemeinde verantwortet ihre Daten. Ausgelegt für DSGVO und das spanische LOPDGDD.",
       "facts": [
         {
           "value": "7",
-          "label": "unabhängige Einwilligungen, keine vorab angekreuzt"
+          "label": "unabhängige Einwilligungen"
         },
         {
           "value": "4",
@@ -270,7 +270,7 @@
         },
         {
           "value": "0",
-          "label": "Apps zu installieren oder Konten anzulegen"
+          "label": "Apps zu installieren oder Konten anzulegen, um sich anzumelden"
         }
       ]
     },
@@ -279,7 +279,7 @@
       "items": [
         {
           "q": "Brauchen Mitglieder ein Konto?",
-          "a": "Nein. Sie melden sich mit einem Formular an und nutzen später bei Änderungen einen persönlichen Link. Nur dein Team hat Benutzername und Passwort."
+          "a": "Nein. Sie melden sich mit einem Formular an und nutzen für spätere Änderungen ihren persönlichen Link. Nur dein Team hat Benutzername und Passwort."
         },
         {
           "q": "Was ist, wenn jemand unter 14 ist?",
@@ -290,15 +290,15 @@
           "a": "Ja. Jede Gemeinde hat ihre eigenen Daten, ihre Marke und ihr Team, vollständig getrennt, auch wenn sie dieselbe Plattform nutzen."
         },
         {
-          "q": "Kann man es ausprobieren?",
-          "a": "Ja. Die Demo-Gemeinde funktioniert wirklich, mit erfundenen Daten. Melde dich an und sieh, wie es sich anfühlt."
+          "q": "Wo werden die Daten gespeichert?",
+          "a": "Auf Servern in der Europäischen Union. Jede Gemeinde ist für ihre Daten verantwortlich, und Ekklesias verwahrt sie in ihrem Auftrag."
         }
       ]
     },
     "cta": {
-      "title": "Beginne ein Gespräch",
-      "body": "Melde dich an, wie es jemand tun würde, der deine Gemeinde zum ersten Mal besucht, und spür, wie es ist.",
-      "button": "Demo-Gemeinde ansehen"
+      "title": "Sieh es, wie es ein Besucher deiner Gemeinde sähe",
+      "body": "Geh in die Demo-Gemeinde und melde dich mit erfundenen Daten an.",
+      "button": "Demo ausprobieren"
     },
     "footer": "Demoversion. Die Rechtstexte sind Entwürfe, die noch geprüft werden müssen.",
     "features": {
@@ -308,7 +308,7 @@
       "items": [
         {
           "title": "NFC und QR-Codes",
-          "body": "Eine Karte, ein Tag oder ein Plakat: Handy anhalten oder scannen öffnet das Formular, ohne App und ohne Konto. Jedes Mitglied hat einen persönlichen Link, und du weißt, über welchen Weg jeder kam."
+          "body": "Eine Karte, ein Tag oder ein Plakat. Jede Anmeldung speichert, über welchen Weg die Person kam, damit du weißt, was in deiner Gemeinde funktioniert."
         },
         {
           "title": "Nachrichten",
@@ -317,13 +317,51 @@
         },
         {
           "title": "Admin-Bereich",
-          "body": "Mitgliederliste und Suche, Akte mit vollständigem Verlauf, Betroffenenanfragen, CSV-Export und ein Team mit Administrator- und Leiterrollen."
+          "body": "Mitgliedersuche, eine Akte mit vollständigem Verlauf, CSV-Export sowie Administrator- und Leiterrollen, um die Arbeit zu teilen."
         },
         {
           "title": "Kontrolle über die Einträge",
-          "body": "Erziehungsberechtigte bestätigen Minderjährige, du kannst Daten auf Wunsch löschen, neue Versionen deiner Rechtstexte veröffentlichen und sehen, wer welche Akte eingesehen hat."
+          "body": "Bestätigung durch Erziehungsberechtigte bei Minderjährigen, Löschung von Daten auf Wunsch, Versionen deiner Rechtstexte und ein Protokoll, wer welche Akte eingesehen hat."
         }
       ]
+    },
+    "customize": {
+      "eyebrow": "Anpassung",
+      "title": "Man soll spüren, dass es deine Gemeinde ist",
+      "body": "Jede Gemeinde lädt ihr Logo hoch, wählt ihre Farben und eine Schrift für die Überschriften und entscheidet, ob ihre Seiten hell oder dunkel sind. Wer sich anmeldet, sieht dein Zuhause, nicht unseres.",
+      "items": [
+        {
+          "title": "Dein Logo",
+          "body": "PNG, JPG oder WebP. Es erscheint im Anmeldeformular und in deinem Bereich."
+        },
+        {
+          "title": "Deine Farben",
+          "body": "Eine Hauptfarbe und eine Akzentfarbe. Wir sorgen dafür, dass sie gut lesbar bleiben."
+        },
+        {
+          "title": "Deine Schrift",
+          "body": "Neun Optionen für Überschriften, von klassisch bis modern."
+        },
+        {
+          "title": "Hell oder dunkel",
+          "body": "Standardmäßig hell, oder dunkel, wenn es besser zu euch passt."
+        }
+      ],
+      "examples": {
+        "lifepoint": "Lifepoint · hell",
+        "betel": "Betel · dunkel",
+        "montesion": "Monte Sion · hell"
+      },
+      "editorTitle": "Mit Live-Vorschau",
+      "editorBody": "Ändere Farben, Schrift oder Modus in den Einstellungen und sieh das Ergebnis vor dem Speichern."
+    },
+    "visuals": {
+      "heroAlt": "Willkommensseite einer Gemeinde auf dem Handy",
+      "qrLabel": "Lifepoint",
+      "qrHint": "Scanne ihn mit dem Handy: Er öffnet die Demo-Gemeinde.",
+      "adminAlt": "Admin-Bereich mit der Mitgliederliste",
+      "permisosAlt": "Anmeldeformular mit nicht angekreuzten Einwilligungen",
+      "editorAlt": "Stil-Editor der Gemeinde"
     }
   }
 }

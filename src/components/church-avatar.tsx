@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { logoUrl } from "@/lib/logo";
 import { cn } from "@/lib/utils";
 
@@ -7,12 +10,13 @@ type Props = {
   className?: string;
 };
 
-/** Logo de la iglesia; si no hay, la inicial sobre el color principal. */
+/** Logo de la iglesia; si no hay o no carga, la inicial sobre el color principal. */
 export function ChurchAvatar({ name, logoPath, className }: Props) {
   const src = logoUrl(logoPath);
+  const [failed, setFailed] = useState(false);
   const base = "inline-flex size-14 shrink-0 items-center justify-center overflow-hidden rounded-full";
 
-  if (src) {
+  if (src && !failed) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
       <img
@@ -20,6 +24,7 @@ export function ChurchAvatar({ name, logoPath, className }: Props) {
         alt={name}
         width={56}
         height={56}
+        onError={() => setFailed(true)}
         className={cn(base, "bg-white object-contain p-1 ring-1 ring-border", className)}
       />
     );

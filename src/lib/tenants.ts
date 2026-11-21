@@ -11,6 +11,7 @@ export type Tenant = {
   brand_color: string;
   accent_color: string | null;
   font: string;
+  theme_mode: string;
   logo_path: string | null;
   contact_email: string;
 };
@@ -24,7 +25,7 @@ export function safeBrand(color: string): string {
 export const getTenantBySlug = cache(async (slug: string) => {
   const { data } = await createAdminClient()
     .from("tenants")
-    .select("id, slug, name, brand_color, accent_color, font, logo_path, contact_email")
+    .select("id, slug, name, brand_color, accent_color, font, theme_mode, logo_path, contact_email")
     .eq("slug", slug)
     .maybeSingle();
   return (data as Tenant | null) ?? null;
@@ -42,7 +43,7 @@ export async function getInviter(code: string) {
 
   const { data: tenant } = await createAdminClient()
     .from("tenants")
-    .select("id, slug, name, brand_color, accent_color, font, logo_path, contact_email")
+    .select("id, slug, name, brand_color, accent_color, font, theme_mode, logo_path, contact_email")
     .eq("id", row.tenant_id)
     .maybeSingle();
   if (!tenant) return null;

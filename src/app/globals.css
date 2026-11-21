@@ -2,7 +2,9 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-@custom-variant dark (&:where(.dark, .dark *));
+/* La web es oscura salvo que la página contenga un elemento con data-theme="light"
+   (las iglesias eligen su modo). Las utilidades dark: siguen ese mismo criterio. */
+@custom-variant dark (html:not(:has([data-theme="light"])) &);
 
 :root {
   color-scheme: dark;
@@ -32,6 +34,54 @@
   --input: #1a2e3f;
   --ring: #22d3ee;
   --radius: 0.75rem;
+}
+
+/* Paleta clara. Se activa en toda la página (cabecera y fondo incluidos) cuando algún
+   elemento lleva data-theme="light", y en una vista previa con data-scope-theme. */
+html:has([data-theme="light"]),
+[data-scope-theme="light"] {
+  color-scheme: light;
+  --background: #f7fafc;
+  --foreground: #0b1620;
+  --muted: #4a5d6b;
+  --surface: #ffffff;
+  --border: #d6e0e8;
+  --sand: #edf3f7;
+  --card: #ffffff;
+  --card-foreground: #0b1620;
+  --popover: #ffffff;
+  --popover-foreground: #0b1620;
+  --secondary: #eaf1f6;
+  --secondary-foreground: #0b1620;
+  --accent: #dcecf3;
+  --accent-foreground: #0b1620;
+  --destructive: #dc2626;
+  --input: #d6e0e8;
+}
+
+[data-scope-theme="dark"] {
+  color-scheme: dark;
+  --background: #04090f;
+  --foreground: #e8f4f8;
+  --muted: #8fa7b3;
+  --surface: #0a141d;
+  --border: #1a2e3f;
+  --sand: #07111a;
+  --card: #0a141d;
+  --card-foreground: #e8f4f8;
+  --popover: #0a141d;
+  --popover-foreground: #e8f4f8;
+  --secondary: #0f1d2a;
+  --secondary-foreground: #e8f4f8;
+  --accent: #12303d;
+  --accent-foreground: #e8f4f8;
+  --destructive: #f87171;
+  --input: #1a2e3f;
+}
+
+[data-scope-theme] {
+  background: var(--background);
+  color: var(--foreground);
 }
 
 @theme inline {
@@ -70,6 +120,7 @@ html {
 }
 
 body {
+  overflow-x: clip;
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), system-ui, sans-serif;
@@ -125,7 +176,7 @@ button.underline:hover {
   color: var(--cyan-soft);
 }
 
-input:not([type="checkbox"]):not([type="radio"]),
+input:not([type="checkbox"]):not([type="radio"]):not([type="color"]),
 select,
 textarea {
   border-radius: var(--radius-md);
@@ -133,13 +184,13 @@ textarea {
   background-color: var(--surface);
 }
 
-input:not([type="checkbox"]):not([type="radio"]):hover,
+input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):hover,
 select:hover,
 textarea:hover {
   border-color: color-mix(in srgb, var(--cyan) 45%, var(--border));
 }
 
-input:not([type="checkbox"]):not([type="radio"]):focus,
+input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):focus,
 select:focus,
 textarea:focus {
   border-color: var(--cyan);
@@ -189,14 +240,22 @@ main {
 
 main::before {
   content: "";
-  position: absolute;
+  position: fixed;
   inset: 0 0 auto 0;
-  height: 30rem;
+  height: 36rem;
   z-index: -1;
   pointer-events: none;
   background: radial-gradient(
-    60rem 28rem at 50% -8rem,
+    60rem 28rem at 50% 0,
     color-mix(in srgb, var(--cyan) 16%, transparent),
+    transparent 70%
+  );
+}
+
+html:has([data-theme="light"]) main::before {
+  background: radial-gradient(
+    60rem 26rem at 50% 0,
+    color-mix(in srgb, var(--cyan) 9%, transparent),
     transparent 70%
   );
 }
@@ -204,11 +263,9 @@ main::before {
 @keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(10px);
   }
   to {
     opacity: 1;
-    transform: none;
   }
 }
 
@@ -240,4 +297,37 @@ main::before {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Selector de color: una sola pieza redondeada, sin el cuadrado interior del navegador. */
+input[type="color"] {
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: none;
+  overflow: hidden;
+  cursor: pointer;
+}
+input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+input[type="color"]::-webkit-color-swatch {
+  border: 0;
+  border-radius: 0;
+}
+input[type="color"]::-moz-color-swatch {
+  border: 0;
+  border-radius: 0;
+}
+input[type="color"]:hover {
+  border-color: color-mix(in srgb, var(--cyan) 55%, var(--border));
+}
+input[type="color"]:focus-visible {
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--cyan) 20%, transparent);
+}
+input[type="color"]:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }

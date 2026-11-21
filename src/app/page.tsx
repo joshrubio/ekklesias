@@ -24,6 +24,8 @@ import {
 import { WaveBackground } from "@/components/wave-background";
 import { Reveal } from "@/components/reveal";
 import { Backdrop } from "@/components/illustrations";
+import { BrowserFrame, PhoneFrame } from "@/components/frames";
+import { QrCard } from "@/components/qr-card";
 import { cn } from "@/lib/utils";
 
 type Item = { title: string; body: string; soon?: boolean };
@@ -44,7 +46,7 @@ function Eyebrow({ children }: { children: React.ReactNode }) {
   );
 }
 
-function Ripples() {
+function Ripples({ alt }: { alt: string }) {
   return (
     <div className="relative flex aspect-square w-full max-w-sm items-center justify-center">
       {[0, 1, 2].map((i) => (
@@ -55,19 +57,12 @@ function Ripples() {
           style={{ animation: `ripple 4.5s ${i * 1.5}s cubic-bezier(0.22, 1, 0.36, 1) infinite` }}
         />
       ))}
-      <svg viewBox="0 0 200 320" className="relative h-4/5 w-auto drop-shadow-[0_0_40px_rgba(34,211,238,0.35)]" aria-hidden="true" fill="none">
-        <rect x="20" y="8" width="160" height="304" rx="28" fill="#0a141d" stroke="#67e8f9" strokeWidth="3" />
-        <rect x="76" y="20" width="48" height="8" rx="4" fill="#1a2e3f" />
-        <rect x="42" y="64" width="116" height="12" rx="6" fill="#e8f4f8" opacity="0.9" />
-        <rect x="42" y="90" width="84" height="9" rx="4.5" fill="#1a2e3f" />
-        <rect x="42" y="136" width="18" height="18" rx="5" fill="#22d3ee" />
-        <rect x="70" y="140" width="80" height="10" rx="5" fill="#1a2e3f" />
-        <rect x="42" y="170" width="18" height="18" rx="5" fill="#22d3ee" />
-        <rect x="70" y="174" width="68" height="10" rx="5" fill="#1a2e3f" />
-        <rect x="42" y="204" width="18" height="18" rx="5" fill="none" stroke="#1a2e3f" strokeWidth="3" />
-        <rect x="70" y="208" width="74" height="10" rx="5" fill="#1a2e3f" />
-        <rect x="42" y="256" width="116" height="30" rx="15" fill="#22d3ee" />
-      </svg>
+      <PhoneFrame
+        src="/screens/church-lifepoint.webp"
+        alt={alt}
+        priority
+        className="relative w-[48%] drop-shadow-[0_0_60px_rgba(34,211,238,0.25)]"
+      />
     </div>
   );
 }
@@ -96,6 +91,7 @@ export default async function Home() {
   const steps = t.raw("steps.items") as Item[];
   const community = t.raw("community.items") as Item[];
   const features = t.raw("features.items") as Item[];
+  const customize = t.raw("customize.items") as Item[];
   const members = t.raw("members.items") as Item[];
   const facts = t.raw("trust.facts") as Fact[];
   const faq = t.raw("faq.items") as Faq[];
@@ -130,39 +126,126 @@ export default async function Home() {
             </Reveal>
           </div>
           <Reveal delay={0.2} className="flex justify-center lg:justify-end">
-            <Ripples />
+            <Ripples alt={t("visuals.heroAlt")} />
           </Reveal>
         </div>
       </section>
 
-      <section className="mx-auto flex w-full max-w-6xl flex-col gap-12 px-6 py-16 sm:py-28">
+      <section className="mx-auto flex w-full max-w-6xl flex-col gap-20 px-6 py-16 sm:py-28">
         <Reveal className="flex max-w-3xl flex-col items-start gap-4">
           <Eyebrow>{t("features.eyebrow")}</Eyebrow>
           <h2 className="text-4xl sm:text-6xl">{t("features.title")}</h2>
         </Reveal>
-        <ul className="grid gap-5 md:grid-cols-2">
-          {features.map((item, i) => {
-            const Icon = featureIcons[i];
-            return (
-              <Reveal as="li" key={item.title} delay={(i % 2) * 0.1} className="list-none">
-                <div className="lift flex h-full flex-col gap-3 rounded-xl border border-border bg-surface px-8 pb-9 pt-10">
-                  <div className="flex items-center justify-between">
-                    <span className="flex size-12 items-center justify-center rounded-full bg-cyan/15 text-cyan">
-                      <Icon className="size-6" />
-                    </span>
-                    {item.soon ? (
-                      <Badge variant="outline" className="border-cyan/40 text-cyan-soft">
-                        {t("features.soon")}
-                      </Badge>
-                    ) : null}
-                  </div>
-                  <h3 className="font-display text-2xl font-semibold">{item.title}</h3>
-                  <p className="text-base leading-relaxed text-muted">{item.body}</p>
+
+        {[0, 2, 3].map((index, row) => {
+          const item = features[index];
+          const Icon = featureIcons[index];
+          const flip = row % 2 === 1;
+          return (
+            <Reveal
+              key={item.title}
+              className="grid items-center gap-10 lg:grid-cols-2 lg:gap-20"
+            >
+              <div className={cn("flex flex-col gap-4", flip && "lg:order-2")}>
+                <span className="flex size-12 items-center justify-center rounded-full bg-cyan/15 text-cyan">
+                  <Icon className="size-6" />
+                </span>
+                <h3 className="font-display text-3xl font-semibold sm:text-4xl">{item.title}</h3>
+                <p className="text-lg leading-relaxed text-muted">{item.body}</p>
+              </div>
+              <div className={cn("flex justify-center", flip && "lg:order-1")}>
+                {index === 0 ? (
+                  <QrCard label={t("visuals.qrLabel")} hint={t("visuals.qrHint")} />
+                ) : index === 2 ? (
+                  <BrowserFrame
+                    src="/screens/admin-miembros.webp"
+                    alt={t("visuals.adminAlt")}
+                    url="Ekklesias · Miembros"
+                    width={1800}
+                    height={1055}
+                  />
+                ) : (
+                  <PhoneFrame
+                    src="/screens/permisos-betel.webp"
+                    alt={t("visuals.permisosAlt")}
+                    className="max-w-[19rem]"
+                  />
+                )}
+              </div>
+            </Reveal>
+          );
+        })}
+
+        <Reveal>
+          <div className="flex flex-col gap-3 rounded-xl border border-border bg-surface px-8 py-8 sm:flex-row sm:items-center sm:gap-6">
+            <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-cyan/15 text-cyan">
+              <MessageSquareIcon className="size-6" />
+            </span>
+            <div className="flex flex-1 flex-col gap-1">
+              <h3 className="font-display text-2xl font-semibold">{features[1].title}</h3>
+              <p className="leading-relaxed text-muted">{features[1].body}</p>
+            </div>
+            <Badge variant="outline" className="w-fit border-cyan/40 text-cyan-soft">
+              {t("features.soon")}
+            </Badge>
+          </div>
+        </Reveal>
+      </section>
+
+      <section className="relative isolate overflow-hidden border-y border-border bg-sand py-16 sm:py-28">
+        <div className="mx-auto flex w-full max-w-6xl flex-col gap-16 px-6">
+          <Reveal className="flex max-w-3xl flex-col items-start gap-4">
+            <Eyebrow>{t("customize.eyebrow")}</Eyebrow>
+            <h2 className="text-4xl sm:text-6xl">{t("customize.title")}</h2>
+            <p className="text-lg leading-relaxed text-muted sm:text-xl">{t("customize.body")}</p>
+          </Reveal>
+
+          <div className="grid items-end gap-10 sm:grid-cols-3">
+            {(["lifepoint", "betel", "montesion"] as const).map((slug, i) => (
+              <Reveal
+                key={slug}
+                delay={i * 0.12}
+                className={cn("flex flex-col items-center gap-4", i === 1 && "sm:-translate-y-10")}
+              >
+                <PhoneFrame
+                  src={`/screens/church-${slug}.webp`}
+                  alt={t(`customize.examples.${slug}`)}
+                  className="max-w-[17rem]"
+                />
+                <p className="text-sm font-medium text-muted">{t(`customize.examples.${slug}`)}</p>
+              </Reveal>
+            ))}
+          </div>
+
+          <ul className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {customize.map((item, i) => (
+              <Reveal as="li" key={item.title} delay={i * 0.08} className="group flex list-none gap-4">
+                <span
+                  aria-hidden="true"
+                  className="mt-2 size-3 shrink-0 rounded-full bg-cyan shadow-[0_0_14px_color-mix(in_srgb,var(--cyan)_70%,transparent)] transition-transform duration-300 group-hover:scale-150"
+                />
+                <div className="flex flex-col gap-1">
+                  <h3 className="font-semibold">{item.title}</h3>
+                  <p className="leading-relaxed text-muted">{item.body}</p>
                 </div>
               </Reveal>
-            );
-          })}
-        </ul>
+            ))}
+          </ul>
+
+          <Reveal className="grid items-center gap-10 lg:grid-cols-[1fr_1.5fr] lg:gap-16">
+            <div className="flex flex-col gap-3">
+              <h3 className="font-display text-3xl font-semibold">{t("customize.editorTitle")}</h3>
+              <p className="text-lg leading-relaxed text-muted">{t("customize.editorBody")}</p>
+            </div>
+            <BrowserFrame
+              src="/screens/admin-editor.webp"
+              alt={t("visuals.editorAlt")}
+              url="Ekklesias · Ajustes"
+              width={1800}
+              height={1195}
+            />
+          </Reveal>
+        </div>
       </section>
 
       <section id="como" className="relative isolate overflow-hidden border-y border-border bg-sand py-16 sm:py-24">

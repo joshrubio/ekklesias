@@ -1,4 +1,4 @@
-import { tenantStyle } from "@/lib/theme";
+import { tenantProps } from "@/lib/theme";
 import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
 import { PreferencesForm } from "@/components/preferences-form";
@@ -36,7 +36,7 @@ export default async function PreferencesPage({
   return (
     <main
       className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-6 px-6 py-12"
-      style={tenantStyle(tenant)}
+      {...tenantProps(tenant)}
     >
       <h1 className="text-3xl font-semibold tracking-tight">
         {t("title", { name: prefs.first_name })}

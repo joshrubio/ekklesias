@@ -20,7 +20,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang={locale}
       dir={dirFor(locale)}
-      className={`${fontClassNames} dark h-full antialiased`}
+      className={`${fontClassNames} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <NextIntlClientProvider>

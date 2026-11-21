@@ -1,4 +1,4 @@
-import { tenantStyle } from "@/lib/theme";
+import { tenantProps } from "@/lib/theme";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
@@ -16,7 +16,7 @@ export default async function ChurchHome({ params }: PageProps<"/c/[slug]">) {
   return (
     <main
       className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-8 px-6 py-12 sm:py-20"
-      style={tenantStyle(tenant)}
+      {...tenantProps(tenant)}
     >
       <ChurchAvatar name={tenant.name} logoPath={tenant.logo_path} className="size-20" />
       <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">

@@ -8,7 +8,7 @@ import { QrPanel } from "@/components/qr-panel";
 import { ThemeEditor } from "@/components/theme-editor";
 import { ChurchAvatar } from "@/components/church-avatar";
 import { removeLogoAction, uploadLogoAction } from "@/app/admin/logo-actions";
-import { defaultFont, isFontKey } from "@/lib/theme";
+import { defaultFont, defaultMode, isFontKey, isThemeMode } from "@/lib/theme";
 import { getSiteUrl } from "@/lib/mailer";
 import { churchLink } from "@/lib/qr";
 
@@ -16,6 +16,7 @@ const messages: Record<string, string> = {
   nombre: "Escribe el nombre de la iglesia.",
   color: "El color no es válido.",
   fuente: "Elige una tipografía de la lista.",
+  modo: "Elige modo claro u oscuro.",
   "logo-vacio": "Elige una imagen para el logo.",
   "logo-tamano": "El logo pesa más de 512 KB.",
   "logo-tipo": "El logo debe ser PNG, JPG o WebP.",
@@ -53,7 +54,7 @@ export default async function SettingsPage({
   const [{ data: tenant }, { data: versions }] = await Promise.all([
     supabase
       .from("tenants")
-      .select("name, brand_color, accent_color, font, logo_path, contact_email")
+      .select("name, brand_color, accent_color, font, theme_mode, logo_path, contact_email")
       .eq("id", session.tenant.id)
       .single(),
     supabase
@@ -125,6 +126,7 @@ export default async function SettingsPage({
             brandColor={tenant?.brand_color ?? "#22d3ee"}
             accentColor={tenant?.accent_color ?? null}
             font={isFontKey(tenant?.font) ? tenant.font : defaultFont}
+            mode={isThemeMode(tenant?.theme_mode) ? tenant.theme_mode : defaultMode}
           />
           <button type="submit" className="self-start rounded-full bg-brand glow-btn px-4 py-2 text-base font-semibold text-brand-foreground">
             Guardar

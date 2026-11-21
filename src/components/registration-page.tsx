@@ -1,4 +1,4 @@
-import { tenantStyle } from "@/lib/theme";
+import { tenantProps } from "@/lib/theme";
 import { getLocale, getTranslations } from "next-intl/server";
 import { RegistrationForm } from "@/components/registration-form";
 import { ChurchAvatar } from "@/components/church-avatar";
@@ -21,7 +21,7 @@ export async function RegistrationPage({ tenant, source, inviter }: Props) {
   return (
     <main
       className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-6 px-6 pb-16 pt-4"
-      style={tenantStyle(tenant)}
+      {...tenantProps(tenant)}
     >
       <header className="flex flex-col gap-3">
         <ChurchAvatar name={tenant.name} logoPath={tenant.logo_path} />

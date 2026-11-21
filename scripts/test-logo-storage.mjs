@@ -67,6 +67,9 @@ check("logo_path con extensión svg se rechaza en la tabla", !!dbSvg);
 const res = await fetch(`${url}/storage/v1/object/public/tenant-logos/${own}`);
 check("el logo se lee por URL pública", res.ok && res.headers.get("content-type") === "image/png");
 
-await bucket.remove([own]);
+const removed = await bucket.remove([own]);
+check("el admin puede borrar el logo (no queda huérfano)", !removed.error && removed.data?.length === 1);
+const left = await bucket.list(mine.id);
+check("tras borrar, el fichero ya no está en la carpeta", !(left.data ?? []).some((f) => own.endsWith(f.name)));
 console.log(fails === 0 ? "\nTODO OK" : `\n${fails} FALLOS`);
 process.exit(fails === 0 ? 0 : 1);

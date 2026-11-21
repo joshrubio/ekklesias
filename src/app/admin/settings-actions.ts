@@ -1,6 +1,6 @@
 "use server";
 
-import { isFontKey, isHex } from "@/lib/theme";
+import { isFontKey, isHex, isThemeMode } from "@/lib/theme";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { getAdminSession } from "@/lib/admin-session";
@@ -23,12 +23,14 @@ export async function updateChurchAction(formData: FormData) {
   const accentSame = formData.get("accent_same") === "on";
   const accent = String(formData.get("accent_color") ?? "").trim();
   const font = String(formData.get("font") ?? "");
+  const mode = String(formData.get("theme_mode") ?? "");
 
   if (!name) redirect("/admin/ajustes?error=nombre");
   if (!/^#[0-9a-fA-F]{6}$/.test(color)) redirect("/admin/ajustes?error=color");
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) redirect("/admin/ajustes?error=email");
   if (!accentSame && !isHex(accent)) redirect("/admin/ajustes?error=color");
   if (!isFontKey(font)) redirect("/admin/ajustes?error=fuente");
+  if (!isThemeMode(mode)) redirect("/admin/ajustes?error=modo");
 
   const supabase = await createUserClient();
   const { error } = await supabase
@@ -38,6 +40,7 @@ export async function updateChurchAction(formData: FormData) {
       brand_color: color,
       accent_color: accentSame ? null : accent,
       font,
+      theme_mode: mode,
       contact_email: email,
     })
     .eq("id", session.tenant.id);

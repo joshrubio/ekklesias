@@ -1,4 +1,4 @@
-import { tenantStyle } from "@/lib/theme";
+import { tenantProps } from "@/lib/theme";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { type Tenant } from "@/lib/tenants";
@@ -17,7 +17,7 @@ export async function LegalStub({
   return (
     <main
       className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-6 px-6 py-12"
-      style={tenantStyle(tenant)}
+      {...tenantProps(tenant)}
     >
       <h1 className="text-3xl font-semibold tracking-tight">{title}</h1>
       <p className="rounded-md border border-border bg-surface p-3 text-sm text-muted">

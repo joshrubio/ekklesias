@@ -1,13 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { fontKeys, fontLabels, tenantStyle, type FontKey } from "@/lib/theme";
+import { fontKeys, fontLabels, tenantStyle, type FontKey, type ThemeMode } from "@/lib/theme";
 
 type Props = {
   churchName: string;
   brandColor: string;
   accentColor: string | null;
   font: FontKey;
+  mode: ThemeMode;
 };
 
 const family = (key: FontKey) =>
@@ -18,11 +19,13 @@ export function ThemeEditor(props: Props) {
   const [accent, setAccent] = useState(props.accentColor ?? props.brandColor);
   const [sameAccent, setSameAccent] = useState(props.accentColor === null);
   const [font, setFont] = useState<FontKey>(props.font);
+  const [mode, setMode] = useState<ThemeMode>(props.mode);
 
   const style = tenantStyle({
     brand_color: brand,
     accent_color: sameAccent ? null : accent,
     font,
+    theme_mode: mode,
   });
 
   return (
@@ -36,7 +39,7 @@ export function ThemeEditor(props: Props) {
               type="color"
               value={brand}
               onChange={(e) => setBrand(e.target.value)}
-              className="h-11 w-16 cursor-pointer rounded-md border border-border bg-transparent"
+              className="h-11 w-16"
             />
             <code dir="ltr" className="text-xs text-muted">{brand}</code>
           </span>
@@ -53,7 +56,7 @@ export function ThemeEditor(props: Props) {
               value={accent}
               disabled={sameAccent}
               onChange={(e) => setAccent(e.target.value)}
-              className="h-11 w-16 cursor-pointer rounded-md border border-border bg-transparent disabled:opacity-40"
+              className="h-11 w-16"
             />
             <code dir="ltr" className="text-xs text-muted">{sameAccent ? brand : accent}</code>
           </span>
@@ -68,6 +71,36 @@ export function ThemeEditor(props: Props) {
           </label>
         </div>
       </div>
+
+      <fieldset className="flex flex-col gap-3">
+        <legend className="text-sm font-medium">Modo de las páginas de la iglesia</legend>
+        <div className="grid gap-3 sm:grid-cols-2">
+          {(
+            [
+              ["light", "Claro", "Fondo blanco. Es el modo por defecto."],
+              ["dark", "Oscuro", "Fondo oscuro con tus colores como resaltado."],
+            ] as const
+          ).map(([value, label, help]) => (
+            <label
+              key={value}
+              className={`flex cursor-pointer flex-col gap-1 rounded-lg border px-4 py-3 transition hover:border-cyan/60 ${
+                mode === value ? "border-cyan bg-cyan/10" : "border-border"
+              }`}
+            >
+              <input
+                type="radio"
+                name="theme_mode"
+                value={value}
+                checked={mode === value}
+                onChange={() => setMode(value)}
+                className="sr-only"
+              />
+              <span className="font-medium">{label}</span>
+              <span className="text-xs text-muted">{help}</span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
 
       <fieldset className="flex flex-col gap-3">
         <legend className="text-sm font-medium">Tipografía de los titulares</legend>
@@ -98,7 +131,8 @@ export function ThemeEditor(props: Props) {
 
       <div
         style={style}
-        className="relative isolate flex flex-col gap-3 overflow-hidden rounded-xl border border-border bg-surface p-6"
+        data-scope-theme={mode}
+        className="relative isolate flex flex-col gap-3 overflow-hidden rounded-xl border border-border p-6"
         aria-label="Vista previa"
       >
         <span className="text-xs font-semibold uppercase tracking-widest text-muted">

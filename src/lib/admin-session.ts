@@ -13,6 +13,7 @@ export type AdminSession = {
     brand_color: string;
     accent_color: string | null;
     font: string;
+    theme_mode: string;
     logo_path: string | null;
   };
   role: "admin" | "leader";
@@ -25,7 +26,7 @@ export const getAdminSession = cache(async (): Promise<AdminSession> => {
 
   const { data } = await supabase
     .from("tenant_users")
-    .select("role, tenants(id, slug, name, brand_color, accent_color, font, logo_path)")
+    .select("role, tenants(id, slug, name, brand_color, accent_color, font, theme_mode, logo_path)")
     .eq("user_id", auth.user.id)
     .limit(1)
     .maybeSingle();

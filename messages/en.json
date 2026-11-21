@@ -196,22 +196,22 @@
     "hero": {
       "eyebrow": "Member registry for churches",
       "title": "Sign people up with a tap. Connect with each one.",
-      "body": "NFC cards and QR codes to join in a minute, messaging to write to those who allowed it, and an admin panel to keep every record under control.",
-      "cta": "See the demo church",
+      "body": "Everyone introduces themselves from their phone in a minute and decides what to share. Your team knows who arrived, who invited them and how to walk alongside them.",
+      "cta": "See the demo",
       "secondary": "How it works",
-      "note": "The demo uses made-up data."
+      "note": "Made-up data. Go in and sign up the way a visitor would."
     },
     "steps": {
       "eyebrow": "How it works",
-      "title": "From a tap to a conversation",
+      "title": "From first contact to first hello",
       "items": [
         {
-          "title": "One tap and they're in",
-          "body": "Everyone gets an NFC card or a QR code. The form opens with nothing to install and no account to create."
+          "title": "They tap or scan",
+          "body": "A tap on the card or a scan of the code, and the form opens on their phone."
         },
         {
-          "title": "They introduce themselves their way",
-          "body": "Name, mobile and little else. Each permission (email, WhatsApp, photos, visibility) is its own checkbox and never ticked in advance."
+          "title": "They introduce themselves",
+          "body": "Name, mobile and little else. They choose which permissions to give, one by one."
         },
         {
           "title": "Your team takes the next step",
@@ -226,7 +226,7 @@
       "items": [
         {
           "title": "Every invitation counts",
-          "body": "Every member has a personal link. You see who invited whom and who to thank."
+          "body": "Every member has a personal link to invite others. You see who invited whom and who to thank."
         },
         {
           "title": "A welcome on time",
@@ -244,7 +244,7 @@
       "items": [
         {
           "title": "You decide",
-          "body": "Change your permissions or leave with a personal link, whenever you want, without calling anyone."
+          "body": "Change your permissions or leave whenever you want, without calling anyone."
         },
         {
           "title": "Your rights, one click away",
@@ -252,17 +252,17 @@
         },
         {
           "title": "No small print",
-          "body": "We record which text you accepted and when, so you can always check what you said yes to."
+          "body": "No box comes ticked. And we record which text you accepted and when, so you can check what you said yes to."
         }
       ]
     },
     "trust": {
       "title": "Closeness, with respect.",
-      "body": "Belonging to a church is sensitive information, so we take care of it. Each church is responsible for its data and Ekklesias safeguards it on its behalf, designed from the start for GDPR and Spain's LOPDGDD, with data on servers in the European Union.",
+      "body": "Belonging to a church is sensitive information, and we treat it that way: each permission is stored separately, with its date and version, and the church answers for its data. It is designed for GDPR and Spain's LOPDGDD.",
       "facts": [
         {
           "value": "7",
-          "label": "independent permissions, none ticked in advance"
+          "label": "independent permissions"
         },
         {
           "value": "4",
@@ -270,7 +270,7 @@
         },
         {
           "value": "0",
-          "label": "apps to install or accounts to create"
+          "label": "apps to install or accounts to create to sign up"
         }
       ]
     },
@@ -279,7 +279,7 @@
       "items": [
         {
           "q": "Do members need an account?",
-          "a": "No. They sign up with a form and, if they want to change something later, they use a personal link. Only your team has a username and password."
+          "a": "No. They sign up with a form and, to change something later, they use their personal link. Only your team has a username and password."
         },
         {
           "q": "What if someone is under 14?",
@@ -290,15 +290,15 @@
           "a": "Yes. Each church has its own data, brand and team, completely separate, even though they share the platform."
         },
         {
-          "q": "Can I try it?",
-          "a": "Yes. The demo church really works, with made-up data. Go in, sign up and see how it feels."
+          "q": "Where is the data stored?",
+          "a": "On servers in the European Union. Each church is responsible for its data and Ekklesias safeguards it on its behalf."
         }
       ]
     },
     "cta": {
-      "title": "Start a conversation",
-      "body": "Sign up the way someone visiting your church for the first time would, and feel what it's like.",
-      "button": "See the demo church"
+      "title": "See it as a visitor to your church would",
+      "body": "Go into the demo church and sign up with made-up data.",
+      "button": "Try the demo"
     },
     "footer": "Demo version. The legal texts are drafts pending review.",
     "features": {
@@ -308,7 +308,7 @@
       "items": [
         {
           "title": "NFC and QR codes",
-          "body": "A card, a tag or a poster: tapping a phone or scanning opens the form, with no app and no account. Every member has a personal link, and you know which channel each person came through."
+          "body": "A card, a tag or a poster. Every registration records which channel the person came through, so you know what works in your church."
         },
         {
           "title": "Messaging",
@@ -317,13 +317,51 @@
         },
         {
           "title": "Admin panel",
-          "body": "Member list and search, a full-history record for each person, rights requests, CSV export and a team with administrator and leader roles."
+          "body": "Member search, a record with the full history, CSV export, and administrator and leader roles to share the work."
         },
         {
           "title": "Control over records",
-          "body": "Guardians confirm minors, you can delete data when someone asks, publish new versions of your legal texts and see who viewed each record."
+          "body": "Guardian confirmation for minors, data deletion when someone asks, versions of your legal texts, and a log of who viewed each record."
         }
       ]
+    },
+    "customize": {
+      "eyebrow": "Customisation",
+      "title": "Make it feel like your church",
+      "body": "Each church uploads its logo, picks its colours and a typeface for headlines, and decides whether its pages are light or dark. People who sign up see your home, not ours.",
+      "items": [
+        {
+          "title": "Your logo",
+          "body": "PNG, JPG or WebP. It shows on the sign-up form and in your panel."
+        },
+        {
+          "title": "Your colours",
+          "body": "A main colour and an accent. We make sure they stay readable."
+        },
+        {
+          "title": "Your typeface",
+          "body": "Nine options for headlines, from classic to modern."
+        },
+        {
+          "title": "Light or dark",
+          "body": "Light by default, or dark if that suits you better."
+        }
+      ],
+      "examples": {
+        "lifepoint": "Lifepoint · light",
+        "betel": "Betel · dark",
+        "montesion": "Monte Sion · light"
+      },
+      "editorTitle": "With a live preview",
+      "editorBody": "Change colours, typeface or mode in Settings and see the result before saving."
+    },
+    "visuals": {
+      "heroAlt": "A church's welcome page on a phone",
+      "qrLabel": "Lifepoint",
+      "qrHint": "Scan it with your phone: it opens the demo church.",
+      "adminAlt": "Admin panel with the member list",
+      "permisosAlt": "Sign-up form with unticked permissions",
+      "editorAlt": "Church style editor"
     }
   }
 }

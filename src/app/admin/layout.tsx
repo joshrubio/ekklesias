@@ -1,4 +1,4 @@
-import { tenantStyle } from "@/lib/theme";
+import { tenantProps } from "@/lib/theme";
 import Link from "next/link";
 import { getAdminSession } from "@/lib/admin-session";
 import { } from "@/lib/tenants";
@@ -13,7 +13,7 @@ export default async function AdminLayout({ children }: LayoutProps<"/admin">) {
   return (
     <div
       className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-6 px-4 pb-12 sm:px-6"
-      style={tenantStyle(session.tenant)}
+      {...tenantProps(session.tenant)}
     >
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-black/10 pb-3 dark:border-white/15">
         <nav className="flex items-center gap-4 text-sm font-medium">

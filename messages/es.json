@@ -196,22 +196,22 @@
     "hero": {
       "eyebrow": "Registro de miembros para iglesias",
       "title": "Registra con un toque. Conecta con cada persona.",
-      "body": "Tarjetas NFC y códigos QR para unirse en un minuto, mensajería para escribir a quien lo permitió y un panel de administración para tener cada registro bajo control.",
-      "cta": "Ver la iglesia de demostración",
+      "body": "Cada persona se presenta desde su móvil en un minuto y decide qué comparte. Tu equipo sabe quién llegó, quién le invitó y cómo acompañarle.",
+      "cta": "Ver la demostración",
       "secondary": "Cómo funciona",
-      "note": "La demostración usa datos ficticios."
+      "note": "Datos ficticios. Entra y regístrate como lo haría un visitante."
     },
     "steps": {
       "eyebrow": "Cómo funciona",
-      "title": "De un toque a una conversación",
+      "title": "Del primer contacto al primer saludo",
       "items": [
         {
-          "title": "Un toque y están dentro",
-          "body": "Cada persona tiene una tarjeta NFC o un código QR. Se abre el formulario sin instalar nada y sin crear cuenta."
+          "title": "Se acercan",
+          "body": "Un toque a la tarjeta o un escaneo del código, y se abre el formulario en su móvil."
         },
         {
-          "title": "Se presentan a su manera",
-          "body": "Nombre, móvil y poco más. Cada permiso (email, WhatsApp, fotos, visibilidad) es una casilla propia y nunca viene marcada de antemano."
+          "title": "Se presentan",
+          "body": "Nombre, móvil y poco más. Eligen qué permisos dan, uno a uno."
         },
         {
           "title": "Tu equipo da el siguiente paso",
@@ -226,7 +226,7 @@
       "items": [
         {
           "title": "Cada invitación cuenta",
-          "body": "Cada miembro tiene su enlace personal. Ves quién invitó a quién y a quién dar las gracias."
+          "body": "Cada miembro tiene su enlace personal para invitar a otros. Ves quién invitó a quién y a quién dar las gracias."
         },
         {
           "title": "Bienvenida a tiempo",
@@ -244,7 +244,7 @@
       "items": [
         {
           "title": "Tú mandas",
-          "body": "Cambia tus permisos o date de baja con un enlace personal, cuando quieras y sin llamar a nadie."
+          "body": "Cambia tus permisos o date de baja cuando quieras, sin llamar a nadie."
         },
         {
           "title": "Tus derechos, a un clic",
@@ -252,17 +252,17 @@
         },
         {
           "title": "Sin letra pequeña",
-          "body": "Guardamos qué texto aceptaste y cuándo, para que siempre puedas comprobar a qué dijiste que sí."
+          "body": "Ninguna casilla viene marcada. Y guardamos qué texto aceptaste y cuándo, para que puedas comprobar a qué dijiste que sí."
         }
       ]
     },
     "trust": {
       "title": "Cercanía, con respeto.",
-      "body": "Pertenecer a una iglesia es un dato delicado, y por eso lo cuidamos. Cada iglesia es la responsable de sus datos y Ekklesias los custodia por ella, pensado desde el principio para el RGPD y la LOPDGDD, con los datos en servidores de la Unión Europea.",
+      "body": "Pertenecer a una iglesia es un dato delicado, y lo tratamos como tal: cada permiso se guarda por separado, con su fecha y su versión, y es la iglesia quien responde de sus datos. Está pensado para el RGPD y la LOPDGDD.",
       "facts": [
         {
           "value": "7",
-          "label": "permisos independientes, ninguno premarcado"
+          "label": "permisos independientes"
         },
         {
           "value": "4",
@@ -270,7 +270,7 @@
         },
         {
           "value": "0",
-          "label": "apps que instalar ni cuentas que crear"
+          "label": "apps que instalar ni cuentas que crear para registrarse"
         }
       ]
     },
@@ -279,7 +279,7 @@
       "items": [
         {
           "q": "¿Los miembros necesitan una cuenta?",
-          "a": "No. Se registran con un formulario y, si quieren cambiar algo después, usan un enlace personal. Solo tu equipo tiene usuario y contraseña."
+          "a": "No. Se registran con un formulario y, para cambiar algo después, usan su enlace personal. Solo tu equipo tiene usuario y contraseña."
         },
         {
           "q": "¿Qué pasa si alguien es menor de 14 años?",
@@ -290,15 +290,15 @@
           "a": "Sí. Cada iglesia tiene sus datos, su marca y su equipo completamente separados, aunque compartan la plataforma."
         },
         {
-          "q": "¿Se puede probar?",
-          "a": "Sí. La iglesia de demostración funciona de verdad, con datos ficticios. Entra, regístrate y mira cómo queda."
+          "q": "¿Dónde se guardan los datos?",
+          "a": "En servidores de la Unión Europea. Cada iglesia es la responsable de sus datos y Ekklesias los custodia por ella."
         }
       ]
     },
     "cta": {
-      "title": "Empieza una conversación",
-      "body": "Regístrate como lo haría alguien que visita tu iglesia por primera vez, y siente cómo es.",
-      "button": "Ver la iglesia de demostración"
+      "title": "Míralo como lo vería quien llega a tu iglesia",
+      "body": "Entra en la iglesia de demostración y regístrate con datos inventados.",
+      "button": "Probar la demostración"
     },
     "footer": "Versión de demostración. Los textos legales son borradores pendientes de revisión.",
     "features": {
@@ -308,7 +308,7 @@
       "items": [
         {
           "title": "NFC y códigos QR",
-          "body": "Una tarjeta, una etiqueta o un cartel: acercar el móvil o escanear abre el formulario, sin app ni cuenta. Cada miembro tiene su enlace personal y sabes por qué canal llegó cada persona."
+          "body": "Una tarjeta, una etiqueta o un cartel. Cada registro guarda por qué canal llegó la persona, para que sepas qué funciona en tu iglesia."
         },
         {
           "title": "Mensajería",
@@ -317,13 +317,51 @@
         },
         {
           "title": "Panel de administración",
-          "body": "Lista y búsqueda de miembros, ficha con historial completo, solicitudes de derechos, exportación a CSV y un equipo con roles de administrador y de líder."
+          "body": "Búsqueda de miembros, ficha con todo su historial, exportación a CSV y roles de administrador y de líder para repartir el trabajo."
         },
         {
           "title": "Control de los registros",
-          "body": "El tutor confirma a los menores, puedes suprimir datos cuando alguien lo pide, publicar nuevas versiones de tus textos legales y consultar quién vio cada ficha."
+          "body": "Confirmación del tutor para menores, supresión de datos cuando alguien lo pide, versiones de tus textos legales y registro de quién vio cada ficha."
         }
       ]
+    },
+    "customize": {
+      "eyebrow": "Personalización",
+      "title": "Que se note que es tu iglesia",
+      "body": "Cada iglesia sube su logo, elige sus colores y una tipografía para los titulares, y decide si sus páginas van en claro o en oscuro. Quien se registra ve tu casa, no la nuestra.",
+      "items": [
+        {
+          "title": "Tu logo",
+          "body": "En PNG, JPG o WebP. Aparece en el formulario de registro y en tu panel."
+        },
+        {
+          "title": "Tus colores",
+          "body": "Un color principal y uno de acento. Nos encargamos de que se lean bien."
+        },
+        {
+          "title": "Tu tipografía",
+          "body": "Nueve opciones para los titulares, de clásicas a modernas."
+        },
+        {
+          "title": "Claro u oscuro",
+          "body": "Fondo claro por defecto, u oscuro si va más con vosotros."
+        }
+      ],
+      "examples": {
+        "lifepoint": "Lifepoint · claro",
+        "betel": "Betel · oscuro",
+        "montesion": "Monte Sion · claro"
+      },
+      "editorTitle": "Con vista previa en vivo",
+      "editorBody": "Cambias colores, tipografía o modo desde Ajustes y ves el resultado antes de guardar."
+    },
+    "visuals": {
+      "heroAlt": "Página de bienvenida de una iglesia en el móvil",
+      "qrLabel": "Lifepoint",
+      "qrHint": "Escanéalo con tu móvil: abre la iglesia de demostración.",
+      "adminAlt": "Panel de administración con la lista de miembros",
+      "permisosAlt": "Formulario de registro con los permisos sin marcar",
+      "editorAlt": "Editor de estilos de la iglesia"
     }
   }
 }

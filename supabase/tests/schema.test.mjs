@@ -3,7 +3,7 @@ import { pgcrypto } from '@electric-sql/pglite/contrib/pgcrypto'
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 
-const migration = ['0001_init.sql', '0002_register_member.sql', '0003_preferences_rights.sql', '0004_last_admin_guard.sql', '0005_rate_limit.sql', '0006_rate_limit_sliding.sql', '0007_guardian_confirmation.sql', '0009_tenant_theme.sql']
+const migration = ['0001_init.sql', '0002_register_member.sql', '0003_preferences_rights.sql', '0004_last_admin_guard.sql', '0005_rate_limit.sql', '0006_rate_limit_sliding.sql', '0007_guardian_confirmation.sql', '0009_tenant_theme.sql', '0012_tenant_theme_mode.sql']
   .map(f => readFileSync(fileURLToPath(new URL('../migrations/' + f, import.meta.url)), 'utf8')).join('\n')
 const db = new PGlite({ extensions: { pgcrypto } })
 
@@ -339,6 +339,12 @@ await rejects('una tipografía fuera de la lista se rechaza', `update tenants se
 await rejects('un acento que no es hexadecimal se rechaza', `update tenants set accent_color='rojo' where id='${T1}'`)
 await rejects('un acento sin almohadilla se rechaza', `update tenants set accent_color='e11d48' where id='${T1}'`)
 await db.exec(`update tenants set accent_color=null, font='fraunces' where id='${T1}'`)
+
+r = await db.query(`select theme_mode from tenants where id='${T1}'`)
+check('una iglesia nueva usa el modo claro por defecto', r.rows[0].theme_mode === 'light')
+await db.exec(`update tenants set theme_mode='dark' where id='${T1}'`)
+await rejects('un modo que no es claro ni oscuro se rechaza', `update tenants set theme_mode='sepia' where id='${T1}'`)
+await db.exec(`update tenants set theme_mode='light' where id='${T1}'`)
 
 console.log(fails === 0 ? '\nTODO OK' : `\n${fails} FALLOS`)
 process.exit(fails === 0 ? 0 : 1)
