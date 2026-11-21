@@ -5,6 +5,9 @@ import { createUserClient } from "@/lib/supabase/server";
 import { ageFrom, memberColumns, purposeLabels, type MemberRow } from "@/lib/admin-members";
 import type { FormPurpose } from "@/lib/consents";
 import { MemberAdminTools } from "@/components/member-admin-tools";
+import { QrPanel } from "@/components/qr-panel";
+import { getSiteUrl } from "@/lib/mailer";
+import { memberLink } from "@/lib/qr";
 import { confirmGuardianInPersonAction, resendGuardianEmailAction } from "@/app/admin/actions";
 
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
@@ -66,6 +69,7 @@ export default async function MemberPage({
     entity_id: id,
   });
 
+  const site = await getSiteUrl();
   const age = ageFrom(m.birth_date);
   const name = m.status === "erased" ? "(suprimido)" : `${m.first_name} ${m.last_name}`;
 
@@ -171,6 +175,16 @@ export default async function MemberPage({
           <p className="text-muted">Todavía a nadie.</p>
         )}
       </section>
+
+      {isAdmin && m.status === "active" ? (
+        <QrPanel
+          title="Enlace personal: QR y NFC"
+          help="Para imprimir en una tarjeta o enseñar en pantalla. El origen del registro queda guardado según el código que se use."
+          basePath={`/admin/qr/miembro/${m.id}`}
+          qrUrl={memberLink(site, m.invite_code, "qr")}
+          nfcUrl={memberLink(site, m.invite_code, "nfc")}
+        />
+      ) : null}
 
       {isAdmin && m.status === "active" ? (
         <MemberAdminTools memberId={m.id} name={name} />

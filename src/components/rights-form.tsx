@@ -63,7 +63,7 @@ export function RightsForm({ slug }: { slug: string }) {
       <button
         type="submit"
         disabled={pending}
-        className="rounded-md bg-brand px-5 py-4 text-lg font-medium text-white disabled:opacity-60"
+        className="rounded-full bg-brand glow-btn px-5 py-4 text-lg font-semibold text-brand-foreground disabled:opacity-60"
       >
         {pending ? t("sending") : t("submit")}
       </button>

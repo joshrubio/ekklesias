@@ -99,7 +99,8 @@
     "copied": "Link kopiert",
     "genericBody": "Wir haben deine Registrierung erhalten.",
     "guardianSent": "Wir haben eine E-Mail an dein Elternteil oder deinen Vormund geschickt, damit die Registrierung bestätigt wird. Bis dahin sind deine Einwilligungen nicht aktiv.",
-    "guardianFailed": "Wir konnten die E-Mail an deinen Vormund nicht senden. Sag der Gemeinde Bescheid, damit sie erneut gesendet wird. Bis dahin sind deine Einwilligungen nicht aktiv."
+    "guardianFailed": "Wir konnten die E-Mail an deinen Vormund nicht senden. Sag der Gemeinde Bescheid, damit sie erneut gesendet wird. Bis dahin sind deine Einwilligungen nicht aktiv.",
+    "qrAlt": "QR-Code deines persönlichen Links: Andere können ihn scannen, um beizutreten"
   },
   "legal": {
     "draft": "Entwurf in Arbeit. Dieser Text ist noch nicht die endgültige Fassung und wartet auf die rechtliche Prüfung.",
@@ -190,5 +191,139 @@
     "invalidTitle": "Ungültiger Link",
     "invalidBody": "Dieser Link ist abgelaufen oder wurde schon verwendet. Bitte die Gemeinde um einen neuen.",
     "tooMany": "Zu viele Versuche. Bitte warte eine Weile und öffne den Link erneut."
+  },
+  "landing": {
+    "hero": {
+      "eyebrow": "Mitgliederverwaltung für Gemeinden",
+      "title": "Mit einem Tipp anmelden. Mit jedem in Verbindung bleiben.",
+      "body": "NFC-Karten und QR-Codes zum Beitreten in einer Minute, Nachrichten an alle, die zugestimmt haben, und ein Admin-Bereich, der jeden Eintrag unter Kontrolle hält.",
+      "cta": "Demo-Gemeinde ansehen",
+      "secondary": "So funktioniert es",
+      "note": "Die Demo verwendet erfundene Daten."
+    },
+    "steps": {
+      "eyebrow": "So funktioniert es",
+      "title": "Von einem Tipp zu einem Gespräch",
+      "items": [
+        {
+          "title": "Ein Tipp und sie sind dabei",
+          "body": "Jeder bekommt eine NFC-Karte oder einen QR-Code. Das Formular öffnet sich ohne Installation und ohne Konto."
+        },
+        {
+          "title": "Sie stellen sich auf ihre Weise vor",
+          "body": "Name, Handynummer und wenig mehr. Jede Einwilligung (E-Mail, WhatsApp, Fotos, Sichtbarkeit) ist ein eigenes Kästchen und nie vorab angekreuzt."
+        },
+        {
+          "title": "Dein Team macht den nächsten Schritt",
+          "body": "Leiter sehen, wer der Sichtbarkeit zugestimmt hat, und wissen, über welchen Kanal man ihn am liebsten erreicht. Es fehlt nur noch das Hallo."
+        }
+      ]
+    },
+    "community": {
+      "eyebrow": "Gemeinschaft",
+      "title": "Hinter jedem, der kommt, steht jemand.",
+      "body": "Fast niemand kommt allein in eine Gemeinde: Jemand hat ihn angesprochen, eingeladen, beim ersten Mal begleitet. Ekklesias bewahrt diese Verbindung, damit die Gemeinschaft sich wachsen sieht und niemand unterwegs verloren geht.",
+      "items": [
+        {
+          "title": "Jede Einladung zählt",
+          "body": "Jedes Mitglied hat einen persönlichen Link. Du siehst, wer wen eingeladen hat und wem du danken kannst."
+        },
+        {
+          "title": "Ein Willkommen zur rechten Zeit",
+          "body": "Du weißt, wer diese Woche gekommen ist, und kannst grüßen, solange der erste Besuch noch frisch ist."
+        },
+        {
+          "title": "Niemand bleibt draußen",
+          "body": "Auch wer von selbst kam, hat seinen Platz: Er wird als jemand erfasst, der die Gemeinde allein entdeckt hat."
+        }
+      ]
+    },
+    "members": {
+      "eyebrow": "Für alle, die sich anmelden",
+      "title": "Man lernt dich kennen, und du entscheidest",
+      "items": [
+        {
+          "title": "Du entscheidest",
+          "body": "Ändere deine Einwilligungen oder melde dich mit einem persönlichen Link ab, wann du willst, ohne jemanden anzurufen."
+        },
+        {
+          "title": "Deine Rechte, ein Klick entfernt",
+          "body": "Beantrage Auskunft, Berichtigung oder Löschung. Die Gemeinde erhält die Anfrage und muss sie beantworten."
+        },
+        {
+          "title": "Kein Kleingedrucktes",
+          "body": "Wir speichern, welchen Text du wann akzeptiert hast, damit du jederzeit nachprüfen kannst, wozu du Ja gesagt hast."
+        }
+      ]
+    },
+    "trust": {
+      "title": "Nähe, mit Respekt.",
+      "body": "Die Zugehörigkeit zu einer Gemeinde ist eine sensible Information, deshalb gehen wir sorgfältig damit um. Jede Gemeinde ist für ihre Daten verantwortlich, und Ekklesias verwahrt sie in ihrem Auftrag, von Anfang an auf DSGVO und das spanische LOPDGDD ausgelegt, mit Daten auf Servern in der Europäischen Union.",
+      "facts": [
+        {
+          "value": "7",
+          "label": "unabhängige Einwilligungen, keine vorab angekreuzt"
+        },
+        {
+          "value": "4",
+          "label": "Sprachen: Spanisch, Englisch, Deutsch und Arabisch"
+        },
+        {
+          "value": "0",
+          "label": "Apps zu installieren oder Konten anzulegen"
+        }
+      ]
+    },
+    "faq": {
+      "title": "Häufige Fragen",
+      "items": [
+        {
+          "q": "Brauchen Mitglieder ein Konto?",
+          "a": "Nein. Sie melden sich mit einem Formular an und nutzen später bei Änderungen einen persönlichen Link. Nur dein Team hat Benutzername und Passwort."
+        },
+        {
+          "q": "Was ist, wenn jemand unter 14 ist?",
+          "a": "Wir fragen nach der E-Mail eines Erziehungsberechtigten, der einen Link zum Bestätigen oder Ablehnen erhält. Bis zur Bestätigung gelten die Einwilligungen des Kindes nicht."
+        },
+        {
+          "q": "Kann man es für mehrere Gemeinden nutzen?",
+          "a": "Ja. Jede Gemeinde hat ihre eigenen Daten, ihre Marke und ihr Team, vollständig getrennt, auch wenn sie dieselbe Plattform nutzen."
+        },
+        {
+          "q": "Kann man es ausprobieren?",
+          "a": "Ja. Die Demo-Gemeinde funktioniert wirklich, mit erfundenen Daten. Melde dich an und sieh, wie es sich anfühlt."
+        }
+      ]
+    },
+    "cta": {
+      "title": "Beginne ein Gespräch",
+      "body": "Melde dich an, wie es jemand tun würde, der deine Gemeinde zum ersten Mal besucht, und spür, wie es ist.",
+      "button": "Demo-Gemeinde ansehen"
+    },
+    "footer": "Demoversion. Die Rechtstexte sind Entwürfe, die noch geprüft werden müssen.",
+    "features": {
+      "eyebrow": "Funktionen",
+      "title": "Alles, was dein Team braucht, an einem Ort",
+      "soon": "Demnächst",
+      "items": [
+        {
+          "title": "NFC und QR-Codes",
+          "body": "Eine Karte, ein Tag oder ein Plakat: Handy anhalten oder scannen öffnet das Formular, ohne App und ohne Konto. Jedes Mitglied hat einen persönlichen Link, und du weißt, über welchen Weg jeder kam."
+        },
+        {
+          "title": "Nachrichten",
+          "soon": true,
+          "body": "Schreibe per E-Mail, WhatsApp oder SMS nur an Personen, die für diesen Kanal zugestimmt haben, und filtere nach Einwilligungen oder danach, wer wen eingeladen hat."
+        },
+        {
+          "title": "Admin-Bereich",
+          "body": "Mitgliederliste und Suche, Akte mit vollständigem Verlauf, Betroffenenanfragen, CSV-Export und ein Team mit Administrator- und Leiterrollen."
+        },
+        {
+          "title": "Kontrolle über die Einträge",
+          "body": "Erziehungsberechtigte bestätigen Minderjährige, du kannst Daten auf Wunsch löschen, neue Versionen deiner Rechtstexte veröffentlichen und sehen, wer welche Akte eingesehen hat."
+        }
+      ]
+    }
   }
 }

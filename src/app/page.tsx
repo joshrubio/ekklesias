@@ -1,42 +1,313 @@
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
+import {
+  ArrowRightIcon,
+  ClipboardCheckIcon,
+  LayoutDashboardIcon,
+  MessageSquareIcon,
+  QrCodeIcon,
+  HeartHandshakeIcon,
+  NfcIcon,
+  ShieldCheckIcon,
+  SparklesIcon,
+  UsersIcon,
+} from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { buttonVariants } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { WaveBackground } from "@/components/wave-background";
+import { Reveal } from "@/components/reveal";
+import { Backdrop } from "@/components/illustrations";
+import { cn } from "@/lib/utils";
+
+type Item = { title: string; body: string; soon?: boolean };
+type Fact = { value: string; label: string };
+type Faq = { q: string; a: string };
+
+const stepIcons = [NfcIcon, SparklesIcon, HeartHandshakeIcon];
+const featureIcons = [QrCodeIcon, MessageSquareIcon, LayoutDashboardIcon, ClipboardCheckIcon];
+
+function Eyebrow({ children }: { children: React.ReactNode }) {
+  return (
+    <Badge
+      variant="outline"
+      className="h-auto border-cyan/40 bg-cyan/10 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-cyan-soft"
+    >
+      {children}
+    </Badge>
+  );
+}
+
+function Ripples() {
+  return (
+    <div className="relative flex aspect-square w-full max-w-sm items-center justify-center">
+      {[0, 1, 2].map((i) => (
+        <span
+          key={i}
+          aria-hidden="true"
+          className="absolute inset-6 rounded-full border border-cyan/50"
+          style={{ animation: `ripple 4.5s ${i * 1.5}s cubic-bezier(0.22, 1, 0.36, 1) infinite` }}
+        />
+      ))}
+      <svg viewBox="0 0 200 320" className="relative h-4/5 w-auto drop-shadow-[0_0_40px_rgba(34,211,238,0.35)]" aria-hidden="true" fill="none">
+        <rect x="20" y="8" width="160" height="304" rx="28" fill="#0a141d" stroke="#67e8f9" strokeWidth="3" />
+        <rect x="76" y="20" width="48" height="8" rx="4" fill="#1a2e3f" />
+        <rect x="42" y="64" width="116" height="12" rx="6" fill="#e8f4f8" opacity="0.9" />
+        <rect x="42" y="90" width="84" height="9" rx="4.5" fill="#1a2e3f" />
+        <rect x="42" y="136" width="18" height="18" rx="5" fill="#22d3ee" />
+        <rect x="70" y="140" width="80" height="10" rx="5" fill="#1a2e3f" />
+        <rect x="42" y="170" width="18" height="18" rx="5" fill="#22d3ee" />
+        <rect x="70" y="174" width="68" height="10" rx="5" fill="#1a2e3f" />
+        <rect x="42" y="204" width="18" height="18" rx="5" fill="none" stroke="#1a2e3f" strokeWidth="3" />
+        <rect x="70" y="208" width="74" height="10" rx="5" fill="#1a2e3f" />
+        <rect x="42" y="256" width="116" height="30" rx="15" fill="#22d3ee" />
+      </svg>
+    </div>
+  );
+}
+
+function CtaLink({ href, children, ghost = false }: { href: string; children: React.ReactNode; ghost?: boolean }) {
+  const Arrow = ArrowRightIcon;
+  return (
+    <Link
+      href={href}
+      className={cn(
+        buttonVariants({ variant: ghost ? "outline" : "default", size: "lg" }),
+        "group h-auto rounded-full px-7 py-4 text-base",
+        ghost ? "border-border bg-transparent" : "glow-btn font-semibold",
+      )}
+    >
+      {children}
+      {ghost ? null : (
+        <Arrow className="size-4 transition-transform duration-300 group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1" />
+      )}
+    </Link>
+  );
+}
 
 export default async function Home() {
-  const t = await getTranslations("home");
-  const features = ["tap", "consent", "tenants"] as const;
+  const t = await getTranslations("landing");
+  const steps = t.raw("steps.items") as Item[];
+  const community = t.raw("community.items") as Item[];
+  const features = t.raw("features.items") as Item[];
+  const members = t.raw("members.items") as Item[];
+  const facts = t.raw("trust.facts") as Fact[];
+  const faq = t.raw("faq.items") as Faq[];
 
   return (
-    <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-10 px-6 py-12 sm:py-20">
-      <section className="flex flex-col gap-5">
-        <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
-          Ekklesias
-        </h1>
-        <p className="max-w-xl text-lg text-muted">{t("tagline")}</p>
-        <div>
-          <Link
-            href="/c/lifepoint"
-            className="inline-flex items-center rounded-md bg-brand px-5 py-3 font-medium text-white"
-          >
-            {t("demo")}
-          </Link>
+    <main className="flex flex-1 flex-col overflow-x-clip">
+      <section className="relative isolate">
+        <WaveBackground className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[75%] w-full [mask-image:linear-gradient(to_bottom,transparent,black_35%)]" />
+        <div className="mx-auto grid w-full max-w-6xl items-center gap-10 px-6 pb-24 pt-10 sm:pb-36 sm:pt-16 lg:grid-cols-[1.25fr_1fr]">
+          <div className="flex flex-col gap-6">
+            <Reveal>
+              <Eyebrow>{t("hero.eyebrow")}</Eyebrow>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <h1 className="text-5xl leading-[1.05] sm:text-6xl lg:text-7xl">
+                {t("hero.title")}
+              </h1>
+            </Reveal>
+            <Reveal delay={0.16}>
+              <p className="max-w-xl text-lg leading-relaxed text-muted sm:text-xl">
+                {t("hero.body")}
+              </p>
+            </Reveal>
+            <Reveal delay={0.24} className="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <CtaLink href="/c/lifepoint">{t("hero.cta")}</CtaLink>
+              <CtaLink href="#como" ghost>
+                {t("hero.secondary")}
+              </CtaLink>
+            </Reveal>
+            <Reveal delay={0.3}>
+              <p className="text-sm text-muted">{t("hero.note")}</p>
+            </Reveal>
+          </div>
+          <Reveal delay={0.2} className="flex justify-center lg:justify-end">
+            <Ripples />
+          </Reveal>
         </div>
       </section>
 
-      <section className="grid gap-4 sm:grid-cols-3">
-        {features.map((key) => (
-          <article
-            key={key}
-            className="rounded-lg border border-border bg-surface p-5"
-          >
-            <h2 className="font-medium">{t(`features.${key}.title`)}</h2>
-            <p className="mt-2 text-sm text-muted">
-              {t(`features.${key}.body`)}
-            </p>
-          </article>
-        ))}
+      <section className="mx-auto flex w-full max-w-6xl flex-col gap-12 px-6 py-16 sm:py-28">
+        <Reveal className="flex max-w-3xl flex-col items-start gap-4">
+          <Eyebrow>{t("features.eyebrow")}</Eyebrow>
+          <h2 className="text-4xl sm:text-6xl">{t("features.title")}</h2>
+        </Reveal>
+        <ul className="grid gap-5 md:grid-cols-2">
+          {features.map((item, i) => {
+            const Icon = featureIcons[i];
+            return (
+              <Reveal as="li" key={item.title} delay={(i % 2) * 0.1} className="list-none">
+                <div className="lift flex h-full flex-col gap-3 rounded-xl border border-border bg-surface px-8 pb-9 pt-10">
+                  <div className="flex items-center justify-between">
+                    <span className="flex size-12 items-center justify-center rounded-full bg-cyan/15 text-cyan">
+                      <Icon className="size-6" />
+                    </span>
+                    {item.soon ? (
+                      <Badge variant="outline" className="border-cyan/40 text-cyan-soft">
+                        {t("features.soon")}
+                      </Badge>
+                    ) : null}
+                  </div>
+                  <h3 className="font-display text-2xl font-semibold">{item.title}</h3>
+                  <p className="text-base leading-relaxed text-muted">{item.body}</p>
+                </div>
+              </Reveal>
+            );
+          })}
+        </ul>
       </section>
 
-      <footer className="mt-auto text-sm text-muted">{t("footer")}</footer>
+      <section id="como" className="relative isolate overflow-hidden border-y border-border bg-sand py-16 sm:py-24">
+        <Backdrop name="waves" className="inset-x-0 bottom-0 h-40" />
+        <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-6">
+          <Reveal className="flex max-w-2xl flex-col items-start gap-4">
+            <Eyebrow>{t("steps.eyebrow")}</Eyebrow>
+            <h2 className="text-3xl sm:text-5xl">{t("steps.title")}</h2>
+          </Reveal>
+          <ol className="grid gap-5 md:grid-cols-3">
+            {steps.map((step, i) => {
+              const Icon = stepIcons[i];
+              return (
+                <Reveal as="li" key={step.title} delay={i * 0.1} className="list-none">
+                  <Card className="lift h-full border border-border bg-card [--card-spacing:--spacing(8)]">
+                    <CardHeader>
+                      <span className="mb-4 flex size-12 items-center justify-center rounded-full bg-cyan/15 text-cyan">
+                        <Icon className="size-6" />
+                      </span>
+                      <CardTitle className="font-display text-xl font-semibold">
+                        {step.title}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <CardDescription className="text-base leading-relaxed">
+                        {step.body}
+                      </CardDescription>
+                    </CardContent>
+                  </Card>
+                </Reveal>
+              );
+            })}
+          </ol>
+        </div>
+      </section>
+
+      <section className="mx-auto flex w-full max-w-6xl flex-col gap-12 px-6 py-16 sm:py-28">
+        <Reveal className="flex max-w-3xl flex-col items-start gap-5">
+          <Eyebrow>{t("community.eyebrow")}</Eyebrow>
+          <h2 className="text-4xl sm:text-6xl">{t("community.title")}</h2>
+          <p className="text-lg leading-relaxed text-muted sm:text-xl">
+            {t("community.body")}
+          </p>
+        </Reveal>
+        <ul className="grid gap-5 md:grid-cols-3">
+          {community.map((item, i) => (
+            <Reveal as="li" key={item.title} delay={i * 0.1} className="list-none">
+              <div className="lift flex h-full flex-col gap-2 rounded-xl border border-border bg-surface px-7 pb-8 pt-9">
+                <UsersIcon className="mb-2 size-6 text-cyan" aria-hidden="true" />
+                <h3 className="font-display text-xl font-semibold">{item.title}</h3>
+                <p className="leading-relaxed text-muted">{item.body}</p>
+              </div>
+            </Reveal>
+          ))}
+        </ul>
+      </section>
+
+      <section className="relative isolate overflow-hidden border-y border-border bg-sand py-16 sm:py-24">
+        <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-6">
+          <Reveal className="flex max-w-2xl flex-col items-start gap-4">
+            <Eyebrow>{t("members.eyebrow")}</Eyebrow>
+            <h2 className="text-3xl sm:text-4xl">{t("members.title")}</h2>
+          </Reveal>
+          <ul className="grid gap-8 md:grid-cols-3">
+            {members.map((item, i) => (
+              <Reveal as="li" key={item.title} delay={i * 0.1} className="group flex list-none gap-4">
+                <span
+                  aria-hidden="true"
+                  className="mt-2 size-3 shrink-0 rounded-full bg-cyan shadow-[0_0_14px_rgba(34,211,238,0.7)] transition-transform duration-300 group-hover:scale-150"
+                />
+                <div className="flex flex-col gap-1">
+                  <h3 className="font-semibold">{item.title}</h3>
+                  <p className="leading-relaxed text-muted">{item.body}</p>
+                </div>
+              </Reveal>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section className="relative isolate overflow-hidden py-16 sm:py-28">
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 -z-10 bg-[radial-gradient(50rem_24rem_at_50%_0%,rgba(34,211,238,0.18),transparent_70%)]"
+        />
+        <Backdrop name="swell" className="inset-x-0 bottom-0 h-48" />
+        <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-6">
+          <Reveal className="flex max-w-3xl flex-col items-start gap-5">
+            <ShieldCheckIcon className="size-9 text-cyan" aria-hidden="true" />
+            <h2 className="text-4xl sm:text-6xl">{t("trust.title")}</h2>
+            <p className="text-lg leading-relaxed text-muted">{t("trust.body")}</p>
+          </Reveal>
+          <dl className="grid gap-5 sm:grid-cols-3">
+            {facts.map((fact, i) => (
+              <Reveal key={fact.label} delay={i * 0.1}>
+                <div className="lift flex h-full flex-col gap-2 rounded-xl border border-border bg-surface px-6 pb-7 pt-8">
+                  <dt className="font-display text-6xl font-semibold text-cyan-soft">
+                    {fact.value}
+                  </dt>
+                  <dd className="text-muted">{fact.label}</dd>
+                </div>
+              </Reveal>
+            ))}
+          </dl>
+        </div>
+      </section>
+
+      <section className="mx-auto flex w-full max-w-3xl flex-col gap-8 px-6 pb-16 sm:pb-24">
+        <Reveal>
+          <h2 className="text-3xl sm:text-4xl">{t("faq.title")}</h2>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <Accordion className="gap-3">
+            {faq.map((item) => (
+              <AccordionItem
+                key={item.q}
+                value={item.q}
+                className="rounded-lg border border-border bg-surface px-5 transition-colors hover:border-cyan/50 data-open:border-cyan/60"
+              >
+                <AccordionTrigger className="py-4 text-base font-semibold hover:no-underline">
+                  {item.q}
+                </AccordionTrigger>
+                <AccordionContent className="text-base leading-relaxed text-muted">
+                  {item.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </Reveal>
+      </section>
+
+      <section className="mx-auto w-full max-w-6xl px-6 pb-16 sm:pb-24">
+        <Reveal>
+          <div className="relative isolate flex flex-col items-center gap-5 overflow-hidden rounded-xl border border-cyan/30 bg-surface px-6 py-16 text-center">
+            <WaveBackground className="pointer-events-none absolute inset-0 -z-10 h-full w-full opacity-60" />
+            <h2 className="text-4xl sm:text-6xl">{t("cta.title")}</h2>
+            <p className="max-w-xl text-lg text-muted">{t("cta.body")}</p>
+            <CtaLink href="/c/lifepoint">{t("cta.button")}</CtaLink>
+          </div>
+        </Reveal>
+      </section>
+
+      <footer className="mx-auto w-full max-w-6xl px-6 pb-10 text-sm text-muted">
+        {t("footer")}
+      </footer>
     </main>
   );
 }

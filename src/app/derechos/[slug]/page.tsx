@@ -1,8 +1,9 @@
+import { tenantStyle } from "@/lib/theme";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { RightsForm } from "@/components/rights-form";
-import { getTenantBySlug, safeBrand } from "@/lib/tenants";
+import { getTenantBySlug } from "@/lib/tenants";
 
 export default async function DataRights({
   params,
@@ -17,7 +18,7 @@ export default async function DataRights({
   return (
     <main
       className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-6 px-6 py-12"
-      style={{ "--brand": safeBrand(tenant.brand_color) } as React.CSSProperties}
+      style={tenantStyle(tenant)}
     >
       <h1 className="text-3xl font-semibold tracking-tight">{t("title")}</h1>
       <p className="rounded-md border border-border bg-surface p-3 text-sm text-muted">

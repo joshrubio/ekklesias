@@ -1,7 +1,8 @@
+import { tenantStyle } from "@/lib/theme";
 import { getTranslations } from "next-intl/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { TOKEN_RE } from "@/lib/consents";
-import { getTenantBySlug, safeBrand } from "@/lib/tenants";
+import { getTenantBySlug } from "@/lib/tenants";
 import { confirmGuardianAction, rejectGuardianAction } from "@/lib/guardian-actions";
 
 export const metadata = { robots: { index: false, follow: false } };
@@ -54,7 +55,7 @@ export default async function GuardianConfirmPage({
   return (
     <main
       className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-6 px-6 py-12"
-      style={{ "--brand": safeBrand(tenant?.brand_color ?? "") } as React.CSSProperties}
+      style={tenantStyle(tenant)}
     >
       <h1 className="text-3xl font-semibold tracking-tight">{t("title")}</h1>
       <p className="text-lg">
@@ -75,7 +76,7 @@ export default async function GuardianConfirmPage({
         <form action={confirmGuardianAction.bind(null, token)}>
           <button
             type="submit"
-            className="w-full rounded-md bg-brand px-5 py-4 text-lg font-medium text-white"
+            className="w-full rounded-full bg-brand glow-btn px-5 py-4 text-lg font-semibold text-brand-foreground"
           >
             {t("confirm")}
           </button>

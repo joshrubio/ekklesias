@@ -1,8 +1,9 @@
+import { tenantStyle } from "@/lib/theme";
 import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
 import { PreferencesForm } from "@/components/preferences-form";
 import { getPreferences } from "@/lib/preferences";
-import { getConsentTexts, getTenantBySlug, safeBrand } from "@/lib/tenants";
+import { getConsentTexts, getTenantBySlug } from "@/lib/tenants";
 import { optionalPurposes } from "@/lib/consents";
 import { defaultLocale, isLocale } from "@/i18n/config";
 
@@ -35,7 +36,7 @@ export default async function PreferencesPage({
   return (
     <main
       className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-6 px-6 py-12"
-      style={{ "--brand": safeBrand(tenant?.brand_color ?? "") } as React.CSSProperties}
+      style={tenantStyle(tenant)}
     >
       <h1 className="text-3xl font-semibold tracking-tight">
         {t("title", { name: prefs.first_name })}

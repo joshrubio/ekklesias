@@ -37,7 +37,7 @@ export default async function UnsubscribePage({
       <form action={unsubscribeAction.bind(null, token)}>
         <button
           type="submit"
-          className="w-full rounded-md bg-brand px-5 py-4 text-lg font-medium text-white sm:w-auto"
+          className="w-full rounded-full bg-brand glow-btn px-5 py-4 text-lg font-semibold text-brand-foreground sm:w-auto"
         >
           {t("confirm")}
         </button>

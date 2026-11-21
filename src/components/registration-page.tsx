@@ -1,6 +1,8 @@
+import { tenantStyle } from "@/lib/theme";
 import { getLocale, getTranslations } from "next-intl/server";
 import { RegistrationForm } from "@/components/registration-form";
-import { getConsentTexts, safeBrand, type Tenant } from "@/lib/tenants";
+import { ChurchAvatar } from "@/components/church-avatar";
+import { getConsentTexts, type Tenant } from "@/lib/tenants";
 import type { RegistrationSource } from "@/lib/consents";
 import { isLocale, defaultLocale } from "@/i18n/config";
 
@@ -19,9 +21,10 @@ export async function RegistrationPage({ tenant, source, inviter }: Props) {
   return (
     <main
       className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-6 px-6 pb-16 pt-4"
-      style={{ "--brand": safeBrand(tenant.brand_color) } as React.CSSProperties}
+      style={tenantStyle(tenant)}
     >
-      <header className="flex flex-col gap-2">
+      <header className="flex flex-col gap-3">
+        <ChurchAvatar name={tenant.name} logoPath={tenant.logo_path} />
         <h1 className="text-3xl font-semibold tracking-tight">
           {t("title", { name: tenant.name })}
         </h1>

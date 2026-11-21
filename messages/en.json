@@ -99,7 +99,8 @@
     "copied": "Link copied",
     "genericBody": "We have received your registration.",
     "guardianSent": "We have sent an email to your parent or guardian so they can confirm your registration. Until then your permissions will not be active.",
-    "guardianFailed": "We could not send the email to your guardian. Tell the church so they can resend it. Until then your permissions will not be active."
+    "guardianFailed": "We could not send the email to your guardian. Tell the church so they can resend it. Until then your permissions will not be active.",
+    "qrAlt": "QR code of your personal link: someone else can scan it to join"
   },
   "legal": {
     "draft": "Draft in progress. This text is not the final version yet and is pending legal review.",
@@ -190,5 +191,139 @@
     "invalidTitle": "Invalid link",
     "invalidBody": "This link has expired or was already used. Ask the church to send you a new one.",
     "tooMany": "Too many attempts. Please wait a while and open the link again."
+  },
+  "landing": {
+    "hero": {
+      "eyebrow": "Member registry for churches",
+      "title": "Sign people up with a tap. Connect with each one.",
+      "body": "NFC cards and QR codes to join in a minute, messaging to write to those who allowed it, and an admin panel to keep every record under control.",
+      "cta": "See the demo church",
+      "secondary": "How it works",
+      "note": "The demo uses made-up data."
+    },
+    "steps": {
+      "eyebrow": "How it works",
+      "title": "From a tap to a conversation",
+      "items": [
+        {
+          "title": "One tap and they're in",
+          "body": "Everyone gets an NFC card or a QR code. The form opens with nothing to install and no account to create."
+        },
+        {
+          "title": "They introduce themselves their way",
+          "body": "Name, mobile and little else. Each permission (email, WhatsApp, photos, visibility) is its own checkbox and never ticked in advance."
+        },
+        {
+          "title": "Your team takes the next step",
+          "body": "Leaders see those who agreed to be visible and know which channel they prefer. All that's left is to say hello."
+        }
+      ]
+    },
+    "community": {
+      "eyebrow": "Community",
+      "title": "Everyone who arrives has someone behind them.",
+      "body": "Almost nobody comes to church alone: someone spoke to them, invited them, sat with them the first time. Ekklesias keeps that bond so the community can see itself grow and nobody gets lost along the way.",
+      "items": [
+        {
+          "title": "Every invitation counts",
+          "body": "Every member has a personal link. You see who invited whom and who to thank."
+        },
+        {
+          "title": "A welcome on time",
+          "body": "You know who arrived this week, so you can greet them while they still remember their first visit."
+        },
+        {
+          "title": "No one is left out",
+          "body": "Those who came on their own have a place too: they are recorded as people who found the church by themselves."
+        }
+      ]
+    },
+    "members": {
+      "eyebrow": "For people who sign up",
+      "title": "They get to know you, and you decide",
+      "items": [
+        {
+          "title": "You decide",
+          "body": "Change your permissions or leave with a personal link, whenever you want, without calling anyone."
+        },
+        {
+          "title": "Your rights, one click away",
+          "body": "Ask to access your data, correct it or have it deleted. The church receives the request and has to answer it."
+        },
+        {
+          "title": "No small print",
+          "body": "We record which text you accepted and when, so you can always check what you said yes to."
+        }
+      ]
+    },
+    "trust": {
+      "title": "Closeness, with respect.",
+      "body": "Belonging to a church is sensitive information, so we take care of it. Each church is responsible for its data and Ekklesias safeguards it on its behalf, designed from the start for GDPR and Spain's LOPDGDD, with data on servers in the European Union.",
+      "facts": [
+        {
+          "value": "7",
+          "label": "independent permissions, none ticked in advance"
+        },
+        {
+          "value": "4",
+          "label": "languages: Spanish, English, German and Arabic"
+        },
+        {
+          "value": "0",
+          "label": "apps to install or accounts to create"
+        }
+      ]
+    },
+    "faq": {
+      "title": "Frequently asked questions",
+      "items": [
+        {
+          "q": "Do members need an account?",
+          "a": "No. They sign up with a form and, if they want to change something later, they use a personal link. Only your team has a username and password."
+        },
+        {
+          "q": "What if someone is under 14?",
+          "a": "We ask for a guardian's email. They receive a link to confirm or decline. Until they confirm, the minor's permissions are not effective."
+        },
+        {
+          "q": "Can it serve several churches?",
+          "a": "Yes. Each church has its own data, brand and team, completely separate, even though they share the platform."
+        },
+        {
+          "q": "Can I try it?",
+          "a": "Yes. The demo church really works, with made-up data. Go in, sign up and see how it feels."
+        }
+      ]
+    },
+    "cta": {
+      "title": "Start a conversation",
+      "body": "Sign up the way someone visiting your church for the first time would, and feel what it's like.",
+      "button": "See the demo church"
+    },
+    "footer": "Demo version. The legal texts are drafts pending review.",
+    "features": {
+      "eyebrow": "Features",
+      "title": "Everything your team needs, in one place",
+      "soon": "Coming soon",
+      "items": [
+        {
+          "title": "NFC and QR codes",
+          "body": "A card, a tag or a poster: tapping a phone or scanning opens the form, with no app and no account. Every member has a personal link, and you know which channel each person came through."
+        },
+        {
+          "title": "Messaging",
+          "soon": true,
+          "body": "Write by email, WhatsApp or SMS only to those who gave permission for that channel, and segment by permissions or by who invited whom."
+        },
+        {
+          "title": "Admin panel",
+          "body": "Member list and search, a full-history record for each person, rights requests, CSV export and a team with administrator and leader roles."
+        },
+        {
+          "title": "Control over records",
+          "body": "Guardians confirm minors, you can delete data when someone asks, publish new versions of your legal texts and see who viewed each record."
+        }
+      ]
+    }
   }
 }

@@ -60,7 +60,7 @@ export default async function MembersPage({
         ) : null}
         <button
           type="submit"
-          className="rounded-md bg-brand px-4 py-2 text-base font-medium text-white"
+          className="rounded-full bg-brand glow-btn px-4 py-2 text-base font-semibold text-brand-foreground"
         >
           Filtrar
         </button>

@@ -1,20 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Noto_Sans_Arabic } from "next/font/google";
+import Link from "next/link";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
 import { isLocale, defaultLocale, dirFor } from "@/i18n/config";
+import { fontClassNames } from "@/lib/fonts";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const notoArabic = Noto_Sans_Arabic({
-  variable: "--font-arabic",
-  subsets: ["arabic"],
-});
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("meta");
@@ -29,11 +20,14 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang={locale}
       dir={dirFor(locale)}
-      className={`${geistSans.variable} ${notoArabic.variable} h-full antialiased`}
+      className={`${fontClassNames} dark h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <NextIntlClientProvider>
-          <header className="flex items-center justify-end px-4 py-3 sm:px-6">
+          <header className="flex items-center justify-between px-4 py-3 sm:px-6">
+            <Link href="/" className="font-display text-xl font-semibold tracking-tight">
+              Ekklesias
+            </Link>
             <LanguageSwitcher />
           </header>
           {children}

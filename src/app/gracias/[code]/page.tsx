@@ -1,8 +1,10 @@
+import { tenantStyle } from "@/lib/theme";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { CopyButton } from "@/components/copy-button";
-import { getInviter, safeBrand } from "@/lib/tenants";
+import { getInviter } from "@/lib/tenants";
+import { qrDataUri, qrSvg } from "@/lib/qr";
 
 export default async function Thanks({
   params,
@@ -21,11 +23,12 @@ export default async function Thanks({
   const proto =
     h.get("x-forwarded-proto") ?? (host.startsWith("localhost") ? "http" : "https");
   const link = `${proto}://${host}/m/${code}`;
+  const qr = qrDataUri(await qrSvg(`${link}?s=qr`));
 
   return (
     <main
       className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-6 px-6 py-12"
-      style={{ "--brand": safeBrand(member.tenant.brand_color) } as React.CSSProperties}
+      style={tenantStyle(member.tenant)}
     >
       <h1 className="text-3xl font-semibold tracking-tight">{t("title")}</h1>
       <p className="text-lg text-muted">{t("body")}</p>
@@ -41,6 +44,8 @@ export default async function Thanks({
         <p dir="ltr" className="break-all rounded-md bg-background p-3 text-sm">
           {link}
         </p>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={qr} alt={t("qrAlt")} width={176} height={176} className="size-44 rounded-md bg-white" />
         <div>
           <CopyButton text={link} label={t("copy")} doneLabel={t("copied")} />
         </div>

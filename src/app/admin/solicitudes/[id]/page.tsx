@@ -96,7 +96,7 @@ export default async function RequestPage({
         </label>
         <button
           type="submit"
-          className="self-start rounded-md bg-brand px-4 py-2 text-base font-medium text-white"
+          className="self-start rounded-full bg-brand glow-btn px-4 py-2 text-base font-semibold text-brand-foreground"
         >
           Guardar
         </button>

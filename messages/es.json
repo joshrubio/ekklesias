@@ -99,7 +99,8 @@
     "copied": "Enlace copiado",
     "genericBody": "Hemos recibido tu registro.",
     "guardianSent": "Hemos enviado un email a tu madre, padre o tutor para que confirme tu registro. Hasta entonces tus permisos no estarán activos.",
-    "guardianFailed": "No hemos podido enviar el email a tu tutor. Avisa a la iglesia para que lo reenvíe. Hasta entonces tus permisos no estarán activos."
+    "guardianFailed": "No hemos podido enviar el email a tu tutor. Avisa a la iglesia para que lo reenvíe. Hasta entonces tus permisos no estarán activos.",
+    "qrAlt": "Código QR de tu enlace personal: otra persona puede escanearlo para unirse"
   },
   "legal": {
     "draft": "Borrador en preparación. Este texto aún no es la versión definitiva y está pendiente de revisión legal.",
@@ -190,5 +191,139 @@
     "invalidTitle": "Enlace no válido",
     "invalidBody": "Este enlace ha caducado o ya se usó. Pide a la iglesia que te envíe uno nuevo.",
     "tooMany": "Demasiados intentos. Espera un rato y vuelve a abrir el enlace."
+  },
+  "landing": {
+    "hero": {
+      "eyebrow": "Registro de miembros para iglesias",
+      "title": "Registra con un toque. Conecta con cada persona.",
+      "body": "Tarjetas NFC y códigos QR para unirse en un minuto, mensajería para escribir a quien lo permitió y un panel de administración para tener cada registro bajo control.",
+      "cta": "Ver la iglesia de demostración",
+      "secondary": "Cómo funciona",
+      "note": "La demostración usa datos ficticios."
+    },
+    "steps": {
+      "eyebrow": "Cómo funciona",
+      "title": "De un toque a una conversación",
+      "items": [
+        {
+          "title": "Un toque y están dentro",
+          "body": "Cada persona tiene una tarjeta NFC o un código QR. Se abre el formulario sin instalar nada y sin crear cuenta."
+        },
+        {
+          "title": "Se presentan a su manera",
+          "body": "Nombre, móvil y poco más. Cada permiso (email, WhatsApp, fotos, visibilidad) es una casilla propia y nunca viene marcada de antemano."
+        },
+        {
+          "title": "Tu equipo da el siguiente paso",
+          "body": "Los líderes ven a quien aceptó ser visible y saben por qué canal prefiere que le escriban. Solo falta saludar."
+        }
+      ]
+    },
+    "community": {
+      "eyebrow": "Comunidad",
+      "title": "Cada persona que llega tiene a alguien detrás.",
+      "body": "Casi nadie llega a una iglesia solo: alguien le habló, le invitó, le acompañó la primera vez. Ekklesias guarda ese vínculo para que la comunidad se vea crecer y nadie se pierda por el camino.",
+      "items": [
+        {
+          "title": "Cada invitación cuenta",
+          "body": "Cada miembro tiene su enlace personal. Ves quién invitó a quién y a quién dar las gracias."
+        },
+        {
+          "title": "Bienvenida a tiempo",
+          "body": "Sabes quién llegó esta semana, para saludarle mientras aún recuerda su primera visita."
+        },
+        {
+          "title": "Nadie se queda fuera",
+          "body": "Quien llegó por su cuenta también tiene su sitio: queda registrado como alguien que descubrió la iglesia por sí mismo."
+        }
+      ]
+    },
+    "members": {
+      "eyebrow": "Para quien se registra",
+      "title": "Te conocen, y tú decides",
+      "items": [
+        {
+          "title": "Tú mandas",
+          "body": "Cambia tus permisos o date de baja con un enlace personal, cuando quieras y sin llamar a nadie."
+        },
+        {
+          "title": "Tus derechos, a un clic",
+          "body": "Pide acceder a tus datos, corregirlos o que se supriman. La iglesia recibe la solicitud y tiene que responderla."
+        },
+        {
+          "title": "Sin letra pequeña",
+          "body": "Guardamos qué texto aceptaste y cuándo, para que siempre puedas comprobar a qué dijiste que sí."
+        }
+      ]
+    },
+    "trust": {
+      "title": "Cercanía, con respeto.",
+      "body": "Pertenecer a una iglesia es un dato delicado, y por eso lo cuidamos. Cada iglesia es la responsable de sus datos y Ekklesias los custodia por ella, pensado desde el principio para el RGPD y la LOPDGDD, con los datos en servidores de la Unión Europea.",
+      "facts": [
+        {
+          "value": "7",
+          "label": "permisos independientes, ninguno premarcado"
+        },
+        {
+          "value": "4",
+          "label": "idiomas: español, inglés, alemán y árabe"
+        },
+        {
+          "value": "0",
+          "label": "apps que instalar ni cuentas que crear"
+        }
+      ]
+    },
+    "faq": {
+      "title": "Preguntas frecuentes",
+      "items": [
+        {
+          "q": "¿Los miembros necesitan una cuenta?",
+          "a": "No. Se registran con un formulario y, si quieren cambiar algo después, usan un enlace personal. Solo tu equipo tiene usuario y contraseña."
+        },
+        {
+          "q": "¿Qué pasa si alguien es menor de 14 años?",
+          "a": "Se pide el email de un tutor, que recibe un enlace para confirmar o rechazar. Mientras no confirme, los permisos del menor no son efectivos."
+        },
+        {
+          "q": "¿Se puede usar para varias iglesias?",
+          "a": "Sí. Cada iglesia tiene sus datos, su marca y su equipo completamente separados, aunque compartan la plataforma."
+        },
+        {
+          "q": "¿Se puede probar?",
+          "a": "Sí. La iglesia de demostración funciona de verdad, con datos ficticios. Entra, regístrate y mira cómo queda."
+        }
+      ]
+    },
+    "cta": {
+      "title": "Empieza una conversación",
+      "body": "Regístrate como lo haría alguien que visita tu iglesia por primera vez, y siente cómo es.",
+      "button": "Ver la iglesia de demostración"
+    },
+    "footer": "Versión de demostración. Los textos legales son borradores pendientes de revisión.",
+    "features": {
+      "eyebrow": "Funciones",
+      "title": "Todo lo que necesita tu equipo, en un solo sitio",
+      "soon": "Próximamente",
+      "items": [
+        {
+          "title": "NFC y códigos QR",
+          "body": "Una tarjeta, una etiqueta o un cartel: acercar el móvil o escanear abre el formulario, sin app ni cuenta. Cada miembro tiene su enlace personal y sabes por qué canal llegó cada persona."
+        },
+        {
+          "title": "Mensajería",
+          "soon": true,
+          "body": "Escribe por email, WhatsApp o SMS solo a quienes dieron permiso para ese canal, y segmenta por permisos o por quién invitó a quién."
+        },
+        {
+          "title": "Panel de administración",
+          "body": "Lista y búsqueda de miembros, ficha con historial completo, solicitudes de derechos, exportación a CSV y un equipo con roles de administrador y de líder."
+        },
+        {
+          "title": "Control de los registros",
+          "body": "El tutor confirma a los menores, puedes suprimir datos cuando alguien lo pide, publicar nuevas versiones de tus textos legales y consultar quién vio cada ficha."
+        }
+      ]
+    }
   }
 }

@@ -1,5 +1,6 @@
 "use server";
 
+import { isFontKey, isHex } from "@/lib/theme";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { getAdminSession } from "@/lib/admin-session";
@@ -19,15 +20,26 @@ export async function updateChurchAction(formData: FormData) {
   const name = String(formData.get("name") ?? "").trim().slice(0, 80);
   const color = String(formData.get("brand_color") ?? "").trim();
   const email = String(formData.get("contact_email") ?? "").trim().slice(0, 200);
+  const accentSame = formData.get("accent_same") === "on";
+  const accent = String(formData.get("accent_color") ?? "").trim();
+  const font = String(formData.get("font") ?? "");
 
   if (!name) redirect("/admin/ajustes?error=nombre");
   if (!/^#[0-9a-fA-F]{6}$/.test(color)) redirect("/admin/ajustes?error=color");
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) redirect("/admin/ajustes?error=email");
+  if (!accentSame && !isHex(accent)) redirect("/admin/ajustes?error=color");
+  if (!isFontKey(font)) redirect("/admin/ajustes?error=fuente");
 
   const supabase = await createUserClient();
   const { error } = await supabase
     .from("tenants")
-    .update({ name, brand_color: color, contact_email: email })
+    .update({
+      name,
+      brand_color: color,
+      accent_color: accentSame ? null : accent,
+      font,
+      contact_email: email,
+    })
     .eq("id", session.tenant.id);
   if (error) redirect("/admin/ajustes?error=guardar");
 

@@ -58,7 +58,7 @@ export function InviteUserForm() {
         <button
           type="submit"
           disabled={pending}
-          className="rounded-md bg-brand px-4 py-2 text-base font-medium text-white disabled:opacity-60"
+          className="rounded-full bg-brand glow-btn px-4 py-2 text-base font-semibold text-brand-foreground disabled:opacity-60"
         >
           Crear cuenta
         </button>

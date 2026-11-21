@@ -25,7 +25,7 @@ export function CopyButton({
           setDone(false);
         }
       }}
-      className="rounded-md bg-brand px-4 py-3 font-medium text-white"
+      className="rounded-full bg-brand glow-btn px-4 py-3 font-semibold text-brand-foreground"
     >
       {done ? doneLabel : label}
     </button>
