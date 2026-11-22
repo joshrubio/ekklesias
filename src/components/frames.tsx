@@ -12,23 +12,25 @@ export function PhoneFrame({ src, alt, className, priority = false }: FrameProps
   return (
     <div
       className={cn(
-        "relative aspect-[800/1360] w-full overflow-hidden rounded-[2.4rem] border-[7px] border-[#0b1218] bg-[#0b1218] shadow-[0_30px_80px_-30px_rgba(0,0,0,0.6),0_0_0_1px_rgba(255,255,255,0.08)]",
+        "relative aspect-[800/1360] w-full overflow-hidden rounded-[2.4rem] border-[9px] border-[#0b1218] bg-[#0b1218] shadow-[0_30px_80px_-30px_rgba(0,0,0,0.6),0_0_0_1px_rgba(255,255,255,0.08)]",
         className,
       )}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={src}
-        alt={alt}
-        width={800}
-        height={1360}
-        loading={priority ? "eager" : "lazy"}
-        decoding="async"
-        className="size-full object-cover object-top"
-      />
+      <div className="size-full overflow-hidden rounded-[1.7rem] bg-[#0b1218] px-[3%] pb-[3%] pt-[9%]">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={src}
+          alt={alt}
+          width={800}
+          height={1360}
+          loading={priority ? "eager" : "lazy"}
+          decoding="async"
+          className="size-full rounded-[1.1rem] object-contain object-top"
+        />
+      </div>
       <span
         aria-hidden="true"
-        className="absolute inset-x-0 top-2 mx-auto h-4 w-20 rounded-full bg-[#0b1218]"
+        className="absolute inset-x-0 top-2.5 mx-auto h-4 w-20 rounded-full bg-black"
       />
     </div>
   );
